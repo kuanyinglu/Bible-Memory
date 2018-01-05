@@ -1,17 +1,84 @@
 <html>
   <head>
     <script src="./plugin/jquery.min.js"></script>
-    <script src="./plugin/lodash.min.js"></script>
-    <script src="./plugin/popper.min.js"></script>
-    <script src="./plugin/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="./plugin/bootstrap.min.css">
+    <script src="./plugin/semantic.min.js"></script>
+    <script src="./plugin/autosize.min.js"></script>
+    <link rel="stylesheet" href="./plugin/semantic.min.css"/>
+    <style type="text/css">
+    body > .ui.container {
+      margin-top: 3em;
+    }
+    .ui.container > h1 {
+      font-size: 3em;
+      text-align: center;
+      font-weight: normal;
+    }
+    .ui.container > h2.dividing.header {
+      font-size: 2em;
+      font-weight: normal;
+      margin: 4em 0em 3em;
+    }
+    .active {
+      font-weight: 600;
+    }
+    #answer, #input {
+      max-height: none
+    }
+    </style>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand"">Bible Memory</a>
-    </nav>
+    <div class="ui container">
+      <h1>Bible Memory</h1>
+      <h3>Click on a verse to start memorizing</h3>
+      <div id="accordion" class="ui accordion">
+        <div class="active title">
+          <i class="dropdown icon"></i>
+          Verses
+        </div>
+        <div id="verses-content" class="active content">
+          <div class="ui list">
+            <div class="item">
+              <i class="map icon"></i>
+              <div class="content">
+                <button class="ui right labeled icon button" onclick="ui.openPractice(this)"><i class="right arrow icon"></i>Matthew 5</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="title">
+          <i class="dropdown icon"></i>
+            Practice
+        </div>
+        <div class="content">
+          <div class="ui grid">
+            <div class="two column row">
+              <div class="column">
+                <h3>Memorize</h3>
+              </div>
+              <div class="column">
+                <h3>Verses</h3>
+              </div>
+            </div>
+            <div class="two column row">
+              <div class="column">
+                <div class="ui fluid form">
+                  <textarea id="input"></textarea>
+                </div>
+              </div>
+              <div class="column">
+                <div class="ui fluid form">
+                  <textarea id="answer"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <script src="./js/ESV.json.js"></script>
     <script src="./js/verses.js"></script>
+    <script src="./js/parser.js"></script>
+    <script src="./js/ui.js"></script>
     <script src="./js/script.js"></script>
   </body>
 </html>
