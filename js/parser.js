@@ -90,3 +90,10 @@ parser.fetchVerses = function(book, startCh, startV, endCh, endV)
     }
     return fetchedVerses;
 };
+parser.getBookName = function(ref) {
+    let splitPoint = ref.lastIndexOf(" ");
+    if (splitPoint !== -1 && splitPoint !== 1) {
+        return ref.slice(0, splitPoint);
+    }
+    return "";
+};

@@ -1,11 +1,11 @@
 var app = {};
 app.init = function() {
-    if (typeof(jQuery) === "undefined" || typeof(bible) === "undefined" || typeof(jQuery().site) === "undefined" || typeof(verses) === "undefined" || typeof(parser) === "undefined" || typeof(autosize) === "undefined") {
+    if (typeof(jQuery) === "undefined" || typeof(bible) === "undefined" || typeof(jQuery().site) === "undefined" || typeof(verses) === "undefined" || typeof(parser) === "undefined" || typeof(autosize) === "undefined" || typeof(interpretor) === "undefined") {
         setTimeout(app.init, 1000);
     } else {
-        $('.ui.accordion').accordion();
+        $('#accordion').accordion();
         app.test();
-        console.log("Hello World!");
+        ui.renderVerseButtons();
     }
 };
 app.incrementArray = function(start, end) {
