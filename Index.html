@@ -34,7 +34,7 @@
                 <span class="accordion-title">Practice</span>
             </div>
             <div class="content">
-                <div class="ui grid">
+                <div id="main-grid" class="ui grid">
                     <div class="two column row">
                         <div class="column">
                             <h2>Memorize</h2>
@@ -45,19 +45,15 @@
                     </div>
                     <div class="two column row">
                         <div class="column">
-                            <div class="ui fluid form">
-                                <textarea data-id="0" oninput="ui.inputChange(this)"></textarea>
-                            </div>
                         </div>
                         <div class="column">
-                            <h3 id="book-title">
-                            </h3>
-                            <div>
-                                <h3 class="inline">5</h3><sup class="inline">1</sup><p data-id="0" class="done inline">And this #$#the test that I'll need you to do.</p><p data-id="0" class="inline">Another test is here</p>
-                            </div>
+                            <h3 id="verse-title"/>
                         </div>
                     </div>
                 </div>
+                <button id="redo" class="ui primary button">
+                  Memorize again!
+                </button>
             </div>
         </div>
     </div>

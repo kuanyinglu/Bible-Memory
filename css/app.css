@@ -27,7 +27,14 @@ p.done {
     padding-left: .3em;
 }
 
-#answer,
-#input {
-    max-height: none
+.verse-hidden {
+    display: none;
+}
+
+.verse-show {
+    display: inline-block;
+}
+
+textarea {
+    max-height: none !important;
 }
