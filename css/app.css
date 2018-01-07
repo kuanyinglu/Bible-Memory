@@ -18,23 +18,44 @@ body>.ui.container {
     font-weight: 600;
 }
 
-p.done {
+.done {
     color: red;
-}
-
-.inline {
-    display: inline-block;
-    padding-left: .3em;
 }
 
 .verse-hidden {
     display: none;
 }
 
-.verse-show {
-    display: inline-block;
+.practice .verse-hidden {
+    display: initial;
 }
 
 textarea {
     max-height: none !important;
+}
+
+.verse {
+    top: -.5em;
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+}
+
+.chapter {
+    font-size: 1.28571429rem;
+    font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
+    line-height: 1.28571429em;
+    margin: calc(2rem - .14285714em) 0 1rem;
+    font-weight: 700;
+    padding: 0;
+}
+
+.ui.grid > .row {
+    padding-top: 0.4rem;
+    padding-bottom: 0.4rem;
+}
+
+.verse-paragraph > span {
+    padding-left: .3em;
 }

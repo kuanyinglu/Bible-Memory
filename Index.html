@@ -12,6 +12,7 @@
     <div class="ui container">
         <h1>Bible Memory</h1>
         <h3>Click on a verse to start memorizing</h3>
+        <h4>Press Ctrl for next word</h4>
         <div id="accordion" class="ui accordion">
             <div class="active title">
                 <i class="dropdown icon"></i>
@@ -23,6 +24,23 @@
                     <div class="item">
                         <div class="content">
                             <div id="verses-grid" class="ui grid">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="title">
+                <i class="dropdown icon"></i>
+                <i class="options icon"></i>
+                <span class="accordion-title">Options</span>
+            </div>
+            <div class="content">
+                <div class="ui grid">
+                    <div class="five column row">
+                        <div class="column">
+                            <div class="ui checkbox" data-option="practiceMode" onclick="settings.toggle(this)">
+                                <input type="checkbox">
+                                <label>Practice Mode</label>
                             </div>
                         </div>
                     </div>
@@ -51,13 +69,27 @@
                         </div>
                     </div>
                 </div>
-                <button id="redo" class="ui primary button">
-                  Memorize again!
-                </button>
+                <div id="menu" class="ui grid" style="display: none;">
+                    <div class="two column row">
+                        <div class="column">
+                        </div>
+                        <div class="column">
+                            <p>Scripture quotations are from the ESV® Bible (The Holy Bible, English Standard Version®), copyright © 2001 by Crossway, a publishing ministry of Good News Publishers. Used by permission. All rights reserved. May not copy or download more than 500 consecutive verses of the ESV Bible or more than one half of any book of the ESV Bible.</p>
+                        </div>
+                    </div>
+                    <div class="six column row">
+                        <div class="column">
+                            <button class="ui primary button" onclick="ui.redoFromVerse(1)">
+                              Memorize again!
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     <script src="./js/ESV.json.js"></script>
+    <script src="./js/settings.js"></script>
     <script src="./js/verses.js"></script>
     <script src="./js/parser.js"></script>
     <script src="./js/ui.js"></script>

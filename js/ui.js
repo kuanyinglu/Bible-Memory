@@ -19,23 +19,32 @@ ui.renderVerseButtons = function() {
     target.append(htmlString);
 };
 ui.openPractice = function(caller) {
-  $('#accordion').accordion('open', 1);
+  $('#accordion').accordion('open', 2);
   $('#verse-title').empty();
   $('#main-grid').children('[data-id]').remove();
   $('#verse-title').append(caller.textContent);
+  $('#menu').show();
   verseData = interpretor.interpret("json", parser.fetchVersesFromReference(caller.textContent));
   verseData.forEach(function(verse, id) {
-    ui.generateVerse(id, verse.ch, verse.v);
+    ui.generateVerse(id, verse.ch, verse.v, ui.getFirstWord(verse.verse));
   });
   ui.generateInput(0);
-  $('p.not-done[data-id="0"]').append(verseData[0].verse);
+};
+ui.getFirstWord = function(text) {
+  let firstSpace = text.indexOf(" ");
+  if (firstSpace !== -1) {
+    return text.slice(0, firstSpace).replace(/\"/g, '&quot;');
+  } else {
+    return text.replace(/\"/g, '\\\"');
+  }
 };
 ui.inputChange = function(input) {
   let seq = Number(input.dataset.id);
+  input.value = input.value.replace('  ', ' ');
   let val = input.value.trim();
-  ui.progress(seq, val);
+  ui.progressUpdate(seq, val);
 };
-ui.progress = function(id, value) {
+ui.progressUpdate = function(id, value) {
   let data = verseData[id].verse;
   let temp = ui.getComparedWords(id, value, data);
   let word = temp[0];
@@ -46,9 +55,17 @@ ui.progress = function(id, value) {
     if ($('textarea[data-id="' + id + '"]')[0].value.trim() !== data.slice(0, successIndex)) {
       $('textarea[data-id="' + id + '"]').val(data.slice(0, successIndex));
     }
-    ui.progressUpdate(id, successIndex, data);
+    ui.mainUiUpdate(id, successIndex, data);
   } else {
-    ui.progressUpdate(id, failIndex, data);
+    ui.mainUiUpdate(id, failIndex, data);
+  }
+
+  //Miscellaneous updates
+  $('div[data-id="' + id + '"]')[0].dataset.content = compareWord;
+  if (ui.inputHasFuture(word, compareWord)) {
+    $('textarea[data-id="' + id + '"]').closest(".field").removeClass('error');
+  } else {
+    $('textarea[data-id="' + id + '"]').closest(".field").addClass('error');
   }
 };
 ui.getComparedWords = function(id, value, data) {
@@ -95,32 +112,39 @@ ui.getComparedWords = function(id, value, data) {
 ui.compareWord = function(w, c) {
   return w.toLowerCase().replace(/\W/g, '') === c.toLowerCase().replace(/\W/g, '');
 };
-ui.progressUpdate = function(id, index, data) {
-  if ($('p.done[data-id="' + id + '"]')[0].dataset.lastIndex !== index) {
-    if (index > 0) {
-      $('p.done[data-id="' + id + '"]').show();
-      $('p[data-id="' + id + '"]').empty();
+ui.inputHasFuture = function(w, c) {
+  return c.toLowerCase().replace(/\W/g, '').indexOf(w.toLowerCase().replace(/\W/g, '')) !== -1;
+};
+ui.mainUiUpdate = function(id, index, data) {
+  let doneVerse = $('span.done[data-id="' + id + '"]');
+  let notDoneVerse = $('span.not-done[data-id="' + id + '"]');
+  if (index > 0) {
+    if (doneVerse[0].dataset.lastIndex !== index) {
+      doneVerse.text('');
+      notDoneVerse.text('');
       if (index === data.length) {
-        $('p.done[data-id="' + id + '"]').append(data);
+        doneVerse.append(data);
         //Next verse
-         $("textarea[data-id='" + id + "']").remove();
-         ui.generateInput(id + 1);
+        $('textarea[data-id="' + id + '"]').closest('.ui.fluid.form').remove();
+        ui.generateInput(id + 1);
+        doneVerse.after('<div onclick="ui.redoFromVerse(' + (id + 1) + ')"><button class="ui labeled icon button"><i class="undo icon"></i>Redo from this verse</button></div>');
+        $('div.row[data-id="' + id + '"]').popup('destroy');
       } else {
-        $('p.done[data-id="' + id + '"]').append(data.slice(0, index));
-        $('p.not-done[data-id="' + id + '"]').append(data.slice(index + 1));
+        doneVerse.append(data.slice(0, index));
+        notDoneVerse.append(data.slice(index + 1));
       }
     } else {
-      $('p.done[data-id="' + id + '"]').hide();
-      $('p[data-id="' + id + '"]').empty();
-      $('p.not-done[data-id="' + id + '"]').append(data);
+      doneVerse.text('');
+      notDoneVerse.text('');
+      notDoneVerse.append(data);
     }
-    $('p.done[data-id="' + id + '"]')[0].dataset.lastIndex = index;
+    doneVerse[0].dataset.lastIndex = index;
   }
 };
 ui.generateInput = function(id) {
   let row = $('.verse-input.column[data-id="' + id + '"]');
   if (row.length !== 0) {
-    row.prepend('<div class="ui fluid form"><textarea data-id="' + id + '" oninput="ui.inputChange(this)"></textarea></div>');
+    row.prepend('<div class="ui fluid form"><div class="field"><textarea data-id="' + id + '" oninput="ui.inputChange(this)" onkeydown="ui.peek(event, this, true)" onkeyup="ui.peek(event, this, false)"></textarea></div></div>');
     $('html, body').animate({
         scrollTop: $("textarea[data-id='" + id + "']").offset().top - (window.innerHeight/2)
     }, 500);
@@ -128,12 +152,32 @@ ui.generateInput = function(id) {
     $('textarea[data-id="' + id + '"]').focus();
   }
 };
-ui.generateVerse = function(id, ch, v) {
+ui.generateVerse = function(id, ch, v, firstWord) {
   let grid = $('#main-grid');
-  let htmlString = '<div data-id="' + id + '" class="two column row"><div data-id="' + id + '" class="verse-input column"></div><div class="column"><div>';
+  let htmlString = '<div data-id="' + id + '" class="two column row" data-content="' + firstWord + '"><div data-id="' + id + '" class="verse-input column"></div><div class="column"><div><p class="verse-paragraph">';
   if (ch) {
-    htmlString = htmlString + '<h3 class="inline">' + ch + '</h3>';
+    htmlString = htmlString + '<span class="chapter">' + ch + '</span>';
   }
-  htmlString = htmlString + '<sup class="inline">' + v + '</sup><p data-id="' + id + '" class="done inline verse-show"></p><p data-id="' + id + '" class="not-done inline verse-hidden">' + verseData[id].verse + '</p>'
+  htmlString = htmlString + '<span class="verse">' + v + '</span><span data-id="' + id + '" class="done verse-show"></span><span data-id="' + id + '" class="not-done verse-hidden">' + verseData[id].verse + '</span></p>'
   grid.append(htmlString);
+    $('div.row[data-id="' + id + '"]').popup({on: "manual"});
+};
+ui.redoFromVerse = function(num) {
+  let id = num - 1;
+  $("textarea").closest('.ui.fluid.form').remove();
+  verseData.slice(id).forEach(function(verse, index) {
+    $('div[data-id="' +  (id + index) + '"]').remove();
+    ui.generateVerse(id + index, verse.ch, verse.v, ui.getFirstWord(verse.verse));
+  });
+  ui.generateInput(id);
+};
+ui.peek = function(e, input, show) {
+  let id = input.dataset.id;
+  if (e.key === "Control") {
+    if (show) {
+      $('div.row[data-id="' + id + '"]').popup('show');
+    } else {
+      $('div.row[data-id="' + id + '"]').popup('hide');
+    }
+  }
 };
