@@ -51,17 +51,19 @@ ui.progressUpdate = function(id, value) {
   let compareWord = temp[1];
   let successIndex = temp[2];
   let failIndex = temp[3];
+
   if(ui.compareWord(word, compareWord)) {
+    //Fix punctuation, capitalizations etc
     if ($('textarea[data-id="' + id + '"]')[0].value.trim() !== data.slice(0, successIndex)) {
       $('textarea[data-id="' + id + '"]').val(data.slice(0, successIndex));
     }
     ui.mainUiUpdate(id, successIndex, data);
+    $('div[data-id="' + id + '"]')[0].dataset.content = temp[4];
   } else {
     ui.mainUiUpdate(id, failIndex, data);
+    $('div[data-id="' + id + '"]')[0].dataset.content = compareWord;
   }
 
-  //Miscellaneous updates
-  $('div[data-id="' + id + '"]')[0].dataset.content = compareWord;
   if (ui.inputHasFuture(word, compareWord)) {
     $('textarea[data-id="' + id + '"]').closest(".field").removeClass('error');
   } else {
@@ -74,6 +76,7 @@ ui.getComparedWords = function(id, value, data) {
   let failIndex = 0;
   let word = "";
   let compareWord = "";
+  let nextWord = "";
   if (lastWordStart !== -1) {
     word = value.slice(lastWordStart + 1);
     if(data.indexOf(value.slice(0, lastWordStart)) !== -1) {
@@ -83,10 +86,12 @@ ui.getComparedWords = function(id, value, data) {
         compareWord = remainingVerse.slice(0, dataNextSpace);
         failIndex = lastWordStart;
         successIndex = lastWordStart + compareWord.length + 1;
+        nextWord = ui.getNextWord(remainingVerse.slice(dataNextSpace + 1));
       } else {//This is the last word
         compareWord = remainingVerse;
         successIndex = data.length;
         failIndex = lastWordStart;
+        nextWord = "";
       }
     } else {//Something didn't match, go back a word
       let temp = ui.getComparedWords(id, value.slice(0, lastWordStart), data);
@@ -94,6 +99,7 @@ ui.getComparedWords = function(id, value, data) {
       compareWord = temp[1];
       successIndex = temp[2];
       failIndex = temp[3];
+      nextWord = temp[4];
     }
   } else {//This is the first word
     word = value;
@@ -102,44 +108,51 @@ ui.getComparedWords = function(id, value, data) {
     if (dataNextSpace !== -1) {//Found the word to compare
       compareWord = remainingVerse.slice(0, dataNextSpace);
       successIndex = compareWord.length;
+      nextWord = ui.getNextWord(remainingVerse.slice(dataNextSpace + 1));
     } else {//This is the last word
       compareWord = remainingVerse;
       successIndex = remainingVerse.length;
+      nextWord = "";
     }
   }
-  return [word, compareWord, successIndex, failIndex];
+  return [word, compareWord, successIndex, failIndex, nextWord];
+};
+ui.getNextWord = function(verse) {
+  let nextWord = "";
+  let splitPoint = verse.indexOf(" ");
+  if (splitPoint !== -1) {
+    nextWord = verse.slice(0, splitPoint);
+  }
+  return nextWord;
 };
 ui.compareWord = function(w, c) {
   return w.toLowerCase().replace(/\W/g, '') === c.toLowerCase().replace(/\W/g, '');
 };
 ui.inputHasFuture = function(w, c) {
-  return c.toLowerCase().replace(/\W/g, '').indexOf(w.toLowerCase().replace(/\W/g, '')) !== -1;
+  return c.toLowerCase().replace(/[^\w\s]/g, '').indexOf(w.toLowerCase().replace(/\W/g, '')) !== -1;
 };
 ui.mainUiUpdate = function(id, index, data) {
   let doneVerse = $('span.done[data-id="' + id + '"]');
   let notDoneVerse = $('span.not-done[data-id="' + id + '"]');
-  if (index > 0) {
-    if (doneVerse[0].dataset.lastIndex !== index) {
-      doneVerse.text('');
-      notDoneVerse.text('');
-      if (index === data.length) {
-        doneVerse.append(data);
-        //Next verse
-        $('textarea[data-id="' + id + '"]').closest('.ui.fluid.form').remove();
-        ui.generateInput(id + 1);
-        doneVerse.after('<div onclick="ui.redoFromVerse(' + (id + 1) + ')"><button class="ui labeled icon button"><i class="undo icon"></i>Redo from this verse</button></div>');
-        $('div.row[data-id="' + id + '"]').popup('destroy');
-      } else {
-        doneVerse.append(data.slice(0, index));
-        notDoneVerse.append(data.slice(index + 1));
-      }
+  if (doneVerse[0].dataset.lastIndex !== index) {
+    doneVerse.text('');
+    notDoneVerse.text('');
+    if (index === data.length) {
+      doneVerse.append(data);
+      //Next verse
+      $('textarea[data-id="' + id + '"]').closest('.ui.fluid.form').remove();
+      ui.generateInput(id + 1);
+      $('div.row[data-id="' + id + '"]').popup('destroy');
     } else {
-      doneVerse.text('');
-      notDoneVerse.text('');
-      notDoneVerse.append(data);
+      doneVerse.append(data.slice(0, index));
+      notDoneVerse.append(data.slice(index + 1));
     }
-    doneVerse[0].dataset.lastIndex = index;
+  } else {
+    doneVerse.text('');
+    notDoneVerse.text('');
+    notDoneVerse.append(data);
   }
+  doneVerse[0].dataset.lastIndex = index;
 };
 ui.generateInput = function(id) {
   let row = $('.verse-input.column[data-id="' + id + '"]');
@@ -158,7 +171,7 @@ ui.generateVerse = function(id, ch, v, firstWord) {
   if (ch) {
     htmlString = htmlString + '<span class="chapter">' + ch + '</span>';
   }
-  htmlString = htmlString + '<span class="verse">' + v + '</span><span data-id="' + id + '" class="done verse-show"></span><span data-id="' + id + '" class="not-done verse-hidden">' + verseData[id].verse + '</span></p>'
+  htmlString = htmlString + '<span class="verse">' + v + '</span><span data-id="' + id + '" class="done verse-show"></span><span data-id="' + id + '" class="not-done verse-hidden">' + verseData[id].verse + '</span><div onclick="ui.redoFromVerse(' + (id + 1) + ')"><button class="ui labeled icon button"><i class="caret right icon"></i>Start from this verse</button></div></p>'
   grid.append(htmlString);
     $('div.row[data-id="' + id + '"]').popup({on: "manual"});
 };
