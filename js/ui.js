@@ -72,18 +72,20 @@ ui.progressUpdate = function(id, value) {
 ui.getComparedWords = function(id, value, data) {
   let lastWordStart = value.lastIndexOf(" ");
   let successIndex = 0;
-  let failIndex = 0;
+  let failIndex = -1;
   let word = "";
   let compareWord = "";
   let nextWord = "";
   let comparingLatest = true;
   if (lastWordStart !== -1) {
     word = value.slice(lastWordStart + 1);
-    if(data.indexOf(value.slice(0, value.length - 1)) !== -1) {
-      let compareWordStart = data.slice(0, value.length).lastIndexOf(" ");
+    let earlierWords = value.slice(0, lastWordStart);
+    let matchUntilSpace = data.indexOf(earlierWords) !== -1;
+    let lastWordIsComplete = data.length > earlierWords.length && data[earlierWords.length] === " ";
+    if(matchUntilSpace && lastWordIsComplete) {
       let remainingVerse = "";
-      if (compareWordStart !== -1) {
-        remainingVerse = data.slice(compareWordStart + 1);
+      if (data.length > earlierWords.length) {
+        remainingVerse = data.slice(earlierWords.length + 1);
       } else {
         remainingVerse = data;
       }
@@ -114,7 +116,7 @@ ui.getComparedWords = function(id, value, data) {
     let dataNextSpace = remainingVerse.indexOf(" ");
     if (dataNextSpace !== -1) {//Found the word to compare
       compareWord = remainingVerse.slice(0, dataNextSpace);
-      successIndex = compareWord.length + 1;
+      successIndex = compareWord.length;
       nextWord = ui.getNextWord(remainingVerse.slice(dataNextSpace + 1));
     } else {//This is the last word
       compareWord = remainingVerse;
@@ -151,7 +153,7 @@ ui.mainUiUpdate = function(id, index, data) {
       ui.generateInput(id + 1);
       $('div.row[data-id="' + id + '"]').popup('destroy');
     } else {
-      doneVerse.append(data.slice(0, index));
+      doneVerse.append(data.slice(0, Math.max(index, 0)));
       notDoneVerse.append(data.slice(index + 1));
     }
   } else {
