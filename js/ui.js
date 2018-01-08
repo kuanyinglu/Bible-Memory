@@ -12,21 +12,20 @@ ui.renderVerseButtons = function() {
     verseGroups.forEach(function(group) {
       htmlString = htmlString + "<div class='five column row'>";
       group.forEach(function(verse) {
-        htmlString = htmlString + "<div class='column'><button class='ui right labeled icon button' onclick='ui.openPractice(this)'><i class='right arrow icon'></i>" + verse + "</button></div>";
+        htmlString = htmlString + "<div class='column'><button class='ui right labeled icon button' onclick='api.getVerse(this.textContent)'><i class='right arrow icon'></i>" + verse + "</button></div>";
       });
       htmlString = htmlString + "</div>";
     });
     target.append(htmlString);
 };
-ui.openPractice = function(caller) {
+ui.openPractice = function(reference) {
   $('#accordion').accordion('open', 2);
   $('#verse-title').empty();
   $('#main-grid').children('[data-id]').remove();
-  $('#verse-title').append(caller.textContent);
+  $('#verse-title').append(reference);
   $('#menu').show();
-  verseData = interpretor.interpret("json", parser.fetchVersesFromReference(caller.textContent));
   verseData.forEach(function(verse, id) {
-    ui.generateVerse(id, verse.ch, verse.v, ui.getFirstWord(verse.verse));
+    ui.generateVerse(id, verse.chapter, verse.verse, ui.getFirstWord(verse.content));
   });
   ui.generateInput(0);
 };
@@ -45,7 +44,7 @@ ui.inputChange = function(input) {
   ui.progressUpdate(seq, val);
 };
 ui.progressUpdate = function(id, value) {
-  let data = verseData[id].verse;
+  let data = verseData[id].content;
   let temp = ui.getComparedWords(id, value, data);
   let word = temp[0];
   let compareWord = temp[1];
@@ -107,7 +106,7 @@ ui.getComparedWords = function(id, value, data) {
     let dataNextSpace = remainingVerse.indexOf(" ");
     if (dataNextSpace !== -1) {//Found the word to compare
       compareWord = remainingVerse.slice(0, dataNextSpace);
-      successIndex = compareWord.length;
+      successIndex = compareWord.length + 1;
       nextWord = ui.getNextWord(remainingVerse.slice(dataNextSpace + 1));
     } else {//This is the last word
       compareWord = remainingVerse;
@@ -168,10 +167,7 @@ ui.generateInput = function(id) {
 ui.generateVerse = function(id, ch, v, firstWord) {
   let grid = $('#main-grid');
   let htmlString = '<div data-id="' + id + '" class="two column row" data-content="' + firstWord + '"><div data-id="' + id + '" class="verse-input column"></div><div class="column"><div><p class="verse-paragraph">';
-  if (ch) {
-    htmlString = htmlString + '<span class="chapter">' + ch + '</span>';
-  }
-  htmlString = htmlString + '<span class="verse">' + v + '</span><span data-id="' + id + '" class="done verse-show"></span><span data-id="' + id + '" class="not-done verse-hidden">' + verseData[id].verse + '</span><div onclick="ui.redoFromVerse(' + (id + 1) + ')"><button class="ui labeled icon button"><i class="caret right icon"></i>Start from this verse</button></div></p>'
+  htmlString = htmlString + '<span class="verse">' + ch + ":" + v + '</span><span data-id="' + id + '" class="done verse-show"></span><span data-id="' + id + '" class="not-done verse-hidden">' + verseData[id].content + '</span><div onclick="ui.redoFromVerse(' + (id + 1) + ')"><button class="ui labeled icon button"><i class="caret right icon"></i>Start from this verse</button></div></p>'
   grid.append(htmlString);
     $('div.row[data-id="' + id + '"]').popup({on: "manual"});
 };
@@ -180,7 +176,7 @@ ui.redoFromVerse = function(num) {
   $("textarea").closest('.ui.fluid.form').remove();
   verseData.slice(id).forEach(function(verse, index) {
     $('div[data-id="' +  (id + index) + '"]').remove();
-    ui.generateVerse(id + index, verse.ch, verse.v, ui.getFirstWord(verse.verse));
+    ui.generateVerse(id + index, verse.chapter, verse.verse, ui.getFirstWord(verse.content));
   });
   ui.generateInput(id);
 };

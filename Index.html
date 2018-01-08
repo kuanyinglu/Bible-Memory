@@ -11,8 +11,7 @@
 <body>
     <div class="ui container">
         <h1>Bible Memory</h1>
-        <h3>Click on a verse to start memorizing</h3>
-        <h4>Press Ctrl for next word</h4>
+        <h3>Click on a verse to start memorizing. Press Ctrl to peek at the next word.</h3>
         <div id="accordion" class="ui accordion">
             <div class="active title">
                 <i class="dropdown icon"></i>
@@ -20,10 +19,22 @@
                 <span class="accordion-title">Verses</span>
             </div>
             <div class="active content">
-                <div class="ui list">
-                    <div class="item">
-                        <div class="content">
-                            <div id="verses-grid" class="ui grid">
+                <div class="ui segment">
+                    <div class="ui list">
+                        <div class="item">
+                            <div class="content">
+                                <div id="verses-grid" class="ui grid">
+                                    <div class="three column row">
+                                        <div class="column">
+                                            <div class="ui input">
+                                                <input id="reference" type="text" placeholder="Verse Reference"/>
+                                                <button class="ui button" onclick="api.getVerse($('#reference').val())">
+                                                    Start Memorizing
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -35,12 +46,14 @@
                 <span class="accordion-title">Options</span>
             </div>
             <div class="content">
-                <div class="ui grid">
-                    <div class="five column row">
-                        <div class="column">
-                            <div class="ui checkbox">
-                                <input type="checkbox" data-option="practiceMode" onclick="settings.toggle(this)">
-                                <label>Practice Mode</label>
+                <div class="ui segment">
+                    <div class="ui grid">
+                        <div class="five column row">
+                            <div class="column">
+                                <div class="ui checkbox">
+                                    <input type="checkbox" data-option="practiceMode" onclick="settings.toggle(this)">
+                                    <label>Practice Mode</label>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -52,48 +65,49 @@
                 <span class="accordion-title">Practice</span>
             </div>
             <div class="content">
-                <div id="main-grid" class="ui grid">
-                    <div class="two column row">
-                        <div class="column">
-                            <h2>Memorize</h2>
+                <div class="ui segment">
+                    <div id="main-grid" class="ui grid">
+                        <div class="two column row">
+                            <div class="column">
+                                <h2>Memorize</h2>
+                            </div>
+                            <div class="column">
+                                <h2>Verses</h2>
+                            </div>
                         </div>
-                        <div class="column">
-                            <h2>Verses</h2>
-                        </div>
-                    </div>
-                    <div class="two column row">
-                        <div class="column">
-                        </div>
-                        <div class="column">
-                            <h3 id="verse-title"/>
-                        </div>
-                    </div>
-                </div>
-                <div id="menu" class="ui grid" style="display: none;">
-                    <div class="two column row">
-                        <div class="column">
-                        </div>
-                        <div class="column">
-                            <p>Scripture quotations are from the ESV® Bible (The Holy Bible, English Standard Version®), copyright © 2001 by Crossway, a publishing ministry of Good News Publishers. Used by permission. All rights reserved. May not copy or download more than 500 consecutive verses of the ESV Bible or more than one half of any book of the ESV Bible.</p>
+                        <div class="two column row">
+                            <div class="column">
+                            </div>
+                            <div class="column">
+                                <h3 id="verse-title"/>
+                            </div>
                         </div>
                     </div>
-                    <div class="six column row">
-                        <div class="column">
-                            <button class="ui primary button" onclick="ui.redoFromVerse(1)">
-                              Memorize again!
-                            </button>
+                    <div id="menu" class="ui grid" style="display: none;">
+                        <div class="two column row">
+                            <div class="column">
+                            </div>
+                            <div class="column">
+                                <p>Scripture quotations are from the ESV® Bible (The Holy Bible, English Standard Version®), copyright © 2001 by Crossway, a publishing ministry of Good News Publishers. Used by permission. All rights reserved. May not copy or download more than 500 consecutive verses of the ESV Bible or more than one half of any book of the ESV Bible.</p>
+                            </div>
+                        </div>
+                        <div class="six column row">
+                            <div class="column">
+                                <button class="ui primary button" onclick="ui.redoFromVerse(1)">
+                                  Memorize again!
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <script src="./js/ESV.json.js"></script>
+    <script src="./js/token.js"></script>
     <script src="./js/settings.js"></script>
     <script src="./js/verses.js"></script>
-    <script src="./js/parser.js"></script>
+    <script src="./js/api.js"></script>
     <script src="./js/ui.js"></script>
-    <script src="./js/interpretor.js"></script>
     <script src="./js/app.js"></script>
 </body>
 
