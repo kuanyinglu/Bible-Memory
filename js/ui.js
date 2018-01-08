@@ -63,7 +63,7 @@ ui.progressUpdate = function(id, value) {
     $('div[data-id="' + id + '"]')[0].dataset.content = compareWord;
   }
 
-  if (ui.inputHasFuture(word, compareWord)) {
+  if (ui.inputHasFuture(word, compareWord) && temp[5]) {
     $('textarea[data-id="' + id + '"]').closest(".field").removeClass('error');
   } else {
     $('textarea[data-id="' + id + '"]').closest(".field").addClass('error');
@@ -76,10 +76,17 @@ ui.getComparedWords = function(id, value, data) {
   let word = "";
   let compareWord = "";
   let nextWord = "";
+  let comparingLatest = true;
   if (lastWordStart !== -1) {
     word = value.slice(lastWordStart + 1);
-    if(data.indexOf(value.slice(0, lastWordStart)) !== -1) {
-      let remainingVerse = data.slice(lastWordStart + 1);
+    if(data.indexOf(value.slice(0, value.length - 1)) !== -1) {
+      let compareWordStart = data.slice(0, value.length).lastIndexOf(" ");
+      let remainingVerse = "";
+      if (compareWordStart !== -1) {
+        remainingVerse = data.slice(compareWordStart + 1);
+      } else {
+        remainingVerse = data;
+      }
       let dataNextSpace = remainingVerse.indexOf(" ");
       if (dataNextSpace !== -1) {//Found the word to compare
         compareWord = remainingVerse.slice(0, dataNextSpace);
@@ -99,6 +106,7 @@ ui.getComparedWords = function(id, value, data) {
       successIndex = temp[2];
       failIndex = temp[3];
       nextWord = temp[4];
+      comparingLatest = false;
     }
   } else {//This is the first word
     word = value;
@@ -114,7 +122,7 @@ ui.getComparedWords = function(id, value, data) {
       nextWord = "";
     }
   }
-  return [word, compareWord, successIndex, failIndex, nextWord];
+  return [word, compareWord, successIndex, failIndex, nextWord, comparingLatest];
 };
 ui.getNextWord = function(verse) {
   let nextWord = "";
