@@ -136,7 +136,7 @@ ui.compareWord = function(w, c) {
   return w.toLowerCase().replace(/\W/g, '') === c.toLowerCase().replace(/\W/g, '');
 };
 ui.inputHasFuture = function(w, c) {
-  return c.toLowerCase().replace(/[^\w\s]/g, '').indexOf(w.toLowerCase().replace(/\W/g, '')) !== -1;
+  return c.toLowerCase().replace(/[^\w\s]/g, '').indexOf(w.toLowerCase().replace(/\W/g, '')) === 0;
 };
 ui.mainUiUpdate = function(id, index, data) {
   let doneVerse = $('span.done[data-id="' + id + '"]');
