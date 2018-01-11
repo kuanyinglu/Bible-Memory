@@ -50,3 +50,10 @@ textarea {
 .verse-paragraph > span {
     padding-left: .3em;
 }
+
+.ui.button.verse-button {
+    display: none;
+}
+
+    display:inline-block;
+}
