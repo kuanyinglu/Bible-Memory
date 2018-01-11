@@ -55,5 +55,6 @@ textarea {
     display: none;
 }
 
+div.verse-container:hover .verse-button {
     display:inline-block;
 }

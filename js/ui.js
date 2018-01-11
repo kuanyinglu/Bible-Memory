@@ -176,6 +176,7 @@ ui.generateInput = function(id) {
 };
 ui.generateVerse = function(id, ch, v, firstWord) {
   let grid = $('#main-grid');
+  let htmlString = '<div data-id="' + id + '" class="two column row" data-content="' + firstWord + '"><div data-id="' + id + '" class="verse-input column"></div><div class="column"><div class="verse-container"><p class="verse-paragraph">';
   htmlString = htmlString + '<span class="verse">' + ch + ":" + v + '</span><span data-id="' + id + '" class="done verse-show"></span><span data-id="' + id + '" class="not-done verse-hidden">' + verseData[id].content + '</span><div onclick="ui.redoFromVerse(' + (id + 1) + ')"><button class="ui labeled icon button verse-button"><i class="caret right icon"></i>Start from this verse</button></div></p>'
   grid.append(htmlString);
     $('div.row[data-id="' + id + '"]').popup({on: "manual"});
