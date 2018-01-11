@@ -40,7 +40,7 @@ ui.getFirstWord = function(text) {
 ui.inputChange = function(input) {
   let seq = Number(input.dataset.id);
   input.value = input.value.replace('  ', ' ');
-  let val = input.value.trim();
+  let val = input.value;
   ui.progressUpdate(seq, val);
 };
 ui.progressUpdate = function(id, value) {
@@ -83,12 +83,7 @@ ui.getComparedWords = function(id, value, data) {
     let matchUntilSpace = data.indexOf(earlierWords) !== -1;
     let lastWordIsComplete = data.length > earlierWords.length && data[earlierWords.length] === " ";
     if(matchUntilSpace && lastWordIsComplete) {
-      let remainingVerse = "";
-      if (data.length > earlierWords.length) {
-        remainingVerse = data.slice(earlierWords.length + 1);
-      } else {
-        remainingVerse = data;
-      }
+      let remainingVerse = data.slice(earlierWords.length + 1);
       let dataNextSpace = remainingVerse.indexOf(" ");
       if (dataNextSpace !== -1) {//Found the word to compare
         compareWord = remainingVerse.slice(0, dataNextSpace);
@@ -131,14 +126,35 @@ ui.getNextWord = function(verse) {
   let splitPoint = verse.indexOf(" ");
   if (splitPoint !== -1) {
     nextWord = verse.slice(0, splitPoint);
+  } else {
+    nextWord = verse;
   }
   return nextWord;
 };
-ui.compareWord = function(w, c) {
-  return w.toLowerCase().replace(/\W/g, '') === c.toLowerCase().replace(/\W/g, '');
+ui.compareWord = function(word, compared) {
+  let hasUpperCase = word.toLowerCase() !== word;
+  let hasPunctuation = word.replace(/\W/g, '') !== word;
+  let c = compared;
+  if (!hasUpperCase) {
+    c = c.toLowerCase();
+  }
+  if (!hasPunctuation) {
+    c = c.replace(/\W/g, '');
+  }
+  return word === c;
 };
-ui.inputHasFuture = function(w, c) {
-  return c.toLowerCase().replace(/[^\w\s]/g, '').indexOf(w.toLowerCase().replace(/\W/g, '')) === 0;
+ui.inputHasFuture = function(word, c) {
+  let hasUpperCase = word.toLowerCase() !== word;
+  let hasPunctuation = word.replace(/\W/g, '') !== word;
+  if (!hasUpperCase) {
+    c = c.toLowerCase();
+  }
+  if (!hasPunctuation) {
+    c = c.replace(/[^\w\s]/g, '');
+  } else {
+    c.replace(/[^\s]/g, '');
+  }
+  return c.indexOf(word) === 0;
 };
 ui.mainUiUpdate = function(id, index, data) {
   let doneVerse = $('span.done[data-id="' + id + '"]');

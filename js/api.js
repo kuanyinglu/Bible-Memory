@@ -34,8 +34,7 @@ api.processData = function(data) {
 api.getVerseData = function(index, element) {
   let content = null;
   if (element.nodeType !== 3 && api.removeEmpty(element.textContent).length > 0) {
-  let label = $(element).children('[id]');
-  try {
+    let label = $(element).children('[id]');
     if (label.length > 0 && label[0].localName === "b") {
       content = api.removeEmpty(element.textContent.replace(label[0].textContent, ""));
       api.pushToVerseData(label[0].id, content);
@@ -46,9 +45,6 @@ api.getVerseData = function(index, element) {
       content = api.removeEmpty(element.textContent);
       api.pushToVerseData(element.id, content);
     }
-  } catch(exception) {
-    debugger;
-  }
   }
 };
 api.pushToVerseData = function(idStr, content) {
