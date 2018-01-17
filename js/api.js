@@ -12,7 +12,7 @@ api.getVerse = function(reference) {
     success: function (data) {
       let success = api.processData(data);
       if (success) {
-        ui.openPractice(reference);
+        ui.openPractice(data.canonical);
       }
     },
     error: function(){

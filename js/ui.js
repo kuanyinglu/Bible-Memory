@@ -18,6 +18,10 @@ ui.renderVerseButtons = function() {
     });
     target.append(htmlString);
 };
+ui.practiceBooks = function() {
+    verseData = [{verse: "", chapter: "Old Testament", content: "Genesis, Exodus, Leviticus, Numbers, Deuteronomy, Joshua, Judges, Ruth, 1 Samuel, 2 Samuel, 1 Kings, 2 Kings, 1 Chronicles, 2 Chronicles, Ezra, Nehemiah, Esther, Job, Psalms, Proverbs, Ecclesiastes, Song of Solomon, Isaiah, Jeremiah, Lamentations, Ezekiel, Daniel, Hosea, Joel, Amos, Obadiah, Jonah, Micah, Nahum, Habakkuk, Zephaniah, Haggai, Zechariah, Malachi"}, {verse: "", chapter: "New Testament", content: "Matthew, Mark, Luke, John, Acts, Romans, 1 Corinthians, 2 Corinthians, Galatians, Ephesians, Philippians, Colossians, 1 Thessalonians, 2 Thessalonians, 1 Timothy, 2 Timothy, Titus, Philemon, Hebrews, James, 1 Peter, 2 Peter, 1 John, 2 John, 3 John, Jude, Revelation"}];
+    ui.openPractice("Books of The Bible");
+};
 ui.openPractice = function(reference) {
   $('#accordion').accordion('open', 2);
   $('#verse-title').empty();
@@ -29,6 +33,9 @@ ui.openPractice = function(reference) {
   });
   ui.generateInput(0);
 };
+
+
+////////////////////////////////////////
 ui.getFirstWord = function(text) {
   let firstSpace = text.indexOf(" ");
   if (firstSpace !== -1) {
@@ -193,7 +200,7 @@ ui.generateInput = function(id) {
 ui.generateVerse = function(id, ch, v, firstWord) {
   let grid = $('#main-grid');
   let htmlString = '<div data-id="' + id + '" class="two column row" data-content="' + firstWord + '"><div data-id="' + id + '" class="verse-input column"></div><div class="column"><div class="verse-container"><p class="verse-paragraph">';
-  htmlString = htmlString + '<span class="verse">' + ch + ":" + v + '</span><span data-id="' + id + '" class="done verse-show"></span><span data-id="' + id + '" class="not-done verse-hidden">' + verseData[id].content + '</span><div onclick="ui.redoFromVerse(' + (id + 1) + ')"><button class="ui labeled icon button verse-button"><i class="caret right icon"></i>Start from this verse</button></div></p>'
+  htmlString = htmlString + '<span class="verse">' + ch + ":" + v + '</span><span data-id="' + id + '" class="done verse-show"></span><span data-id="' + id + '" class="not-done verse-hidden">' + verseData[id].content + '</span><div onclick="ui.redoFromVerse(' + (id + 1) + ')"><button class="ui labeled icon button verse-button"><i class="caret right icon"></i>Start from here</button></div></p>'
   grid.append(htmlString);
     $('div.row[data-id="' + id + '"]').popup({on: "manual"});
 };
