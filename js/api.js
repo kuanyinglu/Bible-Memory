@@ -22,7 +22,7 @@ api.getVerse = function(reference) {
 };
 api.processData = function(data) {
   if (data.passages && data.passages.length > 0) {
-    let content = $(data.passages[0].replace(/<b/g, "</p><p><b"));
+    let content = $(data.passages[0].replace(/<b/g, "</p><p><b").replace(/—/g, " — "));
     verseData = [];
     content.each(api.getVerseData);
     return true;

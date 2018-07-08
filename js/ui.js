@@ -47,6 +47,9 @@ ui.getFirstWord = function(text) {
 ui.inputChange = function(input) {
   let seq = Number(input.dataset.id);
   input.value = input.value.replace('  ', ' ');
+  if (input.value.length === 1 && input.value === " ") {
+      input.value = "";
+  }
   let val = input.value;
   ui.progressUpdate(seq, val);
 };
