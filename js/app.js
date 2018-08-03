@@ -6,7 +6,11 @@ app.init = function() {
     $('#accordion').accordion();
     ui.renderVerseButtons();
     settings.init();
-
+    document.onkeydown  = function(e) {
+      if (e.keyCode == 65 && e.ctrlKey) {//ctrl + a
+        ui.redoFromVerse(1);
+      }
+    };
   }
 };
 app.incrementArray = function(start, end) {
