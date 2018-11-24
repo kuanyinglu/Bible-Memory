@@ -1,3 +1,3 @@
 //List out verses to memorize here!
 //formats ex. Matthew 5, Matthew 5-6, Matthew 5:1-2, Matthew 5:20-26
-var verses = ["Matthew 5-7", "1 Corinthians 13", "Ephesians 6", "2 Corinthians 12:9-10", "Romans 1:14-17", "Romans 1:21-22", "Romans 2:3-4", "Romans 3:10-12", "Romans 3:21-24", "Romans 4:2-3", "Romans 4:6-8", "Romans 5:1-2", "Romans 5:6-10", "Romans 6:11-14", "Romans 6:23", "Romans 7:18-19", "Romans 7:24-25", "Romans 8:1", "Romans 8:15-18", "Romans 8:22-23", "Romans 8:26", "Romans 8:28", "Romans 8:31-39", "Romans 9:1-3", "Romans 10:9-10", "Romans 10:13-15", "Romans 10:17", "Romans 11:33-36", "Romans 12:1-5", "Romans 12:9-18", "Romans 12:21", "Romans 13:7-10", "Romans 13:14", "Romans 14:7-8", "Romans 14:11-13", "Romans 15:1-3", "Romans 16:17-18", "Romans 16:25", "Romans 16:27"];
+var verses = [];
