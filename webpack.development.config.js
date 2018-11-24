@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
   mode: "development", // "production" | "development" | "none"  // Chosen mode tells webpack to use its built-in optimizations accordingly.
@@ -18,17 +19,24 @@ module.exports = {
       // rules for modules (configure loaders, parser options, etc.)
       {
         test: /\.js?$/,
-        include: [
-          path.resolve(__dirname, "app")
-        ],
         exclude: /(node_modules)/,
         loader: "babel-loader",
         options: {
           presets: ["@babel/preset-env", "@babel/preset-react"]
         }
+      },
+      {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"]
       }
-    ],
+    ]
   },
+  plugins: [
+    new webpack.ProvidePlugin({
+        $: "jquery",
+        jQuery: "jquery"
+    })
+  ],
   context: __dirname, // string (absolute path!)
   // the home directory for webpack
   // the entry and module.rules.loader option
