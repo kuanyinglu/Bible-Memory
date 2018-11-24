@@ -1,3 +1,4 @@
+import autosize from 'autosize';
 var ui = {};
 ui.renderVerseButtons = function() {
     let target = $('#verses-grid');

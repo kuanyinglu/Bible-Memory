@@ -1,6 +1,9 @@
+import api from "./api";
+import settings from "./settings";
+
 var app = {};
 app.init = function() {
-  if (typeof(jQuery) === "undefined" || typeof(jQuery().site) === "undefined" || typeof(verses) === "undefined" || typeof(api) === "undefined" || typeof(autosize) === "undefined" || typeof(settings) === "undefined" || typeof(token) === "undefined") {
+  if (typeof(verses) === "undefined" || typeof(token) === "undefined") {
     setTimeout(app.init, 1000);
   } else {
     $('#accordion').accordion();
