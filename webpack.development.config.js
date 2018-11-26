@@ -3,7 +3,7 @@ const webpack = require('webpack');
 
 module.exports = {
   mode: "development", // "production" | "development" | "none"  // Chosen mode tells webpack to use its built-in optimizations accordingly.
-  entry: "./src/js/app.js", // string | object | array  // defaults to './src'
+  entry: "./src/jsx/app.jsx", // string | object | array  // defaults to './src'
   // Here the application starts executing
   // and webpack starts bundling
   output: {
@@ -18,11 +18,10 @@ module.exports = {
     rules: [
       // rules for modules (configure loaders, parser options, etc.)
       {
-        test: /\.js?$/,
+        test: /\.(js|jsx)$/,
         exclude: /(node_modules)/,
-        loader: "babel-loader",
-        options: {
-          presets: ["@babel/preset-env", "@babel/preset-react"]
+        use: {
+          loader: 'babel-loader'
         }
       },
       {
@@ -37,6 +36,9 @@ module.exports = {
         jQuery: "jquery"
     })
   ],
+  resolve: {
+    extensions: ['.css', '.js', '.jsx']
+  },
   context: __dirname, // string (absolute path!)
   // the home directory for webpack
   // the entry and module.rules.loader option
