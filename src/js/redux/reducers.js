@@ -16,7 +16,7 @@ const versesText = (state = [], action) => {
             getVerses(action.data);
             return state;
         case "PROCESS_FETCHED_VERSES":
-            return action.data.map(v => ({ id: v.id, verse: v.verse, chapter: v.chapter, content: v.content, userInput: "" }));
+            return action.data.map(v => ({ id: v.id, title: v.title, verse: v.verse, chapter: v.chapter, content: v.content, userInput: "" }));
         case "CHANGE_TEXT":
         //lots of work done here
             return state;
@@ -25,8 +25,12 @@ const versesText = (state = [], action) => {
     }
 }
 
-const setting = (state = {}, action) => {
+let initialSetting = { practiceMode: false };
+
+const settings = (state = initialSetting, action) => {
     switch (action.type) {
+        case "CHANGE_SETTING":
+            return Object.assign({}, state, { [action.data.setting]: action.data.value });
         default:
             return state;
     }
@@ -46,7 +50,7 @@ const savedVerses = (state = { initialized: false, verses: [] }, action) => {
 const typerApp = combineReducers({
     appMode,
     versesText,
-    setting,
+    settings,
     savedVerses
 });
 

@@ -1,4 +1,4 @@
-import { processFetchedVerses } from './redux/actions';
+import { processFetchedVerses, changeMode } from './redux/actions';
 import store from "./redux/store";
 
 let splitVerses = data => {
@@ -6,30 +6,32 @@ let splitVerses = data => {
   return content;
 };
 
-let pushToVerseData = (i, idStr, content) => {
+let pushToVerseData = (idStr, content) => {
   let verse = Number(idStr.slice(6, 9));
   let chapter = Number(idStr.slice(3, 6));
-  return {id: i - 1, verse: verse, chapter: chapter, content: content.trim()};
+  return {verse: verse, chapter: chapter, content: content.trim()};
 };
 
 let removeEmpty = function(str) {
   return str.replace(/\r|\n|&nbsp;/g, "").trim();
 };
 
-let getVerseData = (i, element) => {
+let getVerseData = (_, element) => {
   let content = null;
   if (element.nodeType !== 3 && removeEmpty(element.textContent).length > 0) {
     let label = $(element).children('[id]');
+    let idStr = null;
     if (label.length > 0 && label[0].localName === "b") {
       content = removeEmpty(element.textContent.replace(label[0].textContent, ""));
-      return pushToVerseData(i, label[0].id, content);
+      idStr = label[0].id;
     } else if (label.length > 0) {
       content = removeEmpty(element.textContent);
-      return pushToVerseData(i, label[0].id, content);
+      idStr = label[0].id;
     } else {
       content = removeEmpty(element.textContent);
-      return pushToVerseData(i, element.id, content);
+      idStr = element.id;
     }
+    return pushToVerseData(idStr, content);
   }
 };
 
@@ -46,8 +48,9 @@ export const getVerses = reference => {
     success: data => {
       if (data.passages && data.passages.length > 0) {
         let rawVerses = splitVerses(data);
-        let verseData = rawVerses.map(getVerseData).toArray();
+        let verseData = rawVerses.map(getVerseData).map((i, el) => ({id: i, verse: el.verse, chapter: el.chapter, content: el.content})).toArray();
         store.dispatch(processFetchedVerses(verseData));
+        store.dispatch(changeMode("PRACTICE"));
       } else {
         alert("No verses are found");
       }

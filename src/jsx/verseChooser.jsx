@@ -1,8 +1,7 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { loadSavedVerses, searchVerses } from '../js/redux/actions';
 import { connect } from 'react-redux';
-import store from '../js/redux/store';
+import { practiceBooks } from '../js/bibleBooks'
 
 class VerseChooser extends React.Component {
   constructor (props) {
@@ -26,6 +25,9 @@ class VerseChooser extends React.Component {
             <input type="text" value={this.state.referenceText} onChange={this.verseInputOnChange}/>
             <button onClick={() => this.props.searchVerses(this.state.referenceText)}>Search</button>
           </span>
+          <button onClick={() => practiceBooks()}>
+            Books of The Bible
+          </button>
           {
             this.props.savedVerses.verses.map((verse, i) => 
               <button key={i} onClick={() => this.props.searchVerses(verse)}>

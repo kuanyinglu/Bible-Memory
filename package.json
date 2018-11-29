@@ -4,11 +4,11 @@
   "description": "Short local program to help with memorizing verses by typing along",
   "main": "webpack.config.js",
   "dependencies": {
-    "autosize": "^4.0.2",
     "jquery": "^3.3.1",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-redux": "^5.1.1",
+    "react-textarea-autosize": "^7.1.0-1",
     "redux": "^4.0.1"
   },
   "devDependencies": {

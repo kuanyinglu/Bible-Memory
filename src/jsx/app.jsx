@@ -1,5 +1,3 @@
-import api from "../js/api";
-import settings from "../js/settings";
 import "../css/app";
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -7,20 +5,21 @@ import store from '../js/redux/store';
 import { connect, Provider } from 'react-redux';
 import Menu from './menu';
 import VerseChooser from './verseChooser';
+import Settings from './settings';
+import VerseTyper from './verseTyper';
 
 class App extends React.Component {
   render () {
-    console.log(this.props);
     let activeComponent = null;
     switch (this.props.appMode) {
       case "PRACTICE":
-        activeComponent = null;
+        activeComponent = <VerseTyper/>;
         break;
       case "CHOOSE_VERSE":
         activeComponent = <VerseChooser/>;
         break;
-      case "SETTINGS":
-        activeComponent = null;
+      case "CHANGE_SETTING":
+        activeComponent = <Settings/>;
         break;
     }
     return (
@@ -28,8 +27,10 @@ class App extends React.Component {
         <h1>Bible Memory</h1>
         <br/>
         <Menu/>
-        <br/>
+        <hr/>
         {activeComponent}
+        <hr/>
+        <p>Scripture quotations are from the ESV® Bible (The Holy Bible, English Standard Version®), copyright © 2001 by Crossway, a publishing ministry of Good News Publishers. Used by permission. All rights reserved. May not copy or download more than 500 consecutive verses of the ESV Bible or more than one half of any book of the ESV Bible.</p>
       </div>
     );
   }
