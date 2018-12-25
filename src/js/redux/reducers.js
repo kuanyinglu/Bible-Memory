@@ -1,5 +1,6 @@
 import { getVerses } from "../api";
 import { combineReducers } from 'redux';
+import settingsDefinition from '../settingsDefinition';
 
 const appMode = (state = "CHOOSE_VERSE", action)  => {
     switch (action.type) {
@@ -25,7 +26,7 @@ const versesText = (state = [], action) => {
     }
 }
 
-let initialSetting = { practiceMode: false };
+let initialSetting = settingsDefinition;
 
 const settings = (state = initialSetting, action) => {
     switch (action.type) {

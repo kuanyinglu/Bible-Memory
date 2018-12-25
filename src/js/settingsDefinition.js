@@ -1,0 +1,1 @@
+export default settingsDefinition = { practiceMode: false, ignorePunctuation: true, ignoreCapitalization: true };

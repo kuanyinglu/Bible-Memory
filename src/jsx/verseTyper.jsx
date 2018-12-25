@@ -2,34 +2,44 @@ import React from 'react';
 import { loadSavedVerses, searchVerses } from '../js/redux/actions';
 import { connect } from 'react-redux';
 import Textarea from 'react-textarea-autosize';
+import parser from '../js/parser';
+import store from './redux/store';
+
 
 class VerseTyper extends React.Component {
   constructor (props) {
     super(props);
-    this.state = { mode: "" };//
+    this.state = { mode: this.props.versesText ? this.props.versesText.map(v => {return {};}) : "", value: "", previousValue: "" };
   }
 
   verseInputOnChange (e) {
-    this.setState({ referenceText: e.target.value });
+    this.setState({ value: e.target.value, previousValue: this.state.value });
   }
 
   render () {
     return (
       <div>
         {
-          this.props.versesText.map((verse, i) => 
-            <div key={i}>
-              <span>
-                <h3>{verse.title ? verse.title : verse.chapter + ":" + verse.verse}</h3>
+          this.props.versesText.map((verse, i) => {
+            let args = { inputValue: this.state.value, previousValue: this.state.previousValue, verseText: verse.content, settings:  store.getState().settings };
+            args.mode = parser.getMode(args);
+            let css = parser.getCss(args);
+            // let shownText = parser.getShownText(args);
+            
+            return (
+              <div key={i}>
                 <span>
-                  {verse.content}
+                  <h3>{verse.title ? verse.title : verse.chapter + ":" + verse.verse}</h3>
+                  <span>
+                    {verse.content}
+                  </span>
                 </span>
-              </span>
-              <span>
-                <Textarea/>
-              </span>
-            </div>
-          )
+                <span>
+                  <Textarea onChange={e => this.verseInputOnChange(e)}/>
+                </span>
+              </div>
+            );
+          })
         }
       </div>
     )

@@ -1,4 +1,31 @@
-var parser = {};
+import typerCss from './typerExtensions/typerCss';
+import typerMode from './typerExtensions/typerMode';
+
+let parser = {};
+parser.run = (defaultValue, arr, args) => {
+  let value = defaultValue;
+  arr.forEach(f => {
+    value = f(Object.assign({}, args, { value: value }));
+  });
+  return value;
+};
+parser.getMode = args => {
+  return parser.run("", typerMode, args);
+};
+parser.getCss = args => {
+  return parser.run("", typerCss, args);
+};
+parser.getShownText = args => {
+  return parser.run([], typerCss, args);
+};
+
+
+
+
+
+
+
+
 parser.getFirstWord = function(text) {
   let firstSpace = text.indexOf(" ");
   if (firstSpace !== -1) {
@@ -94,3 +121,5 @@ parser.inputHasFuture = function(word, c) {
   }
   return c.indexOf(word) === 0;
 };
+
+export default parser;
