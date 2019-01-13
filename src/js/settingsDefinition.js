@@ -1,1 +1,1 @@
-export default settingsDefinition = { practiceMode: false, ignorePunctuation: true, ignoreCapitalization: true };
+export default { practiceMode: false, ignorePunctuation: true, ignoreCapitalization: true };

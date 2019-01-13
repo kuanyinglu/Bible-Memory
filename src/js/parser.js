@@ -1,5 +1,7 @@
 import typerCss from './typerExtensions/typerCss';
 import typerMode from './typerExtensions/typerMode';
+import typerText from './typerExtensions/typerText';
+import typerEngine, { setProcessedVerse } from './typerExtensions/typerEngine';
 
 let parser = {};
 parser.run = (defaultValue, arr, args) => {
@@ -9,14 +11,20 @@ parser.run = (defaultValue, arr, args) => {
   });
   return value;
 };
+parser.processVerse = args => {
+  setProcessedVerse(parser.run(args.verseText, typerEngine, args));
+};
+parser.processInputWord = (word, args) => {
+  return parser.run(word, typerEngine, args);
+};
 parser.getMode = args => {
   return parser.run("", typerMode, args);
 };
 parser.getCss = args => {
   return parser.run("", typerCss, args);
 };
-parser.getShownText = args => {
-  return parser.run([], typerCss, args);
+parser.getText = args => {
+  return parser.run(null, typerText, args);
 };
 
 

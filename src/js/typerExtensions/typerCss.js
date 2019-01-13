@@ -1,15 +1,14 @@
+import { getTargetWord, getCurrentWord } from './typerEngine';
+
 let typerCss = [];
 typerCss.push(args => {
-  let inputValue = args.inputValue;
-  let previousValue = args.previousValue;
-  let verseText = args.verseText;
-  let mode = args.mode;
-  if (mode === "BACKSPACE") {
-    
+  let css = "";
+  if (getTargetWord(args).indexOf(getCurrentWord(args)) !== -1) {
+    css = "";
   } else {
-
+    css = "mistake";
   }
-  return "";
+  return css
 });
 
 
