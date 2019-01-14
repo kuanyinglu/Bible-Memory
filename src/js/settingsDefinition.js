@@ -1,1 +1,1 @@
-export default { practiceMode: false, ignorePunctuation: true, ignoreCapitalization: true };
+export default { practiceMode: true, ignorePunctuation: true, ignoreCapitalization: true };

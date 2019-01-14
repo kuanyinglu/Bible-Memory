@@ -26,7 +26,7 @@ class VerseTyper extends React.Component {
         {
           this.props.versesText.map((verse, i) => {
             let args = { inputValue: this.state.value[i], previousValue: this.state.previousValue[i], verseText: verse.content, settings: store.getState().settings };
-            parser.processVerse(args);
+            //parser.processVerse(args);
             args.mode = parser.getMode(args);
             let css = parser.getCss(args);
             
