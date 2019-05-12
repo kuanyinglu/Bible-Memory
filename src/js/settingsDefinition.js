@@ -1,0 +1,1 @@
+export default { practiceMode: true, ignorePunctuation: true, ignoreCapitalization: true };
