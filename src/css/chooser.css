@@ -1,0 +1,9 @@
+.search input {
+    margin-left: 1em;
+}
+
+.saved-verses {
+    display: grid;
+    grid-template-columns: repeat(10, auto);
+    grid-gap: 8px;
+}

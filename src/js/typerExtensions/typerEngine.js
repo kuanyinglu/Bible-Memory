@@ -16,6 +16,8 @@ typerEngine.push(args => {
   let value;
   if (settings.ignoreCapitalization) {
     value = args.value.toLowerCase();
+  } else {
+    value = args.value;
   }
   return value;
 });

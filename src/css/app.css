@@ -1,64 +1,38 @@
-.mistake {
-    color: red;
+html {
+    background-color: #fee2b8;
 }
 
-/* body > .ui.container {
-    margin-top: 3em;
+body {
+    margin: 0;
 }
 
-.ui.container > h1 {
-    font-size: 3em;
-    text-align: center;
-    font-weight: normal;
+#container {
+    display: flex;
+    flex-flow: row wrap;
+    align-content: flex-start;
 }
 
-.ui.container > h2.dividing.header {
-    font-size: 2em;
-    font-weight: normal;
-    margin: 4em 0em 3em;
+hr {
+    flex-basis: 100%;
+    border: 0;
+    margin: 4px 0;
 }
 
-.active > .accordion-title {
-    font-weight: 600;
+.wrapper {
+    padding-left: 8px;
 }
 
-.done {
-    color: red;
+div.title.wrapper {
+    display: inline-flex;
+    align-items: flex-end;
+    background-color: #89360c;
+    box-sizing: border-box;
+    height: 3em;
 }
 
-.verse-hidden {
-    display: none;
+.title h1 {
+    color: #ffffff;
+    font-style: italic;
+    padding-right: 1em;
+    margin: 0;
 }
-
-.practice .verse-hidden {
-    display: initial;
-}
-
-textarea {
-    max-height: none !important;
-}
-
-.verse {
-    font-size: 1.28571429rem;
-    font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
-    line-height: 1.28571429em;
-    margin: calc(2rem - .14285714em) 0 1rem;
-    padding: 0;
-}
-
-.ui.grid > .row {
-    padding-top: 0.4rem;
-    padding-bottom: 0.4rem;
-}
-
-.verse-paragraph > span {
-    padding-left: .3em;
-}
-
-.ui.button.verse-button {
-    display: none;
-}
-
-div.verse-container:hover .verse-button {
-    display:inline-block;
-} */

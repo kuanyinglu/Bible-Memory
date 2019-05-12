@@ -7,7 +7,7 @@ import store from '../js/redux/store';
 class Menu extends React.Component {
   render () {
     return (
-      <div>
+      <div className="menu wrapper">
         <a onClick={() => this.props.chooseMode("CHOOSE_VERSE")}>Verses</a>
         <a onClick={() => this.props.chooseMode("CHANGE_SETTING")}>Settings</a>
         <a onClick={() => this.props.chooseMode("PRACTICE")}>Practice</a>

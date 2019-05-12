@@ -1,5 +1,5 @@
 import React from 'react';
-import { loadSavedVerses, searchVerses } from '../js/redux/actions';
+import { loadSavedVerses, searchVerses, updateVerses } from '../js/redux/actions';
 import { connect } from 'react-redux';
 import { practiceBooks } from '../js/bibleBooks'
 
@@ -19,22 +19,25 @@ class VerseChooser extends React.Component {
       return null;
     } else {
       return (
-        <div>
-          <span>
+        <div className="verse-chooser wrapper">
+          <div className="search">
             Verse Reference
-            <input type="text" value={this.state.referenceText} onChange={this.verseInputOnChange}/>
+            <input type="text" value={this.state.referenceText} onChange={e => this.verseInputOnChange(e)}/>
             <button onClick={() => this.props.searchVerses(this.state.referenceText)}>Search</button>
-          </span>
-          <button onClick={() => practiceBooks()}>
-            Books of The Bible
-          </button>
-          {
-            this.props.savedVerses.verses.map((verse, i) => 
-              <button key={i} onClick={() => this.props.searchVerses(verse)}>
-                {verse}
-              </button>
-            )
-          }
+          </div>
+          <hr/>
+          <div className="saved-verses">
+            <button onClick={() => practiceBooks()}>
+              Books of The Bible
+            </button>
+            {
+              this.props.savedVerses.verses.map((verse, i) => 
+                <button key={i} onClick={() => this.props.searchVerses(verse)}>
+                  {verse}
+                </button>
+              )
+            }
+          </div>
         </div>
       )
     }
@@ -47,7 +50,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   loadSavedVerses: () => dispatch(loadSavedVerses()),
-  searchVerses: reference => dispatch(searchVerses(reference))
+  searchVerses: reference => {
+    dispatch(searchVerses(reference));
+    dispatch(updateVerses(reference));
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(VerseChooser);

@@ -1,0 +1,23 @@
+.practice .mistake {
+    color: red;
+}
+
+.verse textarea {
+    resize: none;
+    width: 100%;
+}
+
+.verse h3 {
+    margin: .5em 0;
+}
+
+.verse {
+    background-color: #f8c375;
+    margin-right: 8px;
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
+.practice-box {
+    width: 95%;
+}

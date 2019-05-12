@@ -48,11 +48,21 @@ const savedVerses = (state = { initialized: false, verses: [] }, action) => {
     }
 }
 
+const currentVerses = (state = "", action) => {
+    switch (action.type) {
+        case "UPDATE_VERSES":
+            return action.data;
+        default:
+            return state;
+    }
+}
+
 const typerApp = combineReducers({
     appMode,
     versesText,
     settings,
-    savedVerses
+    savedVerses,
+    currentVerses
 });
 
 export default typerApp;
