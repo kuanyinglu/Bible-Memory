@@ -1,5 +1,6 @@
 import React from 'react';
 import { loadSavedVerses, searchVerses, updateVerses } from '../js/redux/actions';
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import { connect } from 'react-redux';
 import { practiceBooks } from '../js/bibleBooks'
 
@@ -20,19 +21,26 @@ class VerseChooser extends React.Component {
     } else {
       return (
         <div className="verse-chooser wrapper">
+          <h2>Verses</h2>
           <div className="search">
             Verse Reference
-            <input type="text" value={this.state.referenceText} onChange={e => this.verseInputOnChange(e)}/>
+            <input type="text" aria-label="Type Bible verses and search to practice memorizing" value={this.state.referenceText} onChange={e => this.verseInputOnChange(e)}/>
             <button onClick={() => this.props.searchVerses(this.state.referenceText)}>Search</button>
           </div>
           <hr/>
           <div className="saved-verses">
-            <button onClick={() => practiceBooks()}>
+            <button onClick={() => {
+                practiceBooks();
+                this.props.history.push('/practice');
+              }}>
               Books of The Bible
             </button>
             {
               this.props.savedVerses.verses.map((verse, i) => 
-                <button key={i} onClick={() => this.props.searchVerses(verse)}>
+                <button key={i} onClick={() => {
+                    this.props.searchVerses(verse);
+                    this.props.history.push('/practice');
+                  }}>
                   {verse}
                 </button>
               )

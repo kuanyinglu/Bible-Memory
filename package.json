@@ -8,6 +8,8 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-redux": "^5.1.1",
+    "react-router": "^5.0.0",
+    "react-router-dom": "^5.0.0",
     "react-textarea-autosize": "^7.1.0",
     "redux": "^4.0.1"
   },
@@ -20,7 +22,8 @@
     "shelljs": "^0.8.3",
     "style-loader": "^0.23.1",
     "webpack": "^4.30.0",
-    "webpack-cli": "^3.3.1"
+    "webpack-cli": "^3.3.1",
+    "webpack-dev-server": "^3.4.1"
   },
   "scripts": {
     "build": "node build.js",

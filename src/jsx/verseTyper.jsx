@@ -10,7 +10,7 @@ import store from '../js/redux/store';
 class VerseTyper extends React.Component {
   constructor (props) {
     super(props);
-    this.state = { mode: this.props.versesText ? this.props.versesText.map(v => {return {};}) : "", value: this.props.versesText.map(() => ""), previousValue: this.props.versesText.map(() => ""), lastDone: null };
+    this.state = { lastDone: null };
     this.textAreas = {};
   }
 
@@ -29,6 +29,13 @@ class VerseTyper extends React.Component {
   setRef (i, element) {
     this.textAreas[i] = element;
   };
+
+  static getDerivedStateFromProps(props, state) {
+    if (!state.mode && props.versesText.length !== 0) {
+      return { mode: props.versesText.map(v => {return {};}), value: props.versesText.map(() => ""), previousValue: props.versesText.map(() => "") };
+    }
+    return null;
+  }
 
   componentDidUpdate () {
     if (this.state.lastDone !== null) {
@@ -56,11 +63,11 @@ class VerseTyper extends React.Component {
             return (
               <div className="verse wrapper" key={i}>
                 <div>
-                  <h3>{verse.title ? verse.title : verse.chapter + ":" + verse.verse}</h3>
+                  <label htmlFor={"verse-" + i} aria-label={verse.title ? verse.title : verse.chapter + ":" + verse.verse}><h3>{verse.title ? verse.title : verse.chapter + ":" + verse.verse}</h3></label>
                   <div className="practice-box">
                     { args.settings.practiceMode ? verse.content : null }
                     { args.settings.practiceMode ? <hr/> : null }
-                    { args.mode !== "DONE" ? <Textarea ref={element => this.setRef(i, element)} className={css} onChange={e => this.verseInputOnChange(args, i, e)} value={this.state.value[i]} autoFocus={i === 0}/> : null }
+                    { args.mode !== "DONE" ? <Textarea id={"verse-" + i} ref={element => this.setRef(i, element)} className={css} onChange={e => this.verseInputOnChange(args, i, e)} value={this.state.value[i]} autoFocus={i === 0}/> : null }
                   </div>
                 </div>
               </div>
@@ -72,6 +79,7 @@ class VerseTyper extends React.Component {
             </h4>
           </div>
         }
+        <p aria-hidden="true">Scripture quotations are from the ESV® Bible (The Holy Bible, English Standard Version®), copyright © 2001 by Crossway, a publishing ministry of Good News Publishers. Used by permission. All rights reserved. May not copy or download more than 500 consecutive verses of the ESV Bible or more than one half of any book of the ESV Bible.</p>
       </div>
     )
   }

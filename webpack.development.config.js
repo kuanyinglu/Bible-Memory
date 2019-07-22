@@ -39,8 +39,13 @@ module.exports = {
   resolve: {
     extensions: ['.css', '.js', '.jsx']
   },
-  context: __dirname, // string (absolute path!)
-  // the home directory for webpack
-  // the entry and module.rules.loader option
-  //   is resolved relative to this directory
+  devServer: {
+    contentBase: path.join(__dirname, 'dist'),
+    compress: true,
+    port: 9000,
+    historyApiFallback: {
+      index: 'index.html'
+    }
+  },
+  context: __dirname,
 }
