@@ -1,0 +1,6 @@
+Move to using Node Js
+Google Auth
+Tests
+Use Database
+UI for saving verses
+Database management
