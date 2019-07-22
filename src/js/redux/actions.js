@@ -1,4 +1,3 @@
-export const changeMode = mode => ({ type: "CHANGE_MODE", data: mode });//"PRACTICE, CHOOSE_VERSE, CHANGE_SETTING"
 export const searchVerses = reference => ({ type: "SEARCH_VERSES", data: reference });
 export const updateVerses = reference => ({ type: "UPDATE_VERSES", data: reference });
 export const loadSavedVerses = () => ({ type: "LOAD_SAVED_VERSES" });

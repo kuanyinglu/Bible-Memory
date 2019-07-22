@@ -1,0 +1,77 @@
+html {
+    background-color: #fee2b8;
+}
+
+body {
+    margin: 0;
+}
+
+hr {
+    flex-basis: 100%;
+    border: 0;
+    margin: 4px 0;
+}
+
+button {
+    border-style: solid;
+    background-color: #f9b031;
+    border-radius: 10px;
+    border-color: #f49b00;
+    cursor: pointer;
+}
+
+input[type="text"] {
+    border-radius: 10px;
+    border-width: 1px;
+    border-color: #74726f;
+    border-style: solid;
+}
+
+input[type="checkbox"] {
+    opacity: 0;
+    margin: 0;
+    width: 0;
+}
+
+input[type="checkbox"] + label::before {
+    content:  "\00a0";
+    font-size: 1rem;
+    line-height: 1.0;
+    display: inline-block;
+    padding-left: .125em;
+    padding-right: .125em;
+    border: 2px solid #f49b00;
+    color: #f49b00;
+    font-weight: bold;
+    width: calc(1rem - .25em);
+}
+
+input[type="checkbox"]:checked + label::before {
+    content: "\2714";
+}
+
+input[type="checkbox"]:focus + label::before {
+    box-shadow: 0 0 0 2pt #aaeb56;
+}
+
+.checkbox label, .checkbox input[type="checkbox"] {
+    cursor: pointer;
+}
+
+:focus {
+    box-shadow: 0 0 0 2pt #aaeb56;
+    outline: unset;
+}
+
+textarea {
+    resize: none;
+}
+
+.wrapper {
+    padding-left: 8px;
+}
+
+h2 {
+    margin-block-start: .5em;
+    margin-block-end: .5em;
+}

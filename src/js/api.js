@@ -1,4 +1,4 @@
-import { processFetchedVerses, changeMode } from './redux/actions';
+import { processFetchedVerses  } from './redux/actions';
 import store from "./redux/store";
 
 let splitVerses = data => {
@@ -50,7 +50,6 @@ export const getVerses = reference => {
         let rawVerses = splitVerses(data);
         let verseData = rawVerses.map(getVerseData).map((i, el) => ({id: i, verse: el.verse, chapter: el.chapter, content: el.content})).toArray();
         store.dispatch(processFetchedVerses(verseData));
-        store.dispatch(changeMode("PRACTICE"));
       } else {
         alert("No verses are found");
       }

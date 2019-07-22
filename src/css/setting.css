@@ -1,4 +1,4 @@
-.setting {
+.choices {
     display: grid;
     grid-template-columns: repeat(10, auto);
     grid-gap: 8px;

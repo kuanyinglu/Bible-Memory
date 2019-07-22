@@ -21,15 +21,18 @@ class Settings extends React.Component {
   render () {
     return (
       <div className="setting wrapper">
-        {
-          Object.keys(this.props.settings).map(key => 
-            <div className="checkbox option" key={key}>
-              <input id={key + "-setting"} type="checkbox" checked={this.props.settings[key]} 
-                onChange={() => this.props.changeSettings({ setting: key, value: !this.props.settings[key]})}/>
-              <label htmlFor={key + "-setting"}>{this.generateSettingLabel(key)}</label>
-            </div>
-          )
-        }
+        <h2>Settings</h2>
+        <div className="choices">
+          {
+            Object.keys(this.props.settings).map(key => 
+              <div className="checkbox option" key={key}>
+                <input id={key + "-setting"} type="checkbox" checked={this.props.settings[key]} 
+                  onChange={() => this.props.changeSettings({ setting: key, value: !this.props.settings[key]})}/>
+                <label htmlFor={key + "-setting"}>{this.generateSettingLabel(key)}</label>
+              </div>
+            )
+          }
+        </div>
       </div>
     )
   }

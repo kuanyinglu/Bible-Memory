@@ -3,7 +3,6 @@
 }
 
 .verse textarea {
-    resize: none;
     width: 100%;
 }
 
@@ -12,7 +11,6 @@
 }
 
 .verse {
-    background-color: #f8c375;
     margin-right: 8px;
     padding-top: 1em;
     padding-bottom: 1em;

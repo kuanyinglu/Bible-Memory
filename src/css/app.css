@@ -1,25 +1,7 @@
-html {
-    background-color: #fee2b8;
-}
-
-body {
-    margin: 0;
-}
-
 #container {
     display: flex;
     flex-flow: row wrap;
     align-content: flex-start;
-}
-
-hr {
-    flex-basis: 100%;
-    border: 0;
-    margin: 4px 0;
-}
-
-.wrapper {
-    padding-left: 8px;
 }
 
 div.title.wrapper {
@@ -28,6 +10,7 @@ div.title.wrapper {
     background-color: #89360c;
     box-sizing: border-box;
     height: 3em;
+    padding-bottom: 4px;
 }
 
 .title h1 {
