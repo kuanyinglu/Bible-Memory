@@ -1,4 +1,3 @@
-Move to using Node Js
 Google Auth
 Tests
 Use Database

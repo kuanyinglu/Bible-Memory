@@ -39,13 +39,5 @@ module.exports = {
   resolve: {
     extensions: ['.css', '.js', '.jsx']
   },
-  devServer: {
-    contentBase: path.join(__dirname, 'dist'),
-    compress: true,
-    port: 9000,
-    historyApiFallback: {
-      index: 'index.html'
-    }
-  },
   context: __dirname,
 }
