@@ -7,12 +7,12 @@ const clientId = process.env.CLIENT_ID;
 const {OAuth2Client} = require('google-auth-library');
 const client = new OAuth2Client(clientId);
 
-const authenticate = idToken => {
-  if (typeof idToken !== 'undefined' && typeof clientId !== 'undefined') {
+async function authenticate(idToken) {
+  if (typeof idToken === 'undefined' || typeof clientId === 'undefined') {
       return null;
   }
   
-  const ticket = client.verifyIdToken({
+  const ticket = await client.verifyIdToken({
       idToken: idToken,
       audience: clientId,
   });
@@ -29,7 +29,8 @@ app.use(cookieParser());
 app.set('view engine', 'ejs');
 
 app.get('/', function (req, res) {
-    if (authenticate(req.cookies.idToken) !== null) {
+    let idToken = await authenticate(req.cookies.idToken);
+    if (idToken !== null) {
         res.render(__dirname + '/Index.ejs');
     } else {
         res.redirect('/login');
@@ -41,7 +42,8 @@ app.get(['/verses', '/settings', '/practice'], function (req, res) {
 });
 
 app.get(['/login',], function (req, res) {
-    if (authenticate(req.cookies.idToken) === null) {
+    let idToken = await authenticate(req.cookies.idToken);
+    if (idToken !== null) {
         res.render(__dirname + '/Login.ejs', {clientId: clientId});
     } else {
         res.redirect('/');
@@ -49,7 +51,7 @@ app.get(['/login',], function (req, res) {
 });
 
 app.get(['/authenticate',], function (req, res) {
-    let idToken = authenticate(req.params.id);
+    let idToken = await authenticate(req.params.id);
     if (idToken !== null) {
         res.cookie("idToken", idToken, { maxAge: 3600000, secure: true, httpOnly: true });
     } else {
@@ -58,7 +60,8 @@ app.get(['/authenticate',], function (req, res) {
 });
 
 app.get('/token.js', function (req, res) {
-    if (authenticate(req.cookies.idToken) !== null) {
+    let idToken = await authenticate(req.cookies.idToken);
+    if (idToken !== null) {
         res.sendFile(__dirname + '/token.js');
     } else {
         res.send(401, 'error');
@@ -66,7 +69,8 @@ app.get('/token.js', function (req, res) {
 });
 
 app.get('/verses.js', function (req, res) {
-    if (authenticate(req.cookies.idToken) !== null) {
+    let idToken = await authenticate(req.cookies.idToken);
+    if (idToken !== null) {
         res.sendFile(__dirname + '/verses.js');
     } else {
         res.send(401, 'error');
@@ -74,7 +78,8 @@ app.get('/verses.js', function (req, res) {
 });
 
 app.get('/bundle.js', function (req, res) {
-    if (authenticate(req.cookies.idToken) !== null) {
+    let idToken = await authenticate(req.cookies.idToken);
+    if (idToken !== null) {
         res.sendFile(__dirname + '/bundle.js');
     } else {
         res.send(401, 'error');
