@@ -29,12 +29,13 @@ app.use(cookieParser());
 app.set('view engine', 'ejs');
 
 app.get('/', function (req, res) {
-    let idToken = await authenticate(req.cookies.idToken);
-    if (idToken !== null) {
-        res.render(__dirname + '/Index.ejs');
-    } else {
-        res.redirect('/login');
-    }
+    authenticate(req.cookies.idToken).then(idToken => {
+        if (idToken !== null) {
+            res.render(__dirname + '/Index.ejs');
+        } else {
+            res.redirect('/login');
+        }
+    });
 });
 
 app.get(['/verses', '/settings', '/practice'], function (req, res) {
@@ -42,48 +43,52 @@ app.get(['/verses', '/settings', '/practice'], function (req, res) {
 });
 
 app.get(['/login',], function (req, res) {
-    let idToken = await authenticate(req.cookies.idToken);
-    if (idToken !== null) {
-        res.render(__dirname + '/Login.ejs', {clientId: clientId});
-    } else {
-        res.redirect('/');
-    }
+    authenticate(req.cookies.idToken).then(idToken => {
+        if (idToken !== null) {
+            res.render(__dirname + '/Login.ejs', {clientId: clientId});
+        } else {
+            res.redirect('/');
+        }
+    });
 });
 
 app.get(['/authenticate',], function (req, res) {
-    let idToken = await authenticate(req.params.id);
-    if (idToken !== null) {
-        res.cookie("idToken", idToken, { maxAge: 3600000, secure: true, httpOnly: true });
-    } else {
-        res.redirect('/');
-    }
+    authenticate(req.params.id).then(idToken => {
+        if (idToken !== null) {
+            res.cookie("idToken", idToken, { maxAge: 3600000, secure: true, httpOnly: true });
+        } else {
+            res.redirect('/');
+        }
+    });
 });
 
 app.get('/token.js', function (req, res) {
-    let idToken = await authenticate(req.cookies.idToken);
-    if (idToken !== null) {
-        res.sendFile(__dirname + '/token.js');
-    } else {
-        res.send(401, 'error');
-    }
+    authenticate(req.cookies.idToken).then(idToken => {
+        if (idToken !== null) {
+            res.sendFile(__dirname + '/token.js');
+        } else {
+            res.send(401, 'error');
+        }
+    });
 });
 
 app.get('/verses.js', function (req, res) {
-    let idToken = await authenticate(req.cookies.idToken);
-    if (idToken !== null) {
-        res.sendFile(__dirname + '/verses.js');
-    } else {
-        res.send(401, 'error');
-    }
+    authenticate(req.cookies.idToken).then(idToken => {
+        if (idToken !== null) {
+            res.sendFile(__dirname + '/verses.js');
+        } else {
+            res.send(401, 'error');
+        }
+    });
 });
 
 app.get('/bundle.js', function (req, res) {
-    let idToken = await authenticate(req.cookies.idToken);
-    if (idToken !== null) {
-        res.sendFile(__dirname + '/bundle.js');
-    } else {
-        res.send(401, 'error');
-    }
+    authenticate(req.cookies.idToken).then(idToken => {
+        if (idToken !== null) {
+            res.sendFile(__dirname + '/bundle.js');
+        } else {
+            res.send(401, 'error');
+        }
 });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
