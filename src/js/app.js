@@ -89,6 +89,7 @@ app.get('/bundle.js', function (req, res) {
         } else {
             res.send(401, 'error');
         }
+    });
 });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
