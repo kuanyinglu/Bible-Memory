@@ -2,7 +2,7 @@ const {OAuth2Client} = require('google-auth-library');
 const client = new OAuth2Client(CLIENT_ID);
 const clientId = process.env.CLIENT_ID;
 
-export const authenticate = idToken => {
+exports.authenticate = idToken => {
     if (typeof idToken !== 'undefined' && typeof clientId !== 'undefined') {
         return null;
     }
