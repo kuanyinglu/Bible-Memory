@@ -5,6 +5,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 const clientId = process.env.CLIENT_ID;
 const domain = process.env.DOMAIN;
+const token = process.env.TOKEN;
 
 const {OAuth2Client} = require('google-auth-library');
 const client = new OAuth2Client(clientId);
@@ -65,7 +66,11 @@ app.post(['/authenticate',], function (req, res) {
 app.get('/token.js', function (req, res) {
     var idToken = authenticate(req.cookies.idToken);
     if (idToken !== null) {
-        res.sendFile(__dirname + '/token.js');
+        if (typeof token !== 'undefined') {
+            res.send("var token = \"" + token + "\";");
+        } else {
+            res.sendFile(__dirname + '/token.js');
+        }
     } else {
         res.send(401, 'error');
     }

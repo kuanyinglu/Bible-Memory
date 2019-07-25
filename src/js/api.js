@@ -40,7 +40,7 @@ export const getVerses = reference => {
   $.ajax({
     url: "https://api.esv.org/v3/passage/html/?q=" + encodedVerse + "&include-passage-references=false&include-chapter-numbers=false&include-first-verse-numbers=false&include-verse-numbers=true&include-footnotes=false&include-footnote-body=false&include-headings=false&include-subheadings=false&include-surrounding-chapters-below=false&include-audio-link=false&include-short-copyright=false",
     headers: {
-      "Authorization": "Token " + (typeof process.env.TOKEN !== 'undefined' ? process.env.TOKEN : token)
+      "Authorization": "Token " + token
     },
     type: 'GET',
     dataType: 'json',
