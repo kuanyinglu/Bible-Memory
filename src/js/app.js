@@ -22,7 +22,7 @@ app.get(['/verses', '/settings', '/practice'], function (req, res) {
 });
 
 app.get(['/login',], function (req, res) {
-    if (authenticate(req.cookies.idToken) !== null) {
+    if (authenticate(req.cookies.idToken) === null) {
         res.render(__dirname + '/Login.ejs', {clientId: clientId});
     } else {
         res.redirect('/');
@@ -41,18 +41,24 @@ app.get(['/authenticate',], function (req, res) {
 app.get('/token.js', function (req, res) {
     if (authenticate(req.cookies.idToken) !== null) {
         res.sendFile(__dirname + '/token.js');
+    } else {
+        res.send(401, 'error');
     }
 });
 
 app.get('/verses.js', function (req, res) {
     if (authenticate(req.cookies.idToken) !== null) {
         res.sendFile(__dirname + '/verses.js');
+    } else {
+        res.send(401, 'error');
     }
 });
 
 app.get('/bundle.js', function (req, res) {
     if (authenticate(req.cookies.idToken) !== null) {
         res.sendFile(__dirname + '/bundle.js');
+    } else {
+        res.send(401, 'error');
     }
 });
 
