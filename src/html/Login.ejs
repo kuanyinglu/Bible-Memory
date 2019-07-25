@@ -12,12 +12,10 @@
       gapi.load('auth2', function() {
         gapi.auth2.init({
           client_id: "<%= clientId %>",
-          scope: 'email',
           hosted_domain: 'utexas.edu'
         }).then(function() {
-          gapi.auth2.getAuthInstance().isSignedIn.listen(function(loggedIn) {
-            if (loggedIn) {
-              var xhr = new XMLHttpRequest();
+          gapi.auth2.getAuthInstance().signIn({scope: "email"}).then(function(response) {
+            var xhr = new XMLHttpRequest();
               xhr.open('POST', 'https://bible-memory.herokuapp.com/authenticate');
               xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
               xhr.onreadystatechange = function() {
@@ -25,10 +23,8 @@
                   document.body = xhr.response;
                 }
               }
-              xhr.send('id=' + gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().id_token);
-            }
+              xhr.send('id=' + response.id_token);
           });
-          gapi.auth2.getAuthInstance().signIn();
         });
       });
     }

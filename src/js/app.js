@@ -52,7 +52,7 @@ app.get(['/login',], function (req, res) {
     });
 });
 
-app.get(['/authenticate',], function (req, res) {
+app.post(['/authenticate',], function (req, res) {
     authenticate(req.params.id).then(idToken => {
         if (idToken !== null) {
             res.cookie("idToken", idToken, { maxAge: 3600000, secure: true, httpOnly: true });
