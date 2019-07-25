@@ -5,6 +5,7 @@
   "main": "webpack.config.js",
   "dependencies": {
     "cookie-parser": "^1.4.4",
+    "ejs": "^2.6.2",
     "express": "^4.17.1",
     "google-auth-library": "^5.1.0",
     "jquery": "^3.4.0",
