@@ -11,7 +11,7 @@ const {OAuth2Client} = require('google-auth-library');
 const client = new OAuth2Client(clientId);
 
 async function authenticate(idToken) {
-  if (typeof idToken === 'undefined' || typeof clientId === 'undefined') {
+  if (typeof idToken === 'undefined' || idToken.length === 0 || typeof clientId === 'undefined' || clientId.length === 0) {
       return null;
   }
   
