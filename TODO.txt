@@ -1,6 +1,4 @@
-Google Auth
-    Authenticate script
-    Finish Authentication function
+Rethink build
 Tests
 Use Database
 UI for saving verses

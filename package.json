@@ -28,10 +28,10 @@
     "webpack-cli": "^3.3.1"
   },
   "scripts": {
-    "build": "node build.js",
+    "build": "node build-prod.js",
     "build:prod": "node build-prod.js",
     "watch": "webpack --watch",
-    "start": "node build-prod.js"
+    "start": "node ./dist/app.js"
   },
   "repository": {
     "type": "git",
