@@ -5,7 +5,7 @@ const port = process.env.PORT || 3000;
 const clientId = process.env.CLIENT_ID;
 
 const {OAuth2Client} = require('google-auth-library');
-const client = new OAuth2Client(CLIENT_ID);
+const client = new OAuth2Client(clientId);
 
 const authenticate = idToken => {
   if (typeof idToken !== 'undefined' && typeof clientId !== 'undefined') {
@@ -14,7 +14,7 @@ const authenticate = idToken => {
   
   const ticket = client.verifyIdToken({
       idToken: idToken,
-      audience: CLIENT_ID,
+      audience: clientId,
   });
   const payload = ticket.getPayload();
   if (payload['hd'] !== 'utexas.edu' && payload['aud'] !== clientId)
