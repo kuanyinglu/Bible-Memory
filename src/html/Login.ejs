@@ -8,7 +8,7 @@
 <body>
   <button onClick='login'></button>
   <script>
-    (function login() {
+    function login() {
       gapi.auth2.init({
           client_id: "<%= clientId %>",
           scope: 'email',
@@ -24,7 +24,7 @@
           }
           xhr.send('id=' + gapi.auth2.GoogleAuth.currentUser.get().getAuthResponse().id_token);
         });
-    })()
+    }
   </script>
 </body>
 
