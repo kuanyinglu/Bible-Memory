@@ -15,7 +15,7 @@
           scope: 'email',
           hosted_domain: 'utexas.edu'
         }).then(function() {
-          gapi.auth2.GoogleAuth.isSignedIn.listen(function(loggedIn) {
+          gapi.auth2.getAuthInstance().isSignedIn.listen(function(loggedIn) {
             if (loggedIn) {
               var xhr = new XMLHttpRequest();
               xhr.open('POST', 'https://bible-memory.herokuapp.com/authenticate');
@@ -25,10 +25,10 @@
                   document.body = xhr.response;
                 }
               }
-              xhr.send('id=' + gapi.auth2.GoogleAuth.currentUser.get().getAuthResponse().id_token);
+              xhr.send('id=' + gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().id_token);
             }
           });
-          gapi.auth2.GoogleAuth.signIn();
+          gapi.auth2.getAuthInstance().signIn();
         });
       });
     }
