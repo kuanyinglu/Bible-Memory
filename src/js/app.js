@@ -1,5 +1,5 @@
 const express = require('express');
-const authenticate = require('authenticate');
+import { authenticate  } from './authentication.js';
 const cookieParser = require('cookie-parser')
 const app = express();
 const port = process.env.PORT || 3000;
