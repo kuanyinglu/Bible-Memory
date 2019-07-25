@@ -1,14 +1,59 @@
 const express = require('express');
+const authenticate = require('authenticate');
+const cookieParser = require('cookie-parser')
 const app = express();
 const port = process.env.PORT || 3000;
+const clientId = process.env.CLIENT_ID;
 
-app.get(['/', '/verses', '/settings', '/practice'], function (req, res) {
-    res.sendFile(__dirname + '/Index.html');
+app.use(cookieParser());
+
+app.set('view engine', 'ejs');
+
+app.get('/', function (req, res) {
+    if (authenticate(req.cookies.idToken) !== null) {
+        res.render(__dirname + '/Index.ejs');
+    } else {
+        res.redirect('/login');
+    }
 });
+
 app.get(['/verses', '/settings', '/practice'], function (req, res) {
     res.redirect('/');
 });
 
-app.use(express.static(__dirname)); 
+app.get(['/login',], function (req, res) {
+    if (authenticate(req.cookies.idToken) !== null) {
+        res.render(__dirname + '/Login.ejs', {clientId: clientId});
+    } else {
+        res.redirect('/');
+    }
+});
+
+app.get(['/authenticate',], function (req, res) {
+    let idToken = authenticate(req.params.id);
+    if (idToken !== null) {
+        res.cookie("idToken", idToken, { maxAge: 3600000, secure: true, httpOnly: true });
+    } else {
+        res.redirect('/');
+    }
+});
+
+app.get('/token.js', function (req, res) {
+    if (authenticate(req.cookies.idToken) !== null) {
+        res.sendFile(__dirname + '/token.js');
+    }
+});
+
+app.get('/verses.js', function (req, res) {
+    if (authenticate(req.cookies.idToken) !== null) {
+        res.sendFile(__dirname + '/verses.js');
+    }
+});
+
+app.get('/bundle.js', function (req, res) {
+    if (authenticate(req.cookies.idToken) !== null) {
+        res.sendFile(__dirname + '/bundle.js');
+    }
+});
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

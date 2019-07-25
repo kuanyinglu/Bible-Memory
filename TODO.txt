@@ -1,4 +1,6 @@
 Google Auth
+    Authenticate script
+    Finish Authentication function
 Tests
 Use Database
 UI for saving verses

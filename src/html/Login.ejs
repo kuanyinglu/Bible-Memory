@@ -1,0 +1,31 @@
+<html>
+
+<head>
+  <meta name="google-signin-client_id" content="<%= clientId %>">
+  <script src="https://apis.google.com/js/platform.js"></script>
+</head>
+
+<body>
+  <button onClick='login'></button>
+  <script>
+    (function login() {
+      gapi.auth2.init({
+          client_id: "<%= clientId %>",
+          scope: 'email',
+          hosted_domain: 'utexas.edu'
+        }).then(function () {
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', 'https://bible-memory.herokuapp.com/authenticate');
+          xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+          xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+              document.body = xhr.response;
+            }
+          }
+          xhr.send('id=' + gapi.auth2.GoogleAuth.currentUser.get().getAuthResponse().id_token);
+        });
+    })()
+  </script>
+</body>
+
+</html>

@@ -4,6 +4,7 @@
   "description": "Short local program to help with memorizing verses by typing along",
   "main": "webpack.config.js",
   "dependencies": {
+    "cookie-parser": "^1.4.4",
     "express": "^4.17.1",
     "jquery": "^3.4.0",
     "react": "^16.8.6",
