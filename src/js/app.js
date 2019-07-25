@@ -12,7 +12,7 @@ const authenticate = idToken => {
       return null;
   }
   
-  const ticket = await client.verifyIdToken({
+  const ticket = client.verifyIdToken({
       idToken: idToken,
       audience: CLIENT_ID,
   });
