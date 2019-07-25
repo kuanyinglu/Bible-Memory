@@ -44,7 +44,7 @@ app.get(['/verses', '/settings', '/practice'], function (req, res) {
 
 app.get(['/login',], function (req, res) {
     authenticate(req.cookies.idToken).then(idToken => {
-        if (idToken !== null) {
+        if (idToken === null) {
             res.render(__dirname + '/Login.ejs', {clientId: clientId});
         } else {
             res.redirect('/');
