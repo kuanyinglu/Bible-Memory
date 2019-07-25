@@ -29,7 +29,8 @@
   "scripts": {
     "build": "node build.js",
     "build:prod": "node build-prod.js",
-    "watch": "webpack --watch"
+    "watch": "webpack --watch",
+    "start": "node build-prod.js"
   },
   "repository": {
     "type": "git",
