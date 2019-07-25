@@ -14,16 +14,21 @@
           client_id: "<%= clientId %>",
           scope: 'email',
           hosted_domain: 'utexas.edu'
-        }).then(function () {
-          var xhr = new XMLHttpRequest();
-          xhr.open('POST', 'https://bible-memory.herokuapp.com/authenticate');
-          xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-          xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4) {
-              document.body = xhr.response;
+        }).then(function() {
+          gapi.auth2.GoogleAuth.isSignedIn.listen(function(loggedIn) {
+            if (loggedIn) {
+              var xhr = new XMLHttpRequest();
+              xhr.open('POST', 'https://bible-memory.herokuapp.com/authenticate');
+              xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+              xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                  document.body = xhr.response;
+                }
+              }
+              xhr.send('id=' + gapi.auth2.GoogleAuth.currentUser.get().getAuthResponse().id_token);
             }
-          }
-          xhr.send('id=' + gapi.auth2.GoogleAuth.currentUser.get().getAuthResponse().id_token);
+          });
+          gapi.auth2.GoogleAuth.signIn();
         });
       });
     }
