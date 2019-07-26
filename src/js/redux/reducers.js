@@ -22,6 +22,7 @@ const versesText = (state = [], action) => {
                 if (v.id === 0) {
                     obj.reference = action.reference;
                 }
+                return obj;
             });
         case "CHANGE_TEXT":
         //lots of work done here
