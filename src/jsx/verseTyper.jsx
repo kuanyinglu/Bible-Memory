@@ -65,7 +65,7 @@ class VerseTyper extends React.Component {
                 <div>
                   <label htmlFor={"verse-" + i} aria-label={verse.title ? verse.title : verse.chapter + ":" + verse.verse}><h3>{verse.title ? verse.title : verse.chapter + ":" + verse.verse}</h3></label>
                   <div className="practice-box">
-                    { args.settings.practiceMode ? verse.content : null }
+                    { (args.settings.practiceMode || args.mode === "DONE") ? verse.content : null }
                     { args.settings.practiceMode ? <hr/> : null }
                     { args.mode !== "DONE" ? <Textarea id={"verse-" + i} ref={element => this.setRef(i, element)} className={css} onChange={e => this.verseInputOnChange(args, i, e)} value={this.state.value[i]} autoFocus={i === 0}/> : null }
                   </div>
