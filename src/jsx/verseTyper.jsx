@@ -56,7 +56,7 @@ class VerseTyper extends React.Component {
       <div className="practice wrapper">
         <h2>{this.props.currentVerses}</h2>
         {
-          (this.props.versesText.length > 0 && this.state.value) ?
+          (this.props.versesText.length > 0 && this.state.value.length > 0) ?
           this.props.versesText.map((verse, i) => {
             let args = { inputValue: this.state.value[i], previousValue: this.state.previousValue[i], verseText: verse.content, settings: store.getState().settings };
             //parser.processVerse(args);
