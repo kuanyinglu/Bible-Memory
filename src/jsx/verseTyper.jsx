@@ -31,8 +31,8 @@ class VerseTyper extends React.Component {
   };
 
   static getDerivedStateFromProps(props, state) {
-    if (props.versesText.length !== 0) {
-      return { mode: props.versesText.map(v => {return {};}), value: props.versesText.map(() => ""), previousValue: props.versesText.map(() => "") };
+    if ((!state.mode || props.currentVerses !== state.verses) && props.versesText.length !== 0) {
+      return { verses: props.currentVerses, mode: props.versesText.map(v => {return {};}), value: props.versesText.map(() => ""), previousValue: props.versesText.map(() => "") };
     }
     return null;
   }
