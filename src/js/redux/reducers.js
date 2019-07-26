@@ -17,7 +17,12 @@ const versesText = (state = [], action) => {
             getVerses(action.data);
             return state;
         case "PROCESS_FETCHED_VERSES":
-            return action.data.map(v => ({ id: v.id, title: v.title, verse: v.verse, chapter: v.chapter, content: v.content, userInput: "" }));
+            return action.data.map(v => {
+                let obj = { id: v.id, title: v.title, verse: v.verse, chapter: v.chapter, content: v.content, userInput: "" };
+                if (v.id === 0) {
+                    obj.reference = action.reference;
+                }
+            });
         case "CHANGE_TEXT":
         //lots of work done here
             return state;

@@ -49,7 +49,7 @@ export const getVerses = reference => {
       if (data.passages && data.passages.length > 0) {
         let rawVerses = splitVerses(data);
         let verseData = rawVerses.map(getVerseData).map((i, el) => ({id: i, verse: el.verse, chapter: el.chapter, content: el.content})).toArray();
-        store.dispatch(processFetchedVerses(verseData));
+        store.dispatch(processFetchedVerses(verseData, reference));
       } else {
         alert("No verses are found");
       }
