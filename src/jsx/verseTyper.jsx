@@ -40,8 +40,10 @@ class VerseTyper extends React.Component {
   componentDidUpdate () {
     if (this.state.lastDone !== null) {
       if (typeof this.textAreas[this.state.lastDone + 1] !== 'undefined') {
-        console.log(this.textAreas[this.state.lastDone + 1]);
-        ReactDOM.findDOMNode(this.textAreas[this.state.lastDone + 1]).focus();
+        let dom = ReactDOM.findDOMNode(this.textAreas[this.state.lastDone + 1]);
+        if (typeof dom !== 'undefined') {
+          dom.focus();
+        }
         this.setState({lastDone: null});
       } else {
         this.setState({lastDone: null});
@@ -54,11 +56,10 @@ class VerseTyper extends React.Component {
       <div className="practice wrapper">
         <h2>{this.props.currentVerses}</h2>
         {
-          this.props.versesText.length > 0 ?
+          (this.props.versesText.length > 0 && this.state.value) ?
           this.props.versesText.map((verse, i) => {
             let args = { inputValue: this.state.value[i], previousValue: this.state.previousValue[i], verseText: verse.content, settings: store.getState().settings };
             //parser.processVerse(args);
-            console.log(args.inputValue);
             args.mode = parser.getMode(args);
             let css = parser.getCss(args);
             
