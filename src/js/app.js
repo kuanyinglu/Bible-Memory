@@ -10,7 +10,7 @@ const token = process.env.TOKEN;
 const {OAuth2Client} = require('google-auth-library');
 const client = new OAuth2Client(clientId);
 
-const authenticate = async function authenticate(idToken) {
+const authenticate = async function(idToken) {
   if (typeof idToken === 'undefined' || idToken.length === 0 || typeof clientId === 'undefined' || clientId.length === 0) {
     return null;
   } else {
@@ -27,7 +27,15 @@ const authenticate = async function authenticate(idToken) {
     }
   }
 };
+const requireHTTPS = function(req, res, next) {
+    // The 'x-forwarded-proto' check is for Heroku
+    if (!req.secure && req.get('x-forwarded-proto') !== 'https' && process.env.NODE_ENV !== "development") {
+      return res.redirect('https://' + req.get('host') + req.url);
+    }
+    next();
+  }
 
+app.use(requireHTTPS);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
