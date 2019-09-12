@@ -1,6 +1,9 @@
+const clientId = process.env.CLIENT_ID;
+const {OAuth2Client} = require('google-auth-library');
+const client = new OAuth2Client(clientId);
+
 module.exports = {
-  authenticate: async function(idToken, client, clientId) {
-    console.log("token length: " + idToken ? idToken.length: "no token");
+  authenticate: async function(idToken) {
     if (typeof idToken === 'undefined' || idToken.length === 0 || typeof clientId === 'undefined' || clientId.length === 0) {
       return null;
     } else {
@@ -11,7 +14,6 @@ module.exports = {
       const payload = ticket.getPayload();
       if (typeof payload === 'undefined' || payload === null || payload['hd'] !== domain || payload['aud'] !== clientId)
       {
-        console.log("not verified");
         return null;
       } else {
         return idToken;

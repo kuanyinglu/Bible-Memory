@@ -8,8 +8,6 @@ const domain = process.env.DOMAIN;
 const token = process.env.TOKEN;
 const authentication = require('./authentication.js');
 const environment = process.env.NODE_ENV || 'production';
-const {OAuth2Client} = require('google-auth-library');
-const client = new OAuth2Client(clientId);
 
 const requireHTTPS = function(req, res, next) {
   // The 'x-forwarded-proto' check is for Heroku
@@ -29,7 +27,7 @@ app.get('/', function (req, res) {
     if (environment === 'development') {
         res.render(__dirname + '/Index.ejs');
     } else {
-        authentication.authenticate(req.cookies.idToken, client, clientId).then(function(idToken) {
+        authentication.authenticate(req.cookies.idToken).then(function(idToken) {
             if (typeof idToken !== 'undefined' && idToken !== null) {
                 res.render(__dirname + '/Index.ejs');
             } else {
@@ -49,7 +47,7 @@ app.get(['/login',], function (req, res) {
     if (environment === 'development') {
         res.redirect('/');
     } else {
-        authentication.authenticate(req.cookies.idToken, client, clientId).then(function(idToken) {
+        authentication.authenticate(req.cookies.idToken).then(function(idToken) {
             if (typeof idToken === 'undefined' || idToken === null) {
                 res.render(__dirname + '/Login.ejs', {clientId: clientId, domain: domain, isProd: process.env.NODE_ENV !== "development"});
             } else {
@@ -65,17 +63,15 @@ app.post(['/authenticate',], function (req, res) {
     if (environment === 'development') {
         res.send(404, 'error');
     } else {
-        authentication.authenticate(req.body.id, client, clientId).then(function(idToken) {
+        authentication.authenticate(req.body.id).then(function(idToken) {
             if (typeof idToken !== 'undefined' && idToken !== null) {
-                
-                console.log("giving cookie");
                 res.cookie("idToken", idToken, { maxAge: 3600000, secure: true, httpOnly: true });
                 res.redirect('/');
             } else {
                 res.send(401, 'error');
             }
-        }).catch(function(){
-            console.log("error in authentication");
+        }).catch(function(e){
+            console.log("error in authentication:" + e);
             res.redirect('/');
         });
     }
@@ -89,7 +85,7 @@ app.get('/token.js', function (req, res) {
             res.sendFile(__dirname + '/token.js');
         }
     } else {
-        authentication.authenticate(req.cookies.idToken, client, clientId).then(function(idToken) {
+        authentication.authenticate(req.cookies.idToken).then(function(idToken) {
             if (typeof idToken !== 'undefined' && idToken !== null) {
                 if (typeof token !== 'undefined') {
                     res.send("var token = \"" + token + "\";");
@@ -109,7 +105,7 @@ app.get('/verses.js', function (req, res) {
     if (environment === 'development') {
         res.sendFile(__dirname + '/verses.js');
     } else {
-        authentication.authenticate(req.cookies.idToken, client, clientId).then(function(idToken) {
+        authentication.authenticate(req.cookies.idToken).then(function(idToken) {
             if (typeof idToken !== 'undefined' && idToken !== null) {
                 res.sendFile(__dirname + '/verses.js');
             } else {
@@ -125,7 +121,7 @@ app.get('/bundle.js', function (req, res) {
     if (environment === 'development') {
         res.sendFile(__dirname + '/bundle.js');
     } else {
-        authentication.authenticate(req.cookies.idToken, client, clientId).then(function(idToken) {
+        authentication.authenticate(req.cookies.idToken).then(function(idToken) {
             if (typeof idToken !== 'undefined' && idToken !== null) {
                 res.sendFile(__dirname + '/bundle.js');
             } else {
