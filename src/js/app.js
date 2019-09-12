@@ -6,7 +6,7 @@ const port = process.env.PORT || 3000;
 const clientId = process.env.CLIENT_ID;
 const domain = process.env.DOMAIN;
 const token = process.env.TOKEN;
-const authenticate = require('./authentication.js');
+const authentication = require('./authentication.js');
 const environment = process.env.NODE_ENV || 'production';
 
 const requireHTTPS = function(req, res, next) {
@@ -27,7 +27,7 @@ app.get('/', function (req, res) {
     if (environment === 'development') {
         res.render(__dirname + '/Index.ejs');
     } else {
-        authenticate(req.cookies.idToken).then(function(idToken) {
+        authentication.authenticate(req.cookies.idToken).then(function(idToken) {
             if (typeof idToken !== 'undefined' && idToken !== null) {
                 res.render(__dirname + '/Index.ejs');
             } else {
@@ -47,7 +47,7 @@ app.get(['/login',], function (req, res) {
     if (environment === 'development') {
         res.redirect('/');
     } else {
-        authenticate(req.cookies.idToken).then(function(idToken) {
+        authentication.authenticate(req.cookies.idToken).then(function(idToken) {
             if (typeof idToken === 'undefined' || idToken === null) {
                 res.render(__dirname + '/Login.ejs', {clientId: clientId, domain: domain});
             } else {
@@ -63,7 +63,7 @@ app.post(['/authenticate',], function (req, res) {
     if (environment === 'development') {
         res.send(404, 'error');
     } else {
-        authenticate(req.body.id).then(function(idToken) {
+        authentication.authenticate(req.body.id).then(function(idToken) {
             if (typeof idToken !== 'undefined' && idToken !== null) {
                 res.cookie("idToken", idToken, { maxAge: 3600000, secure: true, httpOnly: true });
                 res.redirect('/');
@@ -84,7 +84,7 @@ app.get('/token.js', function (req, res) {
             res.sendFile(__dirname + '/token.js');
         }
     } else {
-        authenticate(req.cookies.idToken).then(function(idToken) {
+        authentication.authenticate(req.cookies.idToken).then(function(idToken) {
             if (typeof idToken !== 'undefined' && idToken !== null) {
                 if (typeof token !== 'undefined') {
                     res.send("var token = \"" + token + "\";");
@@ -104,7 +104,7 @@ app.get('/verses.js', function (req, res) {
     if (environment === 'development') {
         res.sendFile(__dirname + '/verses.js');
     } else {
-        authenticate(req.cookies.idToken).then(function(idToken) {
+        authentication.authenticate(req.cookies.idToken).then(function(idToken) {
             if (typeof idToken !== 'undefined' && idToken !== null) {
                 res.sendFile(__dirname + '/verses.js');
             } else {
@@ -120,7 +120,7 @@ app.get('/bundle.js', function (req, res) {
     if (environment === 'development') {
         res.sendFile(__dirname + '/bundle.js');
     } else {
-        authenticate(req.cookies.idToken).then(function(idToken) {
+        authentication.authenticate(req.cookies.idToken).then(function(idToken) {
             if (typeof idToken !== 'undefined' && idToken !== null) {
                 res.sendFile(__dirname + '/bundle.js');
             } else {
