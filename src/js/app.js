@@ -67,12 +67,15 @@ app.post(['/authenticate',], function (req, res) {
     } else {
         authentication.authenticate(req.body.id, client, clientId).then(function(idToken) {
             if (typeof idToken !== 'undefined' && idToken !== null) {
+                
+                console.log("giving cookie");
                 res.cookie("idToken", idToken, { maxAge: 3600000, secure: true, httpOnly: true });
                 res.redirect('/');
             } else {
                 res.send(401, 'error');
             }
         }).catch(function(){
+            console.log("error in authentication");
             res.redirect('/');
         });
     }
