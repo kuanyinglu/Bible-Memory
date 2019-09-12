@@ -1,7 +1,7 @@
 module.exports = {
   authenticate: async function(idToken, client, clientId) {
-    console.log("token length: " + idToken ? idToken.length: "no token");
     if (typeof idToken === 'undefined' || idToken.length === 0 || typeof clientId === 'undefined' || clientId.length === 0) {
+      console.log("token not good");
       return null;
     } else {
       const ticket = await client.verifyIdToken({
