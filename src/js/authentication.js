@@ -5,7 +5,7 @@ const client = new OAuth2Client(clientId);
 module.exports = {
   authenticate: async function(idToken) {
     if (typeof idToken === 'undefined' || idToken.length === 0 || typeof clientId === 'undefined' || clientId.length === 0) {
-      console.log("token length is 0" + idToken.length === 0);
+      console.log("token length is 0" + (idToken.length === 0));
       console.log("client Id undefined" + (typeof clientId));
       return null;
     } else {
