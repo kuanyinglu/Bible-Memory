@@ -4,8 +4,8 @@ const client = new OAuth2Client(clientId);
 
 module.exports = {
   authenticate: async function(idToken) {
-    console.log(idToken);
     if (typeof idToken === 'undefined' || idToken.length === 0 || typeof clientId === 'undefined' || clientId.length === 0) {
+      console.log("error in token");
       return null;
     } else {
       const ticket = await client.verifyIdToken({
@@ -15,8 +15,10 @@ module.exports = {
       const payload = ticket.getPayload();
       if (typeof payload === 'undefined' || payload === null || payload['hd'] !== domain || payload['aud'] !== clientId)
       {
+        console.log("something is wrong in checking token");
         return null;
       } else {
+        console.log("everythign good");
         return idToken;
       }
     }
