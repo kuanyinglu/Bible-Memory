@@ -1,6 +1,7 @@
 const clientId = process.env.CLIENT_ID;
 const {OAuth2Client} = require('google-auth-library');
 const client = new OAuth2Client(clientId);
+const domain = process.env.DOMAIN;
 
 module.exports = {
   authenticate: async function(idToken) {
