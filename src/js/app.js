@@ -49,7 +49,7 @@ app.get(['/login',], function (req, res) {
     } else {
         authentication.authenticate(req.cookies.idToken).then(function(idToken) {
             if (typeof idToken === 'undefined' || idToken === null) {
-                res.render(__dirname + '/Login.ejs', {clientId: clientId, domain: domain});
+                res.render(__dirname + '/Login.ejs', {clientId: clientId, domain: domain, env: environment === 'production'});
             } else {
                 res.redirect('/');
             }
