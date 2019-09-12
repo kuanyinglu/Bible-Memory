@@ -1,7 +1,6 @@
 module.exports = {
   authenticate: async function(idToken, client, clientId) {
-    console.log("ClientId length: " + clientId.length);
-    console.log("token length: " + idToken.length);
+    console.log("token length: " + idToken ? idToken.length: "no token");
     if (typeof idToken === 'undefined' || idToken.length === 0 || typeof clientId === 'undefined' || clientId.length === 0) {
       return null;
     } else {
