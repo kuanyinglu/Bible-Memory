@@ -1,8 +1,5 @@
-const {OAuth2Client} = require('google-auth-library');
-const client = new OAuth2Client(clientId);
-
 module.exports = {
-  authenticate: async function(idToken, clientId) {
+  authenticate: async function(idToken, client, clientId) {
     if (typeof idToken === 'undefined' || idToken.length === 0 || typeof clientId === 'undefined' || clientId.length === 0) {
       return null;
     } else {
