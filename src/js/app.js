@@ -6,7 +6,7 @@ const port = process.env.PORT || 3000;
 const clientId = process.env.CLIENT_ID;
 const domain = process.env.DOMAIN;
 const token = process.env.TOKEN;
-const authenticate = require('./authentication');
+const authenticate = require('./authentication.js');
 const environment = process.env.NODE_ENV || 'production';
 
 const requireHTTPS = function(req, res, next) {
