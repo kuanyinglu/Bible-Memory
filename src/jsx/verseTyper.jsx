@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { loadSavedVerses, searchVerses } from '../js/redux/actions';
+import { loadSavedVerses, searchVerses, updateTyper } from '../js/redux/actions';
 import { connect } from 'react-redux';
 import Textarea from 'react-textarea-autosize';
 import parser from '../js/parser';
@@ -16,14 +16,14 @@ class VerseTyper extends React.Component {
 
   verseInputOnChange (args, i, e) {
     args.inputValue = e.target.value;
-    args.previousValue = this.state.value[i];
+    args.previousValue = this.props.typerData.value[i];
     args.mode = parser.getMode(args);
     let newValue = parser.getText(args);
 
     //Mode can change after the new value because the value can change
     args.inputValue = newValue;
-    let newValueList = this.state.value.map((value, j) => i === j ? newValue : value);
-    this.setState({ value: newValueList, previousValue: this.state.value, lastDone: parser.getMode(args) === "DONE" ? i : null });
+    this.setState({ lastDone: parser.getMode(args) === "DONE" ? i : null });
+    this.props.updateData(i, newValue);
   }
 
   setRef (i, element) {
@@ -44,6 +44,9 @@ class VerseTyper extends React.Component {
         let dom = ReactDOM.findDOMNode(this.textAreas[this.state.lastDone + 1]);
         if (typeof dom !== 'undefined') {
           dom.focus();
+          var tmpStr = dom.value;
+          dom.value = "";
+          dom.value = tmpStr;
         }
         this.setState({lastDone: null});
       } else {
@@ -57,9 +60,9 @@ class VerseTyper extends React.Component {
       <div className="practice wrapper">
         <h2>{this.props.currentVerses}</h2>
         {
-          (this.props.versesText.length > 0 && this.state.verses) ?
+          (this.props.versesText.length > 0 && this.props.typerData.value.length > 0) ?
           this.props.versesText.map((verse, i) => {
-            let args = { inputValue: this.state.value[i], previousValue: this.state.previousValue[i], verseText: verse.content, settings: store.getState().settings };
+            let args = { inputValue: this.props.typerData.value[i], previousValue: this.props.typerData.prevValue[i], verseText: verse.content, settings: store.getState().settings };
             //parser.processVerse(args);
             args.mode = parser.getMode(args);
             let css = parser.getCss(args);
@@ -67,11 +70,27 @@ class VerseTyper extends React.Component {
             return (
               <div className="verse wrapper" key={i}>
                 <div>
-                  <label htmlFor={"verse-" + i} aria-label={verse.title ? verse.title : verse.chapter + ":" + verse.verse}><h3>{verse.title ? verse.title : verse.chapter + ":" + verse.verse}</h3></label>
+                  <label htmlFor={"verse-" + i} aria-label={verse.title ? verse.title : verse.chapter + ":" + verse.verse}>
+                    <h3>{verse.title ? verse.title : verse.chapter + ":" + verse.verse}
+                    </h3>
+                  </label>
                   <div className="practice-box">
                     { (args.settings.practiceMode || args.mode === "DONE") ? verse.content : null }
                     { args.settings.practiceMode ? <hr/> : null }
-                    { args.mode !== "DONE" ? <Textarea id={"verse-" + i} ref={element => this.setRef(i, element)} className={css} onChange={e => this.verseInputOnChange(args, i, e)} value={this.state.value[i]} autoFocus={i === 0}/> : null }
+                    { args.mode !== "DONE" ? 
+                      <Textarea 
+                        id={"verse-" + i} 
+                        ref={element => this.setRef(i, element)} 
+                        className={css} onChange={e => this.verseInputOnChange(args, i, e)} 
+                        value={this.props.typerData.value[i]} 
+                        autoFocus={i === 0} 
+                        onFocus={e => {
+                          let val = e.target.value;
+                          e.target.value = '';
+                          e.target.value = val;
+                        }
+                      }/> : 
+                      null }
                   </div>
                 </div>
               </div>
@@ -92,12 +111,14 @@ class VerseTyper extends React.Component {
 const mapStateToProps = state => ({
   versesText: state.versesText,
   settings: state.settings,
-  currentVerses: state.currentVerses
+  currentVerses: state.currentVerses,
+  typerData: state.typerData
 });
 
 const mapDispatchToProps = dispatch => ({
   loadSavedVerses: () => dispatch(loadSavedVerses()),
-  searchVerses: reference => dispatch(searchVerses(reference))
+  searchVerses: reference => dispatch(searchVerses(reference)),
+  updateData: (id, value) => dispatch(updateTyper(id, value))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(VerseTyper);

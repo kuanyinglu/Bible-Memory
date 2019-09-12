@@ -32,9 +32,7 @@ const versesText = (state = [], action) => {
     }
 }
 
-let initialSetting = settingsDefinition;
-
-const settings = (state = initialSetting, action) => {
+const settings = (state = settingsDefinition, action) => {
     switch (action.type) {
         case "CHANGE_SETTING":
             return Object.assign({}, state, { [action.data.setting]: action.data.value });
@@ -63,12 +61,30 @@ const currentVerses = (state = "", action) => {
     }
 }
 
+const typerData = (state = { value: [], prevValue: []}, action) => {
+    switch (action.type) {
+        case "START_TYPER":
+            return { value: action.data.map(() => ""),
+                prevValue: action.data.map(() => "")};
+        case "START_FROM":
+            return { value: state.value.map((val, i) => i >= action.data.verse ? "" : val),
+                prevValue: state.value.map((val, i) => i >= action.data.verse ? "" : val)};
+        case "UPDATE_TYPER":
+            return { prevValue: state.value.map((val, i) => i >= action.data.id ? state.value[i] : val),
+                value: state.value.map((val, i) => i === action.data.id ? action.data.value : val),
+                };
+        default:
+            return state;
+    }
+} 
+
 const typerApp = combineReducers({
     appMode,
     versesText,
     settings,
     savedVerses,
-    currentVerses
+    currentVerses,
+    typerData
 });
 
 export default typerApp;

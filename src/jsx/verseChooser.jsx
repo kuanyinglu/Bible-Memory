@@ -14,6 +14,16 @@ class VerseChooser extends React.Component {
     this.setState({ referenceText: e.target.value });
   }
 
+  practiceVerse (verse) {
+    this.props.searchVerses(verse);
+    this.props.history.push('/practice');
+  }
+
+  practiceBibleBooks () {
+    practiceBooks();
+    this.props.history.push('/practice');
+  }
+
   render () {
     if (!this.props.savedVerses.initialized) {
       this.props.loadSavedVerses();
@@ -25,22 +35,16 @@ class VerseChooser extends React.Component {
           <div className="search">
             Verse Reference
             <input type="text" aria-label="Type Bible verses and search to practice memorizing" value={this.state.referenceText} onChange={e => this.verseInputOnChange(e)}/>
-            <button onClick={() => this.props.searchVerses(this.state.referenceText)}>Search</button>
+            <button onClick={() => { this.practiceVerse(this.state.referenceText) }}>Search</button>
           </div>
           <hr/>
           <div className="saved-verses">
-            <button onClick={() => {
-                practiceBooks();
-                this.props.history.push('/practice');
-              }}>
+            <button onClick={() => { this.practiceBibleBooks(verse) }}>
               Books of The Bible
             </button>
             {
               this.props.savedVerses.verses.map((verse, i) => 
-                <button key={i} onClick={() => {
-                    this.props.searchVerses(verse);
-                    this.props.history.push('/practice');
-                  }}>
+                <button key={i} onClick={() => { this.practiceVerse(verse) }}>
                   {verse}
                 </button>
               )

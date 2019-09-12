@@ -18,8 +18,8 @@
         }).then(function() {
           gapi.auth2.getAuthInstance().signIn().then(function(response) {
             var xhr = new XMLHttpRequest();
-              xhr.open('POST', 'https://bible-memory.herokuapp.com/authenticate');
-              //xhr.open('POST', 'http://localhost:3000/authenticate');
+              //xhr.open('POST', 'https://bible-memory.herokuapp.com/authenticate');
+              xhr.open('POST', 'http://localhost:3000/authenticate');
               xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
               xhr.onload = function() {
                 if (xhr.status === 200) {

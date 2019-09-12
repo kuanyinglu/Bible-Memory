@@ -1,5 +1,3 @@
-Fix post
-Fix authenticate, if already logged in
 Rethink build
 Tests
 Use Database
