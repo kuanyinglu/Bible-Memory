@@ -63,7 +63,7 @@ app.post(['/authenticate',], function (req, res) {
     if (environment === 'development') {
         res.send(404, 'error');
     } else {
-        authentication.authenticate(req.body.id).then(function(idToken) {
+        authentication.authenticate(req.body.id).then(function(idToken) {console.log("got here");
             if (typeof idToken !== 'undefined' && idToken !== null) {
                 res.cookie("idToken", idToken, { maxAge: 3600000, secure: true, httpOnly: true });
                 res.redirect('/');
