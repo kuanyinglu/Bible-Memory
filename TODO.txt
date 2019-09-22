@@ -1,4 +1,3 @@
-Rethink build
 Tests
 Use Database
 UI for saving verses

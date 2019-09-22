@@ -12,7 +12,7 @@
       gapi.load('auth2', function() {
         gapi.auth2.init({
           client_id: "<%= clientId %>",
-          scope: "email",
+          scope: "profile email",
           fetch_basic_profile: false,
           hosted_domain: "<%= domain %>"
         }).then(function() {
