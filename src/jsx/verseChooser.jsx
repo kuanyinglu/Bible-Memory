@@ -1,6 +1,5 @@
 import React from 'react';
-import { loadSavedVerses, searchVerses, updateVerses } from '../js/redux/actions';
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { updateSavedVerses, searchVerses, updateVerses } from '../js/redux/actions';
 import { connect } from 'react-redux';
 import { practiceBooks } from '../js/bibleBooks'
 
@@ -26,7 +25,16 @@ class VerseChooser extends React.Component {
 
   render () {
     if (!this.props.savedVerses.initialized) {
-      this.props.loadSavedVerses();
+      let updateFunc = this.props.updateSavedVerses;
+      let xhr = new XMLHttpRequest();
+      xhr.open('POST', 'http://localhost:3000/getVerses');
+      xhr.setRequestHeader('Content-Type', 'text/html; charset=utf-8');
+      xhr.onreadystatechange = function() {
+        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+          updateFunc(xhr.responseText);
+        }
+      }
+      xhr.send();
       return null;
     } else {
       return (
@@ -61,7 +69,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  loadSavedVerses: () => dispatch(loadSavedVerses()),
+  updateSavedVerses: objStr => dispatch(updateSavedVerses(objStr)),
   searchVerses: reference => {
     dispatch(searchVerses(reference));
     dispatch(updateVerses(reference));

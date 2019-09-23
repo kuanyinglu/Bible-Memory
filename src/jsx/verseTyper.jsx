@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { loadSavedVerses, searchVerses, updateTyper } from '../js/redux/actions';
+import { searchVerses, updateTyper } from '../js/redux/actions';
 import { connect } from 'react-redux';
 import Textarea from 'react-textarea-autosize';
 import parser from '../js/parser';
@@ -116,7 +116,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  loadSavedVerses: () => dispatch(loadSavedVerses()),
   searchVerses: reference => dispatch(searchVerses(reference)),
   updateData: (id, value) => dispatch(updateTyper(id, value))
 });

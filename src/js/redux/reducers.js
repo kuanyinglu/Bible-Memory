@@ -47,6 +47,8 @@ const savedVerses = (state = { initialized: false, verses: [] }, action) => {
             return typeof(verses) === 'undefined' || verses.length === 0 ? 
             { initialized: true, verses: [] } :
             { initialized: true, verses: verses };
+        case "UPDATE_SAVED_VERSES":
+            return { initialized: true, verses: JSON.parse(action.data).uncategorized };
         default:
             return state;
     }
