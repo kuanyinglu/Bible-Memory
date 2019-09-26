@@ -20,6 +20,11 @@ button {
     cursor: pointer;
 }
 
+button.action {
+    background-color: #f16464;
+    border-color: #f40000;
+}
+
 input[type="text"] {
     border-radius: 10px;
     border-width: 1px;

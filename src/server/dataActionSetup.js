@@ -1,5 +1,5 @@
 const authentication = require('./authentication.js');
-const { fetchVerses } = require('./savedVerses.js');
+const { fetchVerses, updateVerses } = require('./savedVerses.js');
 const environment = process.env.NODE_ENV || 'production';
 
 const getVerses = function(id) {
@@ -24,6 +24,21 @@ module.exports = {
         });
       }
     });
-    
+    server.post('/saveVerses', async function (req, res) {
+      if (environment === 'development') {
+        let result = await updateVerses('test', req.body.verses);
+        res.send(result);
+      } else {
+        authentication.getId(req.cookies.idToken).then(async function(id) {
+          if (typeof id !== 'undefined' && id !== null) {
+            res.send(await updateVerses(id, req.body.verses));
+          } else {
+            res.send(401, 'error');
+          }
+        }).catch(function(){
+          res.send(401, 'error');
+        });
+      }
+    });
   }
 };

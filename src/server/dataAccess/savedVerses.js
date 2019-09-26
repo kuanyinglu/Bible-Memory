@@ -1,7 +1,8 @@
-let client = require('./client.js');
+let { getClient } = require('./client.js');
 
 module.exports = {
   fetchVerses: async function(id) {
+    let client = getClient();
     client.connect();
     const query = {
       text: 'SELECT json FROM verses WHERE id=$1 ',
@@ -11,29 +12,26 @@ module.exports = {
     try {
       result = await client.query(query);
     } catch (e) {
-      console.log(e => console.log("Error in getting verses:" + e.stack));
+      console.log("Error in getting verses:" + e.stack);
     } finally {
       await client.end();
     }
-    return result !== null ? result.rows[0].json : null;
+    return result !== null && result.rows.length === 1 ? result.rows[0].json : {};
   },
   updateVerses: async function(id, newValue) {
+    let client = getClient();
     client.connect();
     const query = {
-      text: 'MERGE verses v '+
-            'USING (SELECT id FROM verses WHERE id=$1 AS s) ' +
-            'ON v.id = s.id ' +
-            'WHEN MATCHED ' +
-            '  UPDATE SET json=$2 ' +
-            'WHEN NOT MATCHED ' +
-            '  INSERT (id, json, time) ' +
-            '  VALUES ($1, $2, current_timestamp',
+      text: 'INSERT INTO verses (id, json, time) ' +
+            'VALUES ($1, $2, current_timestamp) ' +
+            'ON CONFLICT (id) DO UPDATE ' +
+            'SET json=$2, time=current_timestamp ',
       values: [id, newValue],
     }
     try {
       await client.query(query);
     } catch (e) {
-      console.log(e => console.log("Error in inserting verses:" + e.stack));
+      console.log("Error in inserting verses:" + e.stack);
     } finally {
       await client.end();
     }

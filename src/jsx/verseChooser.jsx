@@ -6,7 +6,7 @@ import { practiceBooks } from '../js/bibleBooks'
 class VerseChooser extends React.Component {
   constructor (props) {
     super(props);
-    this.state = { referenceText: "" };
+    this.state = { referenceText: "", savedSuccessful: false };
   }
 
   verseInputOnChange (e) {
@@ -37,6 +37,48 @@ class VerseChooser extends React.Component {
       xhr.send();
       return null;
     } else {
+      let saveVerses = e => {
+        let setState = this.setState;
+        let updateFunc = this.props.updateSavedVerses;
+        let xhr = new XMLHttpRequest();
+        xhr.open('POST', 'http://localhost:3000/saveVerses');
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function() {
+          if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+            let xhr2 = new XMLHttpRequest();
+            xhr2.open('POST', 'http://localhost:3000/getVerses');
+            xhr2.onreadystatechange = function() {
+              if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                updateFunc(xhr2.responseText);
+                setState({ savedSuccessful: true });
+              }
+            }
+            xhr2.send();
+          }
+        }
+        xhr.send('verses=' + JSON.stringify(this.props.savedVerses.verses));
+      };
+      let addVerses = () => {
+        let newState = JSON.parse(JSON.stringify(this.props.savedVerses.verses));
+        if (!newState.uncategorized) {
+          newState.uncategorized = [];
+        }
+        newState.uncategorized.push(this.state.referenceText);
+        this.setState({ referenceText: "" });
+        this.props.updateSavedVerses(JSON.stringify(newState));
+      };
+      let deleteVerses = verse => {
+        let newState = JSON.parse(JSON.stringify(this.props.savedVerses.verses));
+        if (!newState.uncategorized) {
+          newState.uncategorized = [];
+        }
+        let verseIndex = newState.uncategorized.indexOf(verse);
+        if (verseIndex !== -1) {
+          newState.uncategorized.splice(verseIndex, 1);
+        }
+        this.setState({ referenceText: "" });
+        this.props.updateSavedVerses(JSON.stringify(newState));
+      }
       return (
         <div className="verse-chooser wrapper">
           <h2>Verses</h2>
@@ -44,6 +86,7 @@ class VerseChooser extends React.Component {
             Verse Reference
             <input type="text" aria-label="Type Bible verses and search to practice memorizing" value={this.state.referenceText} onChange={e => this.verseInputOnChange(e)}/>
             <button onClick={() => { this.practiceVerse(this.state.referenceText) }}>Search</button>
+            <button className="action" onClick={addVerses}>Add</button>
           </div>
           <hr/>
           <div className="saved-verses">
@@ -51,12 +94,23 @@ class VerseChooser extends React.Component {
               Books of The Bible
             </button>
             {
-              this.props.savedVerses.verses.map((verse, i) => 
-                <button key={i} onClick={() => { this.practiceVerse(verse) }}>
-                  {verse}
-                </button>
-              )
+              this.props.savedVerses.verses.uncategorized ? 
+              this.props.savedVerses.verses.uncategorized.map((verse, i) => 
+                <div>
+                  <button key={i} onClick={() => { this.practiceVerse(verse) }}>
+                    {verse}
+                  </button>
+                  <button className="action" onClick={() => deleteVerses(verse)}>X</button>
+                </div>
+              ) :
+              null
             }
+          </div>
+          <div>
+            <button onClick={saveVerses} className="action">
+              Save
+            </button>
+            {this.state.savedSuccessful ? <span>Save successful!</span> : null}
           </div>
         </div>
       )

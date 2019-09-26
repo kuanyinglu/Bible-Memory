@@ -28,22 +28,6 @@ module.exports = {
       }
     });
 
-    server.get('/verses.js', function (req, res) {
-      if (environment === 'development') {
-          res.sendFile(__dirname + '/verses.js');
-      } else {
-          authentication.authenticate(req.cookies.idToken).then(function(idToken) {
-              if (typeof idToken !== 'undefined' && idToken !== null) {
-                  res.sendFile(__dirname + '/verses.js');
-              } else {
-                  res.send(401, 'error');
-              }
-          }).catch(function(){
-              res.send(401, 'error');
-          });
-      }
-    });
-
     server.get('/bundle.js', function (req, res) {
       if (environment === 'development') {
           res.sendFile(__dirname + '/bundle.js');

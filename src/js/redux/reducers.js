@@ -43,12 +43,8 @@ const settings = (state = settingsDefinition, action) => {
 
 const savedVerses = (state = { initialized: false, verses: [] }, action) => {
     switch (action.type) {
-        case "LOAD_SAVED_VERSES":
-            return typeof(verses) === 'undefined' || verses.length === 0 ? 
-            { initialized: true, verses: [] } :
-            { initialized: true, verses: verses };
         case "UPDATE_SAVED_VERSES":
-            return { initialized: true, verses: JSON.parse(action.data).uncategorized };
+            return { initialized: true, verses: JSON.parse(action.data) };
         default:
             return state;
     }
