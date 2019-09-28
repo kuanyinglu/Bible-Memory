@@ -13,8 +13,23 @@ import Menu from './menu';
 import VerseChooser from './verseChooser';
 import Settings from './settings';
 import VerseTyper from './verseTyper';
+import { initializeSettings } from '../js/redux/actions';
 
 class App extends React.Component {
+  componentDidMount () {
+    if (!this.props.settings.initialized) {
+      let updateFunc = this.props.initializeSettings;
+      let xhr2 = new XMLHttpRequest();
+      xhr2.open('POST', 'http://localhost:3000/getSettings');
+      xhr2.onreadystatechange = function() {
+        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+          updateFunc(xhr2.responseText);
+        }
+      }
+      xhr2.send();
+    }
+  } 
+
   render () {
     return (
       <Router>
@@ -35,9 +50,14 @@ class App extends React.Component {
 }
 
 const mapStateToProps = state => ({
+  settings: state.settings
 });
 
-let AppContainer = connect(mapStateToProps)(App);
+const mapDispatchToProps = dispatch => ({
+  initializeSettings: newSettings => dispatch(initializeSettings(newSettings))
+});
+
+let AppContainer = connect(mapStateToProps, mapDispatchToProps)(App);
 
 ReactDOM.render(<Provider store={store}><AppContainer/></Provider>, document.querySelector("#app"));
 

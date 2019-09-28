@@ -96,8 +96,8 @@ class VerseChooser extends React.Component {
             {
               this.props.savedVerses.verses.uncategorized ? 
               this.props.savedVerses.verses.uncategorized.map((verse, i) => 
-                <div>
-                  <button key={i} onClick={() => { this.practiceVerse(verse) }}>
+                <div key={i}>
+                  <button onClick={() => { this.practiceVerse(verse) }}>
                     {verse}
                   </button>
                   <button className="action" onClick={() => deleteVerses(verse)}>X</button>

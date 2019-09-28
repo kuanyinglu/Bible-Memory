@@ -1,4 +1,2 @@
 Tests
-Use Database
-UI for saving verses
-Database management
+Hints

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { searchVerses, updateTyper } from '../js/redux/actions';
+import { searchVerses, updateTyper, startFrom } from '../js/redux/actions';
 import { connect } from 'react-redux';
 import Textarea from 'react-textarea-autosize';
 import parser from '../js/parser';
@@ -61,41 +61,58 @@ class VerseTyper extends React.Component {
         <h2>{this.props.currentVerses}</h2>
         {
           (this.props.versesText.length > 0 && this.props.typerData.value.length > 0) ?
-          this.props.versesText.map((verse, i) => {
-            let args = { inputValue: this.props.typerData.value[i], previousValue: this.props.typerData.prevValue[i], verseText: verse.content, settings: store.getState().settings };
-            //parser.processVerse(args);
-            args.mode = parser.getMode(args);
-            let css = parser.getCss(args);
-            
-            return (
-              <div className="verse wrapper" key={i}>
-                <div>
-                  <label htmlFor={"verse-" + i} aria-label={verse.title ? verse.title : verse.chapter + ":" + verse.verse}>
-                    <h3>{verse.title ? verse.title : verse.chapter + ":" + verse.verse}
-                    </h3>
-                  </label>
-                  <div className="practice-box">
-                    { (args.settings.practiceMode || args.mode === "DONE") ? verse.content : null }
-                    { args.settings.practiceMode ? <hr/> : null }
-                    { args.mode !== "DONE" ? 
-                      <Textarea 
-                        id={"verse-" + i} 
-                        ref={element => this.setRef(i, element)} 
-                        className={css} onChange={e => this.verseInputOnChange(args, i, e)} 
-                        value={this.props.typerData.value[i]} 
-                        autoFocus={i === 0} 
-                        onFocus={e => {
-                          let val = e.target.value;
-                          e.target.value = '';
-                          e.target.value = val;
-                        }
-                      }/> : 
-                      null }
+          <div>
+          {
+            this.props.versesText.map((verse, i) => {
+              if (i > this.props.typerData.value.length - 1) {
+                return null;
+              }
+              let args = { inputValue: this.props.typerData.value[i], previousValue: this.props.typerData.prevValue[i], verseText: verse.content, settings: this.props.settings.settingValues };
+              //parser.processVerse(args);
+              args.mode = args.inputValue === null ? "DONE" : parser.getMode(args);
+              let css = args.inputValue === null ? "" : parser.getCss(args);
+              
+              return (
+                <div className="verse wrapper" key={i}>
+                  <div>
+                    <label htmlFor={"verse-" + i} aria-label={verse.title ? verse.title : verse.chapter + ":" + verse.verse}>
+                      <h3>{verse.title ? verse.title : verse.chapter + ":" + verse.verse}
+                      </h3>
+                    </label>
+                    <div className="practice-box">
+                      { (args.settings.practiceMode || args.mode === "DONE") ? verse.content : null }
+                      { args.settings.practiceMode ? <hr/> : null }
+                      { args.mode !== "DONE" && args.inputValue !== null ? 
+                        <Textarea 
+                          id={"verse-" + i} 
+                          ref={element => this.setRef(i, element)} 
+                          className={css} onChange={e => this.verseInputOnChange(args, i, e)} 
+                          value={this.props.typerData.value[i]} 
+                          autoFocus={i === 0} 
+                          onFocus={e => {
+                            let val = e.target.value;
+                            e.target.value = '';
+                            e.target.value = val;
+                          }
+                        }/> : 
+                        null }
+                    </div>
+                  </div>
+                  <div>
+                    <button className="action" onClick={() => this.props.startFrom(i)}>
+                      Memorize From Here
+                    </button>
                   </div>
                 </div>
-              </div>
-            );
-          }) :
+              );
+            })
+          } 
+          <div>
+            <button className="action" onClick={() => this.props.startFrom(0)}>
+              Memorize Again!
+            </button>
+          </div>
+          </div> :
           <div>
             <h4>
               Please select a verse before practicing.
@@ -117,7 +134,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   searchVerses: reference => dispatch(searchVerses(reference)),
-  updateData: (id, value) => dispatch(updateTyper(id, value))
+  updateData: (id, value) => dispatch(updateTyper(id, value)),
+  startFrom: verseIndex => dispatch(startFrom(verseIndex))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(VerseTyper);

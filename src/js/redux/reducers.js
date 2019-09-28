@@ -24,18 +24,24 @@ const versesText = (state = [], action) => {
                 }
                 return obj;
             });
-        case "CHANGE_TEXT":
-        //lots of work done here
-            return state;
         default:
             return state;
     }
 }
 
-const settings = (state = settingsDefinition, action) => {
+const settings = (state = { initialized: false, settingValues: {} }, action) => {
     switch (action.type) {
+        case "INITIALIZE_SETTING":
+            let values;
+            let newSettings = JSON.parse(action.data);
+            if (Object.keys(newSettings).length === 0) {
+                values = settingsDefinition;
+            } else {
+                values = newSettings;
+            }
+            return Object.assign({}, state, { initialized: true, settingValues: values });
         case "CHANGE_SETTING":
-            return Object.assign({}, state, { [action.data.setting]: action.data.value });
+            return Object.assign({}, state, { settingValues: Object.assign({}, state.settingValues, { [action.data.setting]: action.data.value }) });
         default:
             return state;
     }
@@ -65,8 +71,8 @@ const typerData = (state = { value: [], prevValue: []}, action) => {
             return { value: action.data.map(() => ""),
                 prevValue: action.data.map(() => "")};
         case "START_FROM":
-            return { value: state.value.map((val, i) => i >= action.data.verse ? "" : val),
-                prevValue: state.value.map((val, i) => i >= action.data.verse ? "" : val)};
+            return { value: state.value.map((val, i) => i >= action.data ? "" : null),
+                prevValue: state.value.map((val, i) => i >= action.data ? "" : null)};
         case "UPDATE_TYPER":
             return { prevValue: state.value.map((val, i) => i >= action.data.id ? state.value[i] : val),
                 value: state.value.map((val, i) => i === action.data.id ? action.data.value : val),

@@ -1,5 +1,6 @@
-.choices {
+.choices > div:first-child{
     display: grid;
     grid-template-columns: repeat(10, auto);
     grid-gap: 8px;
+    margin-bottom: 8px;
 }
