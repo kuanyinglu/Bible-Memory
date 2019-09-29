@@ -1,5 +1,5 @@
 import React from 'react';
-import { initializeSettings } from '../js/redux/actions';
+import { initializeSettings, changeSettings } from '../js/redux/actions';
 import { connect } from 'react-redux';
 
 class Settings extends React.Component {
@@ -79,6 +79,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  changeSettings: newSetting => dispatch(changeSettings(newSetting)),
   initializeSettings: newSetting => dispatch(initializeSettings(newSetting))
 });
 
