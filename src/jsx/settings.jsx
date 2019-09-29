@@ -1,5 +1,5 @@
 import React from 'react';
-import { changeSettings } from '../js/redux/actions';
+import { initializeSettings } from '../js/redux/actions';
 import { connect } from 'react-redux';
 
 class Settings extends React.Component {
@@ -26,7 +26,7 @@ class Settings extends React.Component {
   render () {
     let saveSettings = e => {
       let setState = this.setState.bind(this);
-      let updateFunc = this.props.changeSettings;
+      let updateFunc = this.props.initializeSettings;
       let xhr = new XMLHttpRequest();
       xhr.open('POST', '/saveSettings');
       xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -79,7 +79,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  changeSettings: newSetting => dispatch(changeSettings(newSetting))
+  initializeSettings: newSetting => dispatch(initializeSettings(newSetting))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Settings);
