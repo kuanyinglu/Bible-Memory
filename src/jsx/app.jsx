@@ -19,14 +19,14 @@ class App extends React.Component {
   componentDidMount () {
     if (!this.props.settings.initialized) {
       let updateFunc = this.props.initializeSettings;
-      let xhr2 = new XMLHttpRequest();
+      let xhr = new XMLHttpRequest();
       xhr.open('POST', 'https' + window.location.hostname + '/getSettings');
-      xhr2.onreadystatechange = function() {
+      xhr.onreadystatechange = function() {
         if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
           updateFunc(xhr2.responseText);
         }
       }
-      xhr2.send();
+      xhr.send();
     }
   } 
 

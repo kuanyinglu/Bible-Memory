@@ -46,7 +46,7 @@ class VerseChooser extends React.Component {
         xhr.onreadystatechange = function() {
           if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
             let xhr2 = new XMLHttpRequest();
-            xhr.open('POST', 'https' + window.location.hostname + '/getVerses');
+            xhr2.open('POST', 'https' + window.location.hostname + '/getVerses');
             xhr2.onreadystatechange = function() {
               if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                 updateFunc(xhr2.responseText);
