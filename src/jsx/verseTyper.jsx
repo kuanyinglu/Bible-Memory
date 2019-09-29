@@ -15,7 +15,7 @@ class VerseTyper extends React.Component {
   }
 
   verseInputOnChange (args, i, e) {
-    if (e.target.value.trim().length !== 0) {
+    if (e.target.value.trim().length !== 0 && this.props.typerData.value[i].length > 0) {
       args.inputValue = e.target.value;
       args.previousValue = this.props.typerData.value[i];
       args.mode = parser.getMode(args);
