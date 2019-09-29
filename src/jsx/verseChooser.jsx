@@ -27,7 +27,7 @@ class VerseChooser extends React.Component {
     if (!this.props.savedVerses.initialized) {
       let updateFunc = this.props.updateSavedVerses;
       let xhr = new XMLHttpRequest();
-      xhr.open('POST', 'https' + window.location.hostname + '/getVerses');
+      xhr.open('POST', /getVerses');
       xhr.setRequestHeader('Content-Type', 'text/html; charset=utf-8');
       xhr.onreadystatechange = function() {
         if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
@@ -41,12 +41,12 @@ class VerseChooser extends React.Component {
         let setState = this.setState;
         let updateFunc = this.props.updateSavedVerses;
         let xhr = new XMLHttpRequest();
-        xhr.open('POST', 'https' + window.location.hostname + '/saveVerses');
+        xhr.open('POST', '/saveVerses');
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.onreadystatechange = function() {
           if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
             let xhr2 = new XMLHttpRequest();
-            xhr2.open('POST', 'https' + window.location.hostname + '/getVerses');
+            xhr2.open('POST', '/getVerses');
             xhr2.onreadystatechange = function() {
               if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                 updateFunc(xhr2.responseText);

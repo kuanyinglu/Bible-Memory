@@ -22,12 +22,12 @@ class Settings extends React.Component {
     let saveSettings = e => {
       let updateFunc = this.props.initializeSettings;
       let xhr = new XMLHttpRequest();
-      xhr.open('POST', 'https' + window.location.hostname + '/saveSettings');
+      xhr.open('POST', '/saveSettings');
       xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
       xhr.onreadystatechange = function() {
         if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
           let xhr2 = new XMLHttpRequest();
-          xhr2.open('POST', 'https' + window.location.hostname + '/getSettings');
+          xhr2.open('POST', '/getSettings');
           xhr2.onreadystatechange = function() {
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
               updateFunc(xhr2.responseText);
