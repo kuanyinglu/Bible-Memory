@@ -38,7 +38,7 @@ class VerseChooser extends React.Component {
       return null;
     } else {
       let saveVerses = e => {
-        let setState = this.setState;
+        let setState = this.setState.bind(this);
         let updateFunc = this.props.updateSavedVerses;
         let xhr = new XMLHttpRequest();
         xhr.open('POST', '/saveVerses');
