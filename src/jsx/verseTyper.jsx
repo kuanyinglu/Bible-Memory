@@ -15,15 +15,17 @@ class VerseTyper extends React.Component {
   }
 
   verseInputOnChange (args, i, e) {
-    args.inputValue = e.target.value;
-    args.previousValue = this.props.typerData.value[i];
-    args.mode = parser.getMode(args);
-    let newValue = parser.getText(args);
-
-    //Mode can change after the new value because the value can change
-    args.inputValue = newValue;
-    this.setState({ lastDone: parser.getMode(args) === "DONE" ? i : null });
-    this.props.updateData(i, newValue);
+    if (e.target.value.trim().length !== 0) {
+      args.inputValue = e.target.value;
+      args.previousValue = this.props.typerData.value[i];
+      args.mode = parser.getMode(args);
+      let newValue = parser.getText(args);
+  
+      //Mode can change after the new value because the value can change
+      args.inputValue = newValue;
+      this.setState({ lastDone: parser.getMode(args) === "DONE" ? i : null });
+      this.props.updateData(i, newValue);
+    }
   }
 
   setRef (i, element) {
