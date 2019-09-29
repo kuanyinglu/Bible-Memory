@@ -23,7 +23,7 @@ class App extends React.Component {
       xhr.open('POST', '/getSettings');
       xhr.onreadystatechange = function() {
         if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-          updateFunc(xhr2.responseText);
+          updateFunc(xhr.responseText);
         }
       }
       xhr.send();

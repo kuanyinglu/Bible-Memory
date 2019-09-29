@@ -27,7 +27,7 @@ class VerseChooser extends React.Component {
     if (!this.props.savedVerses.initialized) {
       let updateFunc = this.props.updateSavedVerses;
       let xhr = new XMLHttpRequest();
-      xhr.open('POST', /getVerses');
+      xhr.open('POST', '/getVerses');
       xhr.setRequestHeader('Content-Type', 'text/html; charset=utf-8');
       xhr.onreadystatechange = function() {
         if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
