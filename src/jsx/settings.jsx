@@ -26,7 +26,7 @@ class Settings extends React.Component {
   render () {
     let saveSettings = e => {
       let setState = this.setState.bind(this);
-      let updateFunc = this.props.initializeSettings;
+      let updateFunc = this.props.changeSettings;
       let xhr = new XMLHttpRequest();
       xhr.open('POST', '/saveSettings');
       xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
