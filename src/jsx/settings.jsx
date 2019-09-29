@@ -3,6 +3,11 @@ import { changeSettings } from '../js/redux/actions';
 import { connect } from 'react-redux';
 
 class Settings extends React.Component {
+  constructor (props) {
+    super(props);
+    this.state = { savedSuccessful: false };
+  }
+
   generateSettingLabel (settingName) {
     let array = settingName.split("");
     if (array.length > 0) {
@@ -20,6 +25,7 @@ class Settings extends React.Component {
 
   render () {
     let saveSettings = e => {
+      let setState = this.setState.bind(this);
       let updateFunc = this.props.initializeSettings;
       let xhr = new XMLHttpRequest();
       xhr.open('POST', '/saveSettings');
@@ -31,6 +37,7 @@ class Settings extends React.Component {
           xhr2.onreadystatechange = function() {
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
               updateFunc(xhr2.responseText);
+              setState({ savedSuccessful: true });
             }
           }
           xhr2.send();
@@ -59,6 +66,7 @@ class Settings extends React.Component {
           <div>
             <button className="action" onClick={() => saveSettings()}>Save</button>
           </div>
+          {this.state.savedSuccessful ? <span>Save successful!</span> : null}
         </div>
         }
       </div>
