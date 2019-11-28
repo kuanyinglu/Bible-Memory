@@ -32,6 +32,8 @@
     left: 10px;
     border-radius: 8px;
     color: navajowhite;
+    min-width: 30px;
+    text-align: center;
 }
 
 .hint-box-content:after {
