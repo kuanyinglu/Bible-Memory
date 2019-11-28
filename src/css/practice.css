@@ -19,3 +19,36 @@
 .practice-box {
     width: 95%;
 }
+
+.hint-box-container {
+    position: absolute;
+}
+
+.hint-box-content {
+    position: relative;
+    top: -30px;
+    background-color: brown;
+    padding: 5px;
+    left: 10px;
+    border-radius: 8px;
+    color: navajowhite;
+}
+
+.hint-box-content:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border: 10px solid transparent;
+    border-top-color: brown;
+    border-bottom: 0;
+    border-left: 0;
+    margin-left: -10px;
+    margin-bottom: -10px;
+}
+
+.hide {
+    display: none;
+}

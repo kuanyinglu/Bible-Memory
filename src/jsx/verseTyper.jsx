@@ -4,7 +4,7 @@ import { searchVerses, updateTyper, startFrom } from '../js/redux/actions';
 import { connect } from 'react-redux';
 import Textarea from 'react-textarea-autosize';
 import parser from '../js/parser';
-import store from '../js/redux/store';
+import { getUnprocessedTargetWord } from '../js/typerExtensions/typerEngine';
 
 
 class VerseTyper extends React.Component {
@@ -57,6 +57,20 @@ class VerseTyper extends React.Component {
     }
   }
 
+  showHint (e, index) {
+    if (e.keyCode === 17) {
+      let element = document.getElementById("hint-box-" + index);
+      element.classList.remove("hide");
+    }
+  }
+
+  hideHint (e, index) {
+    if (e.keyCode === 17) {
+      let element = document.getElementById("hint-box-" + index);
+      element.classList.add("hide");
+    }
+  }
+
   render () {
     return (
       <div className="practice wrapper">
@@ -85,18 +99,26 @@ class VerseTyper extends React.Component {
                       { (args.settings.practiceMode || args.mode === "DONE") ? verse.content : null }
                       { args.settings.practiceMode ? <hr/> : null }
                       { args.mode !== "DONE" && args.inputValue !== null ? 
-                        <Textarea 
-                          id={"verse-" + i} 
-                          ref={element => this.setRef(i, element)} 
-                          className={css} onChange={e => this.verseInputOnChange(args, i, e)} 
-                          value={this.props.typerData.value[i]} 
-                          autoFocus={i === 0} 
-                          onFocus={e => {
-                            let val = e.target.value;
-                            e.target.value = '';
-                            e.target.value = val;
-                          }
-                        }/> : 
+                        <>
+                          <div id={"hint-box-" + i} className={"hint-box-container hide"}>
+                            <div className="hint-box-content">
+                              {getUnprocessedTargetWord(args)}
+                            </div>
+                          </div>
+                          <Textarea 
+                            id={"verse-" + i} 
+                            ref={element => this.setRef(i, element)} 
+                            className={css} onChange={e => this.verseInputOnChange(args, i, e)} 
+                            value={this.props.typerData.value[i]} 
+                            autoFocus={i === 0} 
+                            onFocus={e => {
+                              let val = e.target.value;
+                              e.target.value = '';
+                              e.target.value = val;
+                            }}
+                            onKeyDown={e => this.showHint(e, i)}
+                            onKeyUp={e => this.hideHint(e, i)}/>
+                        </> : 
                         null }
                     </div>
                   </div>

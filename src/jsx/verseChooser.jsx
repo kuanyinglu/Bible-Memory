@@ -90,7 +90,7 @@ class VerseChooser extends React.Component {
           </div>
           <hr/>
           <div className="saved-verses">
-            <button onClick={() => { this.practiceBibleBooks(verse) }}>
+            <button onClick={() => { this.practiceBibleBooks() }}>
               Books of The Bible
             </button>
             {

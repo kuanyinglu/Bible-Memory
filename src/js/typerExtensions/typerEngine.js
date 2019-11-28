@@ -27,7 +27,13 @@ export const setProcessedVerse = value => {
   processedVerse = value;
 };
 
-export const getTargetWord = args => {//word user needs to type
+export const getTargetWord = args => {
+  let targetWord = getUnprocessedTargetWord(args);
+  targetWord = parser.processInputWord(targetWord, args);
+  return targetWord;
+};
+
+export const getUnprocessedTargetWord = args => {//word user needs to type
   let targetWord = "";
   let inputValue = args.inputValue;
   let verseText = args.verseText;
@@ -37,13 +43,12 @@ export const getTargetWord = args => {//word user needs to type
       targetWord = verseText.substring(lastSpaceIndex + 1);
     } else {
       let nextSpaceIndex = verseText.substring(inputValue.length).indexOf(" ") + inputValue.length;
-      let previousSpaceIndex = verseText.substring(0, inputValue.length - 1).lastIndexOf(" ");
+      let previousSpaceIndex = verseText.substring(0, inputValue.length).lastIndexOf(" ");
       targetWord = verseText.substring(previousSpaceIndex + 1, nextSpaceIndex);
     }
   }
-  targetWord = parser.processInputWord(targetWord, args);
   return targetWord;
-};
+}
 
 export const getCurrentWord = args => {//get what the user is typing right now
   let currentWord = "";
