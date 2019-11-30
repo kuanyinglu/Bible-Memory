@@ -14,6 +14,7 @@ class Menu extends React.Component {
         window.location.href = xhr.responseURL;
       }
     };
+    xhr.send();
   };
 
   render () {
