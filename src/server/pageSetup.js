@@ -67,7 +67,7 @@ module.exports = {
       if (environment === 'development') {
         res.send(404, 'error');
       } else {
-        authentication.revokeToken(req.body.id).then(function(result) {
+        authentication.revokeToken(req.cookies.idToken).then(function(result) {
           if (typeof result !== 'undefined' && result.success) {
               res.redirect('/');
           } else {
