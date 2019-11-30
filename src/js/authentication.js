@@ -39,6 +39,9 @@ module.exports = {
     }
   },
   revokeToken: async function(idToken) {
+    console.log(idToken);
+    
+    console.log(client.revokeToken(idToken));
     return await client.revokeToken(idToken);
   }
 };
