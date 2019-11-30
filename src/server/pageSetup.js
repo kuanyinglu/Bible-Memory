@@ -62,5 +62,22 @@ module.exports = {
         });
       }
     });
+    
+    server.post(['/logout',], function (req, res) {
+      if (environment === 'development') {
+        res.send(404, 'error');
+      } else {
+        authentication.revokeToken(req.body.id).then(function(result) {
+          if (typeof result !== 'undefined' && result.success) {
+              res.redirect('/');
+          } else {
+              res.send(401, 'error');
+          }
+        }).catch(function(e){
+          console.log("account already unauthorized" + e);
+          res.redirect('/');
+        });
+      }
+    });
   }
 };

@@ -6,8 +6,14 @@ import store from '../js/redux/store';
 
 class Menu extends React.Component {
   logout() {
-    gapi.auth2.getAuthInstance().signOut();
-    window.location.href = 'https://bible-memory.herokuapp.com';
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'https://bible-memory.herokuapp.com/logout');
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        window.location.href = xhr.responseURL;
+      }
+    };
   };
 
   render () {

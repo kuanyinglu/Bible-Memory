@@ -37,5 +37,8 @@ module.exports = {
         return payload['sub'];
       }
     }
+  },
+  revokeToken: async function(idToken) {
+    return await client.revokeToken(idToken);
   }
 };
