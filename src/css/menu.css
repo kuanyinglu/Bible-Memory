@@ -6,15 +6,13 @@ nav.menu.wrapper {
     display: inline-flex;
     flex-grow: 1;
     padding-bottom: 4px;
+    align-items: flex-end;
 }
 
 .menu ul{
     display: inline-flex;
-    justify-content: flex-start;
-    align-items: flex-end;
     flex-grow: 1;
     list-style: none;
-    vertical-align: bottom;
     margin: 0;
     padding: 0;
 }
@@ -26,4 +24,15 @@ nav.menu.wrapper {
     cursor: pointer;
     margin-left: 1em;
     text-decoration: none;
+}
+
+.log-out {
+    cursor: pointer;
+    color: white;
+    background-color: #f9b031;
+    margin-right: 1em;
+    font-size: 1.5em;
+    font-weight: bold;
+    border-radius: 11px;
+    padding: 5px;
 }

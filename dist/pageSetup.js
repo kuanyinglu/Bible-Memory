@@ -41,6 +41,10 @@ module.exports = {
       }
     });
     
+    server.get(['/test',], function (req, res) {
+        res.render(__dirname + '/Login.ejs', {clientId: clientId, domain: domain, isProd: environment !== "development"});
+    });
+    
     server.post(['/authenticate',], function (req, res) {
       if (environment === 'development') {
         res.send(404, 'error');
