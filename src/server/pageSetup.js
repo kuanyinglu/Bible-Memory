@@ -29,14 +29,17 @@ module.exports = {
       if (environment === 'development') {
         res.redirect('/');
       } else {
+        console.log("got into login");
         authentication.authenticate(req.cookies.idToken).then(function(idToken) {
           if (typeof idToken === 'undefined' || idToken === null) {
-              res.render(__dirname + '/Login.ejs', {clientId: clientId, domain: domain, isProd: environment !== "development"});
+              console.log("rendering");
+              res.render(__dirname + '/Login.ejs', {clientId: clientId, domain: domain});
           } else {
               res.redirect('/');
           }
-        }).catch(function(){
+        }).catch(function(e){
           res.send(500, 'error');
+          console.log(e);
         });
       }
     });
