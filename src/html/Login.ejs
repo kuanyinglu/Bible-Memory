@@ -29,18 +29,15 @@
   <script>
     (function () {
       gapi.load('auth2', function() {
-        debugger;
         gapi.auth2.init({
           client_id: "<%= clientId %>",
           scope: "email",
           fetch_basic_profile: false,
           hosted_domain: "<%= domain %>"
         }).then(function() {
-          debugger;
           gapi.signin2.render('login-button', {
             theme: 'dark',
             onsuccess: function(response) {
-              debugger;
               var xhr = new XMLHttpRequest();
               xhr.open('POST', 'https://bible-memory.herokuapp.com/authenticate');
               xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
