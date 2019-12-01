@@ -31,7 +31,7 @@ class Menu extends React.Component {
           <Link to="/practice">Practice</Link>
         </li>
       </ul>
-      <span className="log-out" onClick={() => this.logout()}>Log out</span>
+      {/* <span className="log-out" onClick={() => this.logout()}>Log out</span> */}
     </nav>
     )
   }
