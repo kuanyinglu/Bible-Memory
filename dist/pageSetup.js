@@ -31,11 +31,11 @@ module.exports = {
       } else {
         authentication.authenticate(req.cookies.idToken).then(function(idToken) {
           if (typeof idToken === 'undefined' || idToken === null) {
-              res.render(__dirname + '/Login.ejs', {clientId: clientId, domain: domain, isProd: environment !== "development"});
+              res.render(__dirname + '/Login.ejs', {clientId: clientId, domain: domain});
           } else {
               res.redirect('/');
           }
-        }).catch(function(){
+        }).catch(function(e){
           res.send(500, 'error');
         });
       }
@@ -58,6 +58,23 @@ module.exports = {
           }
         }).catch(function(e){
           console.log("error in authentication:" + e);
+          res.redirect('/');
+        });
+      }
+    });
+    
+    server.post(['/logout',], function (req, res) {
+      if (environment === 'development') {
+        res.send(404, 'error');
+      } else {
+        authentication.revokeToken(req.cookies.idToken).then(function(result) {
+          if (typeof result !== 'undefined' && result.success) {
+              res.redirect('/');
+          } else {
+              res.send(401, 'error');
+          }
+        }).catch(function(e){
+          console.log("account already unauthorized" + e);
           res.redirect('/');
         });
       }

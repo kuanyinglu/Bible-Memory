@@ -25,6 +25,7 @@
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.6",
     "css-loader": "^1.0.1",
+    "jest": "^24.9.0",
     "shelljs": "^0.8.3",
     "style-loader": "^0.23.1",
     "webpack": "^4.41.0",
@@ -34,7 +35,8 @@
     "build": "node build-prod.js",
     "build:dev": "node build-dev.js",
     "watch": "webpack --watch",
-    "start": "node ./dist/app.js"
+    "start": "node ./dist/app.js",
+    "test": "jest"
   },
   "repository": {
     "type": "git",

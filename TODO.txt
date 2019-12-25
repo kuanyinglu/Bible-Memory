@@ -1,2 +1,2 @@
-Tests
-refactor logic
+bug - punctuation not readded after backspace
+refactor ui

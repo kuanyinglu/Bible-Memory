@@ -4,7 +4,7 @@ import { searchVerses, updateTyper, startFrom } from '../js/redux/actions';
 import { connect } from 'react-redux';
 import Textarea from 'react-textarea-autosize';
 import parser from '../js/parser';
-import { getUnprocessedTargetWord } from '../js/typerExtensions/typerEngine';
+import { getUnprocessedTargetWord } from '../js/typerExtensions/typerUtils';
 
 
 class VerseTyper extends React.Component {
@@ -18,12 +18,14 @@ class VerseTyper extends React.Component {
     if (e.target.value.trim().length !== 0 || this.props.typerData.value[i].length > 0) {
       args.inputValue = e.target.value;
       args.previousValue = this.props.typerData.value[i];
-      args.mode = parser.getMode(args);
-      let newValue = parser.getText(args);
+      let parserOutput = parser.getResult(args);
+      args.mode = parserOutput.mode;
+      let newValue = parserOutput.newText;
   
       //Mode can change after the new value because the value can change
       args.inputValue = newValue;
-      this.setState({ lastDone: parser.getMode(args) === "DONE" ? i : null });
+      parserOutput = parser.getResult(args);
+      this.setState({ lastDone: parserOutput.mode === "DONE" ? i : null });
       this.props.updateData(i, newValue);
     }
   }
@@ -84,9 +86,9 @@ class VerseTyper extends React.Component {
                 return null;
               }
               let args = { inputValue: this.props.typerData.value[i], previousValue: this.props.typerData.prevValue[i], verseText: verse.content, settings: this.props.settings.settingValues };
-              //parser.processVerse(args);
-              args.mode = args.inputValue === null ? "DONE" : parser.getMode(args);
-              let css = args.inputValue === null ? "" : parser.getCss(args);
+              let parserOutput = parser.getResult(args);
+              args.mode = args.inputValue === null ? "DONE" : parserOutput.mode;
+              let css = args.inputValue === null ? "" : parserOutput.css;
               
               return (
                 <div className="verse wrapper" key={i}>
@@ -102,7 +104,7 @@ class VerseTyper extends React.Component {
                         <>
                           <div id={"hint-box-" + i} className={"hint-box-container hide"}>
                             <div className="hint-box-content">
-                              {getUnprocessedTargetWord(args)}
+                              {getUnprocessedTargetWord(args, args.inputValue)}
                             </div>
                           </div>
                           <Textarea 
