@@ -3,7 +3,7 @@ typerModeArray.push(args => {
   let inputValue = args.inputValue;
   let previousValue = args.previousValue;
   let verseText = args.verseText;
-  if ($.type(inputValue) === "string" && $.type(previousValue) === "string") {
+  if (typeof inputValue === "string" && typeof previousValue === "string") {
     let isOneCharMore = (str1, str2) => { return str1.length === str2.length + 1 && str1.substring(0, str1.length - 1) === str2 };
     if (inputValue === verseText) {
       return "DONE";

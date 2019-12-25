@@ -5,5 +5,5 @@ args1.verseText = "But I say to you that everyone who is angry with his brother 
 args1.inputValue = "But I say to you that everyone who is angry with his brother will be liable to judgment; whoever insults his brother will be liable to the council; whoe";
 
 test("specialCase-skipWordFail", () => {
-  expect(parser.getCss(args1)).toBe("mistake");
+  expect(parser.getResult(args1).css).toBe("mistake");
 });

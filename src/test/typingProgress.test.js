@@ -5,7 +5,7 @@ args1.verseText = "For one will scarcely die for a righteous person—though per
 args1.inputValue = "";
 
 test("type-empty", () => {
-  expect(parser.getCss(args1)).toBe("");
+  expect(parser.getResult(args1).css).toBe("");
 });
 
 let args2 = { settings: { ignorePunctuation: false, ignoreCapitalization: true } };
@@ -13,7 +13,7 @@ args2.verseText = "For one will scarcely die for a righteous person—though per
 args2.inputValue = "f";
 
 test("type-firstWordIgnoreCap", () => {
-  expect(parser.getCss(args2)).toBe("");
+  expect(parser.getResult(args2).css).toBe("");
 });
 
 let args3 = { settings: { ignorePunctuation: false, ignoreCapitalization: false } };
@@ -21,7 +21,7 @@ args3.verseText = "For one will scarcely die for a righteous person—though per
 args3.inputValue = "f";
 
 test("type-firstWordFailCap", () => {
-  expect(parser.getCss(args3)).toBe("mistake");
+  expect(parser.getResult(args3).css).toBe("mistake");
 });
 
 let args4 = { settings: { ignorePunctuation: false, ignoreCapitalization: false } };
@@ -29,7 +29,7 @@ args4.verseText = "For one will scarcely die for a righteous person—though per
 args4.inputValue = "F";
 
 test("type-firstWordCap", () => {
-  expect(parser.getCss(args4)).toBe("");
+  expect(parser.getResult(args4).css).toBe("");
 });
 
 let args5 = { settings: { ignorePunctuation: false, ignoreCapitalization: false } };
@@ -37,7 +37,7 @@ args5.verseText = "For one will scarcely die for a righteous person—though per
 args5.inputValue = "For one will scarcely die for a righteous person ";
 
 test("type-puncFail", () => {
-  expect(parser.getCss(args5)).toBe("mistake");
+  expect(parser.getResult(args5).css).toBe("mistake");
 });
 
 let args6 = { settings: { ignorePunctuation: false, ignoreCapitalization: false } };
@@ -45,7 +45,7 @@ args6.verseText = "For one will scarcely die for a righteous person—though per
 args6.inputValue = "For one will scarcely die for a righteous person-";
 
 test("type-puncPass", () => {
-  expect(parser.getCss(args6)).toBe("");
+  expect(parser.getResult(args6).css).toBe("");
 });
 
 let args7 = { settings: { ignorePunctuation: true, ignoreCapitalization: false } };
@@ -53,5 +53,5 @@ args7.verseText = "For one will scarcely die for a righteous person—though per
 args7.inputValue = "For one will scarcely die for a righteous person ";
 
 test("type-ignorePuncPass", () => {
-  expect(parser.getCss(args7)).toBe("");
+  expect(parser.getResult(args7).css).toBe("");
 });

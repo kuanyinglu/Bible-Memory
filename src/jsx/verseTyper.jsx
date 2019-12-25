@@ -4,7 +4,7 @@ import { searchVerses, updateTyper, startFrom } from '../js/redux/actions';
 import { connect } from 'react-redux';
 import Textarea from 'react-textarea-autosize';
 import parser from '../js/parser';
-import { getUnprocessedTargetWord } from '../js/typerExtensions/typerUtils';
+import { getTargetText } from '../js/typerExtensions/typerUtils';
 
 
 class VerseTyper extends React.Component {
@@ -104,7 +104,7 @@ class VerseTyper extends React.Component {
                         <>
                           <div id={"hint-box-" + i} className={"hint-box-container hide"}>
                             <div className="hint-box-content">
-                              {getUnprocessedTargetWord(args, args.inputValue)}
+                              {getTargetText(args, args.inputValue)}
                             </div>
                           </div>
                           <Textarea 
