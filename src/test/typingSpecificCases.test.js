@@ -7,3 +7,12 @@ args1.inputValue = "But I say to you that everyone who is angry with his brother
 test("specialCase-skipWordFail", () => {
   expect(parser.getResult(args1).css).toBe("mistake");
 });
+
+let args2 = { settings: { ignorePunctuation: true, ignoreCapitalization: true } };
+args2.verseText = "If your right eye causes you to sin, tear it out and throw it away. For it is better that you lose one of your members than that your whole body be thrown into hell.";
+args2.inputValue = "If your right eye causes you to in";
+
+test("specialCase-wrongPartWord", () => {
+  expect(parser.getResult(args2).css).toBe("mistake");
+});
+
