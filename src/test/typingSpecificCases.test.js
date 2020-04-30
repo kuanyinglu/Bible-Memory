@@ -16,3 +16,10 @@ test("specialCase-wrongPartWord", () => {
   expect(parser.getResult(args2).css).toBe("mistake");
 });
 
+let args3 = { settings: { ignorePunctuation: true, ignoreCapitalization: true } };
+args3.verseText = "“Do not think that I have come to abolish the Law or the Prophets; I have not come to abolish them but to fulfill them.";
+args3.inputValue = "“Do not think that I have come to abolish the Law or the Phets";
+
+test("specialCase-wrongPartWord", () => {
+  expect(parser.getResult(args3).css).toBe("mistake");
+});
