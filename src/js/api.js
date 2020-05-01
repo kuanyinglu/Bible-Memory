@@ -1,6 +1,3 @@
-import { processFetchedVerses, startTyper } from './redux/actions';
-import store from "./redux/store";
-
 let splitVerses = data => {
   let content = $(data.passages[0].replace(/<b/g, "</p><p><b").replace(/—/g, "—"));
   return content;
@@ -37,26 +34,30 @@ let getVerseData = (_, element) => {
 
 export const getVerses = reference => {
   let encodedVerse = encodeURI(reference.toLowerCase());
-  $.ajax({
-    url: "https://api.esv.org/v3/passage/html/?q=" + encodedVerse + "&include-passage-references=false&include-chapter-numbers=false&include-first-verse-numbers=false&include-verse-numbers=true&include-footnotes=false&include-footnote-body=false&include-headings=false&include-subheadings=false&include-surrounding-chapters-below=false&include-audio-link=false&include-short-copyright=false",
-    headers: {
-      "Authorization": "Token " + token
-    },
-    type: 'GET',
-    dataType: 'json',
-    processData: false,
-    success: data => {
-      if (data.passages && data.passages.length > 0) {
-        let rawVerses = splitVerses(data);
-        let verseData = rawVerses.map(getVerseData).map((i, el) => ({id: i, verse: el.verse, chapter: el.chapter, content: el.content})).toArray();
-        store.dispatch(processFetchedVerses(verseData, reference));
-        store.dispatch(startTyper(verseData));
-      } else {
-        alert("No verses are found");
+  let promise = new Promise((resolve, reject) => { 
+    $.ajax({
+      url: "https://api.esv.org/v3/passage/html/?q=" + encodedVerse + "&include-passage-references=false&include-chapter-numbers=false&include-first-verse-numbers=false&include-verse-numbers=true&include-footnotes=false&include-footnote-body=false&include-headings=false&include-subheadings=false&include-surrounding-chapters-below=false&include-audio-link=false&include-short-copyright=false",
+      headers: {
+        "Authorization": "Token " + token
+      },
+      type: 'GET',
+      dataType: 'json',
+      processData: false,
+      success: data => {
+        if (data.passages && data.passages.length > 0) {
+          let rawVerses = splitVerses(data);
+          let verseData = rawVerses.map(getVerseData).map((i, el) => ({id: i, verse: el.verse, chapter: el.chapter, content: el.content})).toArray();
+          resolve(verseData);
+        } else {
+          alert("No verses are found");
+          resolve();
+        }
+      },
+      error: () => {
+        alert("Cannot get verses.");
+        resolve();
       }
-    },
-    error: () => {
-      alert("Cannot get verses.");
-    }
+    });
   });
+  return promise;
 };

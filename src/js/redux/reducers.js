@@ -1,4 +1,3 @@
-import { getVerses } from "../api";
 import { combineReducers } from 'redux';
 import settingsDefinition from '../settingsDefinition';
 
@@ -13,8 +12,7 @@ const appMode = (state = "CHOOSE_VERSE", action)  => {
 
 const versesText = (state = [], action) => {
     switch (action.type) {
-        case "SEARCH_VERSES":
-            getVerses(action.data);
+        case "SEARCH_VERSES"://used in saga
             return state;
         case "PROCESS_FETCHED_VERSES":
             return action.data.map(v => {
@@ -56,10 +54,12 @@ const savedVerses = (state = { initialized: false, verses: [] }, action) => {
     }
 }
 
-const currentVerses = (state = "", action) => {
+const appState = (state = { currentVerses: "", ready: true, focusedTyper: 0 }, action) => {
     switch (action.type) {
         case "UPDATE_VERSES":
-            return action.data;
+            return {...state, currentVerses: action.data };
+        case "TYPER_READY":
+            return {...state, ready: action.data };
         default:
             return state;
     }
@@ -87,7 +87,7 @@ const typerApp = combineReducers({
     versesText,
     settings,
     savedVerses,
-    currentVerses,
+    appState,
     typerData
 });
 

@@ -12,7 +12,7 @@ import { connect, Provider } from 'react-redux';
 import Menu from './menu';
 import VerseChooser from './verseChooser';
 import Settings from './settings';
-import VerseTyper from './verseTyper';
+import VerseTyperPage from './verseTyperPage';
 import { initializeSettings } from '../js/redux/actions';
 
 class App extends React.Component {
@@ -41,7 +41,7 @@ class App extends React.Component {
           <hr/>
             <Route path="/verses" exact component={VerseChooser} />
             <Route path="/settings" exact component={Settings} />
-            <Route path="/practice" exact component={VerseTyper} />
+            <Route path="/practice" exact component={VerseTyperPage} />
           <hr/>
         </div>
       </Router>
