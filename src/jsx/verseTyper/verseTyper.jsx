@@ -3,7 +3,6 @@ import Textarea from 'react-textarea-autosize';
 import { getTargetText } from '../../js/typerExtensions/typerUtils';
 import { updateTyper, startFrom } from '../../js/redux/actions';
 import { connect } from 'react-redux';
-import parser from '../../js/parser';
 
 const showHint = (e, index) => {
   if (e.keyCode === 17) {
@@ -19,25 +18,10 @@ const hideHint = (e, index) => {
   }
 }
 
-const VerseTyper = ({ index, verse, setRef, typerDataValue, typerDataPrevValue, settingsValues, startFrom, updateData }) => {
-  let args = { inputValue: typerDataValue, previousValue: typerDataPrevValue, verseText: verse.content, settings: settingsValues };
-  let parserOutput = parser.getResult(args);
-  args.mode = args.inputValue === null ? "DONE" : parserOutput.mode;
-  let css = args.inputValue === null ? "" : parserOutput.css;
-
-  let verseInputOnChange = (args, i, e) => {
-    if (e.target.value.trim().length !== 0 || args.inputValue.length > 0) {
-      args.inputValue = e.target.value;
-      args.previousValue = args.inputValue;
-      let parserOutput = parser.getResult(args);
-      args.mode = parserOutput.mode;
-      let newValue = parserOutput.newText;
-  
-      //Mode can change after the new value because the value can change
-      args.inputValue = newValue;
-      parserOutput = parser.getResult(args);
-      // this.setState({ lastDone: parserOutput.mode === "DONE" ? i : null });
-      updateData(i, newValue);
+const VerseTyper = ({ index, verse, setRef, typerDataValue, typerState, settingsValues, startFrom, updateData }) => {
+  let verseInputOnChange = (i, e) => {
+    if (e.target.value.trim().length !== 0) {
+      updateData(i, e.target.value);
     }
   }
   
@@ -49,21 +33,20 @@ const VerseTyper = ({ index, verse, setRef, typerDataValue, typerDataPrevValue, 
           </h3>
         </label>
         <div className="practice-box">
-          { (args.settings.practiceMode || args.mode === "DONE") ? verse.content : null }
-          { args.settings.practiceMode ? <hr/> : null }
-          { args.mode !== "DONE" && args.inputValue !== null ? 
+          { (settingsValues.practiceMode || typerState.mode === "DONE") ? verse.content : null }
+          { settingsValues.practiceMode ? <hr/> : null }
+          { typerState.mode !== "DONE" ? 
             <>
               <div id={"hint-box-" + index} className={"hint-box-container hide"}>
                 <div className="hint-box-content">
-                  {getTargetText(args, args.inputValue)}
+                  {/*getTargetText(args, typerDataValue)*/}
                 </div>
               </div>
               <Textarea 
                 id={"verse-" + index} 
                 ref={element => setRef(index, element)} 
-                className={css} onChange={e => verseInputOnChange(args, index, e)} 
-                value={typerDataValue} 
-                autoFocus={index === 0} 
+                className={typerState.css} onChange={e => verseInputOnChange(index, e)} 
+                value={typerDataValue}
                 onFocus={e => {
                   let val = e.target.value;
                   e.target.value = '';

@@ -12,8 +12,6 @@ const appMode = (state = "CHOOSE_VERSE", action)  => {
 
 const versesText = (state = [], action) => {
     switch (action.type) {
-        case "SEARCH_VERSES"://used in saga
-            return state;
         case "PROCESS_FETCHED_VERSES":
             return action.data.map(v => {
                 let obj = { id: v.id, title: v.title, verse: v.verse, chapter: v.chapter, content: v.content, userInput: "" };
@@ -60,22 +58,17 @@ const appState = (state = { currentVerses: "", ready: true, focusedTyper: 0 }, a
             return {...state, currentVerses: action.data };
         case "TYPER_READY":
             return {...state, ready: action.data };
+        case "SET_FOCUSED_TYPER":
+            return {...state, focusedTyper: action.data };
         default:
             return state;
     }
 }
 
-const typerData = (state = { value: [], prevValue: []}, action) => {
+const typerData = (state = { value: [], prevValue: [], state: []}, action) => {
     switch (action.type) {
-        case "START_TYPER":
-            return { value: action.data.map(() => ""),
-                prevValue: action.data.map(() => "")};
-        case "START_FROM":
-            return { value: state.value.map((val, i) => i >= action.data ? "" : null),
-                prevValue: state.value.map((val, i) => i >= action.data ? "" : null)};
-        case "UPDATE_TYPER":
-            return { prevValue: state.value.map((val, i) => i >= action.data.id ? state.value[i] : val),
-                value: state.value.map((val, i) => i === action.data.id ? action.data.value : val),
+        case "UPDATE_TYPER_DATA":
+            return { prevValue: action.data.prevValue, value: action.data.value, state: action.data.state
                 };
         default:
             return state;

@@ -124,10 +124,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   updateSavedVerses: objStr => dispatch(updateSavedVerses(objStr)),
-  searchVerses: reference => {
-    dispatch(searchVerses(reference));
-    dispatch(updateVerses(reference));
-  }
+  searchVerses: reference => dispatch(searchVerses(reference))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(VerseChooser);

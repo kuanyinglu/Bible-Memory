@@ -12,6 +12,9 @@ const getResult = args => {
   args.mode = runTransformationArray("", typerModeArray, args);
   args.newText = runTransformationArray(args.inputValue, transformTextArray, args);
   args.css = runTransformationArray("", typerCssArray, args);
+  if (args.newText === args.verseText) {
+    args.mode = "DONE";
+  }
 
   return args;
 }
