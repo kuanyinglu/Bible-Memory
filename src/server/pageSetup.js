@@ -73,12 +73,14 @@ module.exports = {
       } else {
         authentication.revokeToken(req.cookies.idToken).then(function(result) {
           if (typeof result !== 'undefined' && result.success) {
+            res.cookie("idToken", "", { maxAge: 0 });
             res.send();
           } else {
             res.status(401).send('error');
           }
         }).catch(function(e){
           console.log("account already unauthorized" + e);
+          res.cookie("idToken", "", { maxAge: 0 });
           res.send();
         });
       }
