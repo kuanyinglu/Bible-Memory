@@ -10,9 +10,6 @@ class Menu extends React.Component {
         "Authorization": "Token " + token
       },
       type: 'POST',
-      dataType: 'json',
-      processData: false,
-      data: data,
       error: () => {
         alert("Log out failed.");
       }
