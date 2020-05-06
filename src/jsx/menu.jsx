@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 class Menu extends React.Component {
   logout() {
     $.ajax({
-      url: path,
+      url: '/logout',
       headers: {
         "Authorization": "Token " + token
       },
