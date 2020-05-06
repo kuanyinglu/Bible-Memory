@@ -3,22 +3,6 @@ import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
 
 class Menu extends React.Component {
-  logout() {
-    $.ajax({
-      url: '/logout',
-      headers: {
-        "Authorization": "Token " + token
-      },
-      type: 'POST',
-      success: data => {
-        //location.reload();
-      },
-      error: () => {
-        alert("Log out failed.");
-      }
-    });
-  };
-
   render () {
     return (
     <nav className="menu wrapper">
@@ -33,7 +17,6 @@ class Menu extends React.Component {
           <Link to="/practice">Practice</Link>
         </li>
       </ul>
-      <span className="log-out" onClick={() => this.logout()}>Log out</span>
     </nav>
     )
   }

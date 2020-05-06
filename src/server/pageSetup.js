@@ -61,27 +61,8 @@ module.exports = {
             res.status(401).send('error');
           }
         }).catch(function(e){
-          console.log("error in authentication:" + e);
+          console.log("error in authentication: " + e);
           res.redirect('/');
-        });
-      }
-    });
-    
-    server.post(['/logout',], function (req, res) {
-      if (environment === 'development') {
-        res.status(404).send('error');
-      } else {
-        authentication.revokeToken(req.cookies.idToken).then(function(result) {
-          if (typeof result !== 'undefined' && result.success) {
-            //res.cookie("idToken", "", { maxAge: 0 });
-            res.send();
-          } else {
-            res.status(401).send('error');
-          }
-        }).catch(function(e){
-          console.log("account already unauthorized" + e);
-          //res.cookie("idToken", "", { maxAge: 0 });
-          res.send();
         });
       }
     });

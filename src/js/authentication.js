@@ -14,8 +14,6 @@ module.exports = {
       });
       const payload = ticket.getPayload();
       let currentTime = Math.round((new Date()).getTime()/1000);
-      console.log("current time: " + currentTime);
-      console.log(payload['exp']);
       if (typeof payload === 'undefined' || payload === null || payload['hd'] !== domain || payload['aud'] !== clientId || payload['exp'] < currentTime)
       {
         return null;
@@ -40,8 +38,5 @@ module.exports = {
         return payload['sub'];
       }
     }
-  },
-  revokeToken: async function(idToken) {
-    return await client.revokeToken(idToken);
   }
 };
