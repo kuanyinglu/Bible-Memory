@@ -73,7 +73,7 @@ module.exports = {
       } else {
         authentication.revokeToken(req.cookies.idToken).then(function(result) {
           if (typeof result !== 'undefined' && result.success) {
-            res.cookie("idToken", "", { maxAge: 0 });
+            //res.cookie("idToken", "", { maxAge: 0 });
             res.send();
           } else {
             res.status(401).send('error');
