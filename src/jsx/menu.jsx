@@ -10,6 +10,9 @@ class Menu extends React.Component {
         "Authorization": "Token " + token
       },
       type: 'POST',
+      success: data => {
+        location.reload();
+      },
       error: () => {
         alert("Log out failed.");
       }

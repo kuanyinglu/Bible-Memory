@@ -73,13 +73,13 @@ module.exports = {
       } else {
         authentication.revokeToken(req.cookies.idToken).then(function(result) {
           if (typeof result !== 'undefined' && result.success) {
-            res.redirect(307, '/');
+            res.send();
           } else {
             res.status(401).send('error');
           }
         }).catch(function(e){
           console.log("account already unauthorized" + e);
-          res.redirect(307, '/');
+          res.send();
         });
       }
     });
