@@ -13,20 +13,15 @@ import Menu from './menu';
 import VerseChooser from './verseChooser';
 import Settings from './settings';
 import VerseTyperPage from './verseTyperPage';
-import { initializeSettings } from '../js/redux/actions';
+import { fetchSettings, fetchSavedVerses } from '../js/redux/actions';
 
 class App extends React.Component {
   componentDidMount () {
     if (!this.props.settings.initialized) {
-      let updateFunc = this.props.initializeSettings;
-      let xhr = new XMLHttpRequest();
-      xhr.open('POST', '/getSettings');
-      xhr.onreadystatechange = function() {
-        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-          updateFunc(xhr.responseText);
-        }
-      }
-      xhr.send();
+      this.props.fetchSettings();
+    }
+    if (!this.props.savedVerses.initialized) {
+      this.props.fetchSavedVerses();
     }
   } 
 
@@ -50,11 +45,13 @@ class App extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  settings: state.settings
+  settings: state.settings,
+  savedVerses: state.savedVerses
 });
 
 const mapDispatchToProps = dispatch => ({
-  initializeSettings: newSettings => dispatch(initializeSettings(newSettings))
+  fetchSettings: () => dispatch(fetchSettings()),
+  fetchSavedVerses: () => dispatch(fetchSavedVerses()),
 });
 
 let AppContainer = connect(mapStateToProps, mapDispatchToProps)(App);

@@ -6,14 +6,19 @@ export const startTyper = () => ({ type: "START_TYPER" });
 export const startFrom = verseNumber => ({ type: "START_FROM", data: verseNumber });
 export const updateTyper = (id, newValue) => ({ type: "UPDATE_TYPER", data: { id, newValue } });
 
-//
-export const updateSavedVerses = (objString) => ({ type: "UPDATE_SAVED_VERSES", data: objString});
-export const saveVerses = (objString) => ({ type: "SAVE_VERSES", data: objString});
-export const changeSettings = newSetting => ({ type: "CHANGE_SETTING", data: { setting: newSetting.setting, value: newSetting.value } });
-export const initializeSettings = newSetting => ({ type: "INITIALIZE_SETTING", data: newSetting });
+export const fetchSettings = () => ({ type: "FETCH_SETTINGS" });
+export const saveSettings = () => ({ type: "SAVE_SETTINGS" });
+export const fetchSavedVerses = () => ({ type: "FETCH_SAVED_VERSES" });
+export const addVerse = reference => ({ type: "ADD_VERSE", data: reference });
+export const deleteVerse = reference => ({ type: "DELETE_VERSE", data: reference });
+export const saveVerses = () => ({ type: "SAVE_VERSES" });
+
+//user data actions
+export const updateSettings = newSetting => ({ type: "UPDATE_SETTINGS", data: newSetting });
+export const updateSavedVerses = (objString) => ({ type: "UPDATE_SAVED_VERSES", data: objString });
 
 //typer actions
-export const updateTyperData = (value, prevValue, state) => ({ type: "UPDATE_TYPER_DATA", data: { value, prevValue, state } });
+export const updateTyperData = (values, prevValues, states) => ({ type: "UPDATE_TYPER_DATA", data: { values, prevValues, states } });
 
 //typer internal
 export const updateVerses = reference => ({ type: "UPDATE_VERSES", data: reference });

@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux';
-import settingsDefinition from '../settingsDefinition';
 
 const appMode = (state = "CHOOSE_VERSE", action)  => {
     switch (action.type) {
@@ -27,26 +26,17 @@ const versesText = (state = [], action) => {
 
 const settings = (state = { initialized: false, settingValues: {} }, action) => {
     switch (action.type) {
-        case "INITIALIZE_SETTING":
-            let values;
-            let newSettings = JSON.parse(action.data);
-            if (Object.keys(newSettings).length === 0) {
-                values = settingsDefinition;
-            } else {
-                values = newSettings;
-            }
-            return Object.assign({}, state, { initialized: true, settingValues: values });
-        case "CHANGE_SETTING":
-            return Object.assign({}, state, { settingValues: Object.assign({}, state.settingValues, { [action.data.setting]: action.data.value }) });
+        case "UPDATE_SETTINGS":
+            return Object.assign({}, state, { initialized: true, settingValues: Object.assign({}, state.settingValues, action.data) });
         default:
             return state;
     }
 }
 
-const savedVerses = (state = { initialized: false, verses: [] }, action) => {
+const savedVerses = (state = { initialized: false, verses: { uncategorized: []} }, action) => {
     switch (action.type) {
         case "UPDATE_SAVED_VERSES":
-            return { initialized: true, verses: JSON.parse(action.data) };
+            return { initialized: true, verses: action.data };
         default:
             return state;
     }
@@ -65,10 +55,10 @@ const appState = (state = { currentVerses: "", ready: true, focusedTyper: 0 }, a
     }
 }
 
-const typerData = (state = { value: [], prevValue: [], state: []}, action) => {
+const typerData = (state = { values: [], prevValues: [], states: [] }, action) => {
     switch (action.type) {
         case "UPDATE_TYPER_DATA":
-            return { prevValue: action.data.prevValue, value: action.data.value, state: action.data.state
+            return { prevValues: action.data.prevValues, values: action.data.values, states: action.data.states
                 };
         default:
             return state;

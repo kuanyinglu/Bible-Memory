@@ -1,7 +1,7 @@
-import typerCssArray from './typerExtensions/typerCssArray';
-import typerModeArray from './typerExtensions/typerModeArray';
-import transformTextArray from './typerExtensions/transformTextArray';
-import { runTransformationArray } from './typerExtensions/typerUtils';
+import typerCssArray from './typerStateFunction/typerCssArray';
+import typerModeArray from './typerStateFunction/typerModeArray';
+import transformTextArray from './typerStateFunction/transformTextArray';
+import { runTransformationArray, getTargetText } from './typerStateFunction/typerUtils';
 
 // args.inputValue = what is typed
 // args.previousValue
@@ -15,6 +15,7 @@ const getResult = args => {
   if (args.newText === args.verseText) {
     args.mode = "DONE";
   }
+  args.hint = getTargetText(args, args.newText);
 
   return args;
 }

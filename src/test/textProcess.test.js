@@ -1,6 +1,5 @@
-import parser from "../js/parser";
-import transformToTargetArray from "../js/typerExtensions/transformToTargetArray";
-import typerUtils from "../js/typerExtensions/typerUtils";
+import transformToTargetArray from "../js/typerStateFunction/transformToTargetArray";
+import typerUtils from "../js/typerStateFunction/typerUtils";
 
 let args1 = { settings: { ignorePunctuation: false, ignoreCapitalization: false } };
 let input = "For one will scarcely die for a righteous person—though perhaps for a good person one would dare even to die—";

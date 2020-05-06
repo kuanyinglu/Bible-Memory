@@ -20,10 +20,10 @@ module.exports = {
                       res.sendFile(__dirname + '/token.js');
                   }
               } else {
-                  res.send(401, 'error');
+                res.status(401).send('error');
               }
           }).catch(function(){
-              res.send(401, 'error');
+            res.status(401).send('error');
           });
       }
     });
@@ -36,10 +36,10 @@ module.exports = {
               if (typeof idToken !== 'undefined' && idToken !== null) {
                   res.sendFile(__dirname + '/bundle.js');
               } else {
-                  res.send(401, 'error');
+                res.status(401).send('error');
               }
           }).catch(function(){
-              res.send(401, 'error');
+            res.status(401).send('error');
           });
       }
     });

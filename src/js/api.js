@@ -61,3 +61,56 @@ export const getVerses = reference => {
   });
   return promise;
 };
+
+export const getUserData = (path, desc) => {
+  let promise = new Promise((resolve, reject) => { 
+    $.ajax({
+      url: path,
+      headers: {
+        "Authorization": "Token " + token
+      },
+      type: 'POST',
+      dataType: 'json',
+      processData: false,
+      success: data => {
+        if (data) {
+          resolve(data);
+        } else {
+          alert("No " + desc + " fetched");
+          resolve();
+        }
+      },
+      error: () => {
+        alert("Cannot get " + desc + ".");
+        resolve();
+      }
+    });
+  });
+  return promise;
+}
+
+
+export const userDataAction = (data, path, desc) => {
+  let promise = new Promise((resolve, reject) => { 
+    $.ajax({
+      url: path,
+      headers: {
+        "Authorization": "Token " + token
+      },
+      type: 'POST',
+      dataType: 'json',
+      processData: false,
+      data: data,
+      success: data => {
+        if (data) {
+          resolve(data);
+        }
+      },
+      error: () => {
+        alert("Action " + desc + " failed.");
+        resolve();
+      }
+    });
+  });
+  return promise;
+}

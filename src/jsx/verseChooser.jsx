@@ -1,5 +1,5 @@
 import React from 'react';
-import { updateSavedVerses, searchVerses, updateVerses } from '../js/redux/actions';
+import { searchVerses, addVerse, deleteVerse, saveVerses } from '../js/redux/actions';
 import { connect } from 'react-redux';
 import { practiceBooks } from '../js/bibleBooks'
 
@@ -25,59 +25,17 @@ class VerseChooser extends React.Component {
 
   render () {
     if (!this.props.savedVerses.initialized) {
-      let updateFunc = this.props.updateSavedVerses;
-      let xhr = new XMLHttpRequest();
-      xhr.open('POST', '/getVerses');
-      xhr.setRequestHeader('Content-Type', 'text/html; charset=utf-8');
-      xhr.onreadystatechange = function() {
-        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-          updateFunc(xhr.responseText);
-        }
-      }
-      xhr.send();
       return null;
     } else {
       let saveVerses = e => {
-        let setState = this.setState.bind(this);
-        let updateFunc = this.props.updateSavedVerses;
-        let xhr = new XMLHttpRequest();
-        xhr.open('POST', '/saveVerses');
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr.onreadystatechange = function() {
-          if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-            let xhr2 = new XMLHttpRequest();
-            xhr2.open('POST', '/getVerses');
-            xhr2.onreadystatechange = function() {
-              if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-                updateFunc(xhr2.responseText);
-                setState({ savedSuccessful: true });
-              }
-            }
-            xhr2.send();
-          }
-        }
-        xhr.send('verses=' + JSON.stringify(this.props.savedVerses.verses));
+        this.props.saveVerses();
       };
       let addVerses = () => {
-        let newState = JSON.parse(JSON.stringify(this.props.savedVerses.verses));
-        if (!newState.uncategorized) {
-          newState.uncategorized = [];
-        }
-        newState.uncategorized.push(this.state.referenceText);
+        this.props.addVerse(this.state.referenceText);
         this.setState({ referenceText: "" });
-        this.props.updateSavedVerses(JSON.stringify(newState));
       };
-      let deleteVerses = verse => {
-        let newState = JSON.parse(JSON.stringify(this.props.savedVerses.verses));
-        if (!newState.uncategorized) {
-          newState.uncategorized = [];
-        }
-        let verseIndex = newState.uncategorized.indexOf(verse);
-        if (verseIndex !== -1) {
-          newState.uncategorized.splice(verseIndex, 1);
-        }
-        this.setState({ referenceText: "" });
-        this.props.updateSavedVerses(JSON.stringify(newState));
+      let deleteVerses = reference => {
+        this.props.deleteVerse(reference);
       }
       return (
         <div className="verse-chooser wrapper">
@@ -100,7 +58,7 @@ class VerseChooser extends React.Component {
                   <button onClick={() => { this.practiceVerse(verse) }}>
                     {verse}
                   </button>
-                  <button className="action" onClick={() => deleteVerses(verse)}>X</button>
+                  <button className="action" onClick={() => { deleteVerses(verse) }}>X</button>
                 </div>
               ) :
               null
@@ -123,8 +81,11 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  updateSavedVerses: objStr => dispatch(updateSavedVerses(objStr)),
-  searchVerses: reference => dispatch(searchVerses(reference))
+  searchVerses: reference => dispatch(searchVerses(reference)),
+  addVerse: reference => dispatch(addVerse(reference)),
+  deleteVerse: reference => dispatch(deleteVerse(reference)),
+  saveVerses: () => dispatch(saveVerses()),
+
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(VerseChooser);

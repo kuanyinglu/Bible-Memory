@@ -36,7 +36,7 @@ module.exports = {
               res.redirect('/');
           }
         }).catch(function(e){
-          res.send(500, 'error');
+          res.status(500).send('error');
         });
       }
     });
@@ -47,14 +47,14 @@ module.exports = {
     
     server.post(['/authenticate',], function (req, res) {
       if (environment === 'development') {
-        res.send(404, 'error');
+        res.status(404).send('error');
       } else {
         authentication.authenticate(req.body.id).then(function(idToken) {
           if (typeof idToken !== 'undefined' && idToken !== null) {
               res.cookie("idToken", idToken, { maxAge: 3600000, secure: true, httpOnly: true });
               res.redirect('/');
           } else {
-              res.send(401, 'error');
+            res.status(401).send('error');
           }
         }).catch(function(e){
           console.log("error in authentication:" + e);
@@ -65,13 +65,13 @@ module.exports = {
     
     server.post(['/logout',], function (req, res) {
       if (environment === 'development') {
-        res.send(404, 'error');
+        res.status(404).send('error');
       } else {
         authentication.revokeToken(req.cookies.idToken).then(function(result) {
           if (typeof result !== 'undefined' && result.success) {
               res.redirect('/');
           } else {
-              res.send(401, 'error');
+            res.status(401).send('error');
           }
         }).catch(function(e){
           console.log("account already unauthorized" + e);

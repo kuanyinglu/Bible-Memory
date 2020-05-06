@@ -11,33 +11,38 @@ module.exports = {
   setup: function (server) {
     server.post('/getVerses', async function (req, res) {
       if (environment === 'development') {
-        let result = await getVerses('test');
-        res.send(result);
+        res.send(await getVerses('test'));
       } else {
         authentication.getId(req.cookies.idToken).then(async function(id) {
           if (typeof id !== 'undefined' && id !== null) {
             res.send(await getVerses(id));
           } else {
-            res.send(401, 'error');
+            res.status(401).send('error');
           }
         }).catch(function(){
-          res.send(401, 'error');
+          res.status(401).send('error');
         });
       }
     });
     server.post('/saveVerses', async function (req, res) {
       if (environment === 'development') {
-        let result = await updateVerses('test', req.body.verses);
-        res.send(result);
+        let success = await updateVerses('test', req.body.verses);
+        if (success) {
+          res.send(await getVerses('test'));
+        }
       } else {
         authentication.getId(req.cookies.idToken).then(async function(id) {
           if (typeof id !== 'undefined' && id !== null) {
-            res.send(await updateVerses(id, req.body.verses));
+            let success = await updateVerses(id, req.body.verses);
+            if (success) {
+              res.send(await getVerses(id));
+            }
+            res.send();
           } else {
-            res.send(401, 'error');
+            res.status(401).send('error');
           }
         }).catch(function(){
-          res.send(401, 'error');
+          res.status(401).send('error');
         });
       }
     });
@@ -50,26 +55,31 @@ module.exports = {
           if (typeof id !== 'undefined' && id !== null) {
             res.send(await fetchSettings(id));
           } else {
-            res.send(401, 'error');
+            res.status(401).send('error');
           }
         }).catch(function(){
-          res.send(401, 'error');
+          res.status(401).send('error');
         });
       }
     });
     server.post('/saveSettings', async function (req, res) {
       if (environment === 'development') {
-        let result = await updateSettings('test', req.body.settings);
-        res.send(result);
+        let success = await updateSettings('test', req.body.settings);
+        if (success) {
+          res.send(await fetchSettings('test'));
+        }
       } else {
         authentication.getId(req.cookies.idToken).then(async function(id) {
           if (typeof id !== 'undefined' && id !== null) {
-            res.send(await updateSettings(id, req.body.settings));
+            let success = await updateSettings(id, req.body.settings);
+            if (success) {
+              res.send(await fetchSettings(id));
+            }
           } else {
-            res.send(401, 'error');
+            res.status(401).send('error');
           }
         }).catch(function(){
-          res.send(401, 'error');
+          res.status(401).send('error');
         });
       }
     });

@@ -1,11 +1,11 @@
-import parser from "../js/parser";
+import typerState from "../js/typerState";
 
 let args1 = { settings: { ignorePunctuation: true, ignoreCapitalization: true } };
 args1.verseText = "But I say to you that everyone who is angry with his brother will be liable to judgment; whoever insults his brother will be liable to the council; and whoever says, ‘You fool!’ will be liable to the hell of fire.";
 args1.inputValue = "But I say to you that everyone who is angry with his brother will be liable to judgment; whoever insults his brother will be liable to the council; whoe";
 
 test("specialCase-skipWordFail", () => {
-  expect(parser.getResult(args1).css).toBe("mistake");
+  expect(typerState.getResult(args1).css).toBe("mistake");
 });
 
 let args2 = { settings: { ignorePunctuation: true, ignoreCapitalization: true } };
@@ -13,7 +13,7 @@ args2.verseText = "If your right eye causes you to sin, tear it out and throw it
 args2.inputValue = "If your right eye causes you to in";
 
 test("specialCase-wrongPartWord", () => {
-  expect(parser.getResult(args2).css).toBe("mistake");
+  expect(typerState.getResult(args2).css).toBe("mistake");
 });
 
 let args3 = { settings: { ignorePunctuation: true, ignoreCapitalization: true } };
@@ -21,5 +21,5 @@ args3.verseText = "“Do not think that I have come to abolish the Law or the Pr
 args3.inputValue = "“Do not think that I have come to abolish the Law or the Phets";
 
 test("specialCase-wrongPartWord", () => {
-  expect(parser.getResult(args3).css).toBe("mistake");
+  expect(typerState.getResult(args3).css).toBe("mistake");
 });

@@ -41,11 +41,11 @@ const VerseTyperPage = ({ versesText, settings, appState, typerData, startFrom})
     <div className="practice wrapper">
       <h2>{appState.currentVerses}</h2>
       {
-        (versesText.length > 0 && typerData.value.length > 0) ?
+        (versesText.length > 0 && typerData.values.length > 0) ?
         <div>
           {
             versesText.map((verse, i) => {
-              if (i > typerData.value.length - 1) {
+              if (i > typerData.values.length - 1) {
                 return null;
               } else {
                 return <VerseTyper 
@@ -54,9 +54,9 @@ const VerseTyperPage = ({ versesText, settings, appState, typerData, startFrom})
                   setRef={setRef} 
                   focusTextAreas={focusTextAreas}
                   verse={verse} 
-                  typerDataValue={typerData.value[i]} 
-                  typerDataPrevValue={typerData.prevValue[i]}
-                  typerState={typerData.state[i]}
+                  typerDataValue={typerData.values[i]} 
+                  typerDataPrevValue={typerData.prevValues[i]}
+                  typerState={typerData.states[i]}
                   settingsValues={settings.settingValues}/>;
               }
             })

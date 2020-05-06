@@ -1,6 +1,5 @@
 import React from 'react';
 import Textarea from 'react-textarea-autosize';
-import { getTargetText } from '../../js/typerExtensions/typerUtils';
 import { updateTyper, startFrom } from '../../js/redux/actions';
 import { connect } from 'react-redux';
 
@@ -20,9 +19,7 @@ const hideHint = (e, index) => {
 
 const VerseTyper = ({ index, verse, setRef, typerDataValue, typerState, settingsValues, startFrom, updateData }) => {
   let verseInputOnChange = (i, e) => {
-    if (e.target.value.trim().length !== 0) {
-      updateData(i, e.target.value);
-    }
+    updateData(i, e.target.value);
   }
   
   return (
@@ -39,7 +36,7 @@ const VerseTyper = ({ index, verse, setRef, typerDataValue, typerState, settings
             <>
               <div id={"hint-box-" + index} className={"hint-box-container hide"}>
                 <div className="hint-box-content">
-                  {/*getTargetText(args, typerDataValue)*/}
+                  {typerState.hint}
                 </div>
               </div>
               <Textarea 

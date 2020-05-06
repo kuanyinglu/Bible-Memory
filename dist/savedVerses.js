@@ -19,6 +19,7 @@ module.exports = {
     return result !== null && result.rows.length === 1 ? result.rows[0].json : {};
   },
   updateVerses: async function(id, newValue) {
+    let success = true;
     let client = getClient();
     client.connect();
     const query = {
@@ -32,10 +33,11 @@ module.exports = {
       await client.query(query);
     } catch (e) {
       console.log("Error in inserting verses:" + e.stack);
+      success = false;
     } finally {
       await client.end();
     }
-    return JSON.stringify({ 'success': true });
+    return success;
   },
 
 };
