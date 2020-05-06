@@ -80,7 +80,7 @@ module.exports = {
           }
         }).catch(function(e){
           console.log("account already unauthorized" + e);
-          res.cookie("idToken", "", { maxAge: 0 });
+          //res.cookie("idToken", "", { maxAge: 0 });
           res.send();
         });
       }
