@@ -5,16 +5,16 @@ import { connect } from 'react-redux';
 class Menu extends React.Component {
   render () {
     return (
-    <nav className="menu wrapper">
-      <ul>
+    <nav className="menu-wrapper">
+      <ul className="menu-ul">
         <li>
-          <Link to="/verses">Verses</Link>
+          <Link className="menu-a" to="/verses">Verses</Link>
         </li>
         <li>
-          <Link to="/settings">Settings</Link>
+          <Link className="menu-a" to="/settings">Settings</Link>
         </li>
         <li>
-          <Link to="/practice">Practice</Link>
+          <Link className="menu-a" to="/practice">Practice</Link>
         </li>
       </ul>
     </nav>

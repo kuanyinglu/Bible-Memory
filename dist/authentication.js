@@ -13,7 +13,8 @@ module.exports = {
         audience: clientId,
       });
       const payload = ticket.getPayload();
-      if (typeof payload === 'undefined' || payload === null || payload['hd'] !== domain || payload['aud'] !== clientId)
+      let currentTime = Math.round((new Date()).getTime()/1000);
+      if (typeof payload === 'undefined' || payload === null || payload['hd'] !== domain || payload['aud'] !== clientId || payload['exp'] < currentTime)
       {
         return null;
       } else {
@@ -37,9 +38,5 @@ module.exports = {
         return payload['sub'];
       }
     }
-  },
-  revokeToken: async function(idToken) {
-    console.log(await client.revokeToken(idToken));
-    return await client.revokeToken(idToken);
   }
 };

@@ -49,6 +49,7 @@ function* saveVersesSaga() {
   if (response) {
     if (Object.keys(response).length !== 0) {
       yield put(updateSavedVerses(response));
+      alert("Verses successfully saved!");
     }
   }
 }
@@ -59,6 +60,7 @@ function* saveSettingsSaga() {
   if (response) {
     if (Object.keys(response).length !== 0) {
       yield put(updateSettings(response));
+      alert("Settings successfully saved!");
     }
   }
 }

@@ -3,11 +3,6 @@ import { updateSettings, saveSettings } from '../js/redux/actions';
 import { connect } from 'react-redux';
 
 class Settings extends React.Component {
-  constructor (props) {
-    super(props);
-    this.state = { savedSuccessful: false };
-  }
-
   generateSettingLabel (settingName) {
     let array = settingName.split("");
     if (array.length > 0) {
@@ -25,7 +20,7 @@ class Settings extends React.Component {
 
   render () {
     return (
-      <div className="setting wrapper">
+      <div className="setting pl-4">
         <h2>Settings</h2>
         {
         <div className="choices">
@@ -45,7 +40,6 @@ class Settings extends React.Component {
           <div>
             <button className="action" onClick={this.props.saveSettings}>Save</button>
           </div>
-          {this.state.savedSuccessful ? <span>Save successful!</span> : null}
         </div>
         }
       </div>

@@ -6,7 +6,7 @@ import { practiceBooks } from '../js/bibleBooks'
 class VerseChooser extends React.Component {
   constructor (props) {
     super(props);
-    this.state = { referenceText: "", savedSuccessful: false };
+    this.state = { referenceText: "" };
   }
 
   verseInputOnChange (e) {
@@ -38,16 +38,16 @@ class VerseChooser extends React.Component {
         this.props.deleteVerse(reference);
       }
       return (
-        <div className="verse-chooser wrapper">
+        <div className="w-full mr-2 pl-4">
           <h2>Verses</h2>
           <div className="search">
             Verse Reference
-            <input type="text" aria-label="Type Bible verses and search to practice memorizing" value={this.state.referenceText} onChange={e => this.verseInputOnChange(e)}/>
-            <button onClick={() => { this.practiceVerse(this.state.referenceText) }}>Search</button>
+            <input type="text" className="ml-2 pl-2" aria-label="Type Bible verses and search to practice memorizing" value={this.state.referenceText} onChange={e => this.verseInputOnChange(e)}/>
+            <button className="mx-1" onClick={() => { this.practiceVerse(this.state.referenceText) }}>Search</button>
             <button className="action" onClick={addVerses}>Add</button>
           </div>
           <hr/>
-          <div className="saved-verses">
+          <div className="chooser-savedVerses">
             <button onClick={() => { this.practiceBibleBooks() }}>
               Books of The Bible
             </button>
@@ -68,7 +68,6 @@ class VerseChooser extends React.Component {
             <button onClick={saveVerses} className="action">
               Save
             </button>
-            {this.state.savedSuccessful ? <span>Save successful!</span> : null}
           </div>
         </div>
       )

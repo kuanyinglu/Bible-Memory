@@ -1,9 +1,12 @@
+import "tailwindcss/base";
 import "../css/global";
 import "../css/app";
 import "../css/menu";
-import "../css/practice";
+import "../css/verse";
 import "../css/chooser";
 import "../css/setting";
+import "tailwindcss/components";
+import "tailwindcss/utilities";
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route } from "react-router-dom";
@@ -28,7 +31,7 @@ class App extends React.Component {
   render () {
     return (
       <Router>
-        <div id="container">
+        <div className="flex flex-wrap content-start">
           <div className="title wrapper" aria-label="Bible Memory app">
             <h1>Bible Memory</h1>
           </div>

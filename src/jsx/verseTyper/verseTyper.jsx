@@ -6,14 +6,14 @@ import { connect } from 'react-redux';
 const showHint = (e, index) => {
   if (e.keyCode === 17) {
     let element = document.getElementById("hint-box-" + index);
-    element.classList.remove("hide");
+    element.classList.remove("hidden");
   }
 }
 
 const hideHint = (e, index) => {
   if (e.keyCode === 17) {
     let element = document.getElementById("hint-box-" + index);
-    element.classList.add("hide");
+    element.classList.add("hidden");
   }
 }
 
@@ -23,19 +23,19 @@ const VerseTyper = ({ index, verse, setRef, typerDataValue, typerState, settings
   }
   
   return (
-    <div className="verse wrapper" key={index}>
+    <div className="verse ml-4 my-4" key={index}>
       <div>
         <label htmlFor={"verse-" + index} aria-label={verse.title ? verse.title : verse.chapter + ":" + verse.verse}>
-          <h3>{verse.title ? verse.title : verse.chapter + ":" + verse.verse}
+          <h3 className="my-1">{verse.title ? verse.title : verse.chapter + ":" + verse.verse}
           </h3>
         </label>
-        <div className="practice-box">
+        <div className="w-11/12 mb-2">
           { (settingsValues.practiceMode || typerState.mode === "DONE") ? verse.content : null }
           { settingsValues.practiceMode ? <hr/> : null }
           { typerState.mode !== "DONE" ? 
             <>
-              <div id={"hint-box-" + index} className={"hint-box-container hide"}>
-                <div className="hint-box-content">
+              <div id={"hint-box-" + index} className={"absolute hidden"}>
+                <div className="hint">
                   {typerState.hint}
                 </div>
               </div>
@@ -54,8 +54,6 @@ const VerseTyper = ({ index, verse, setRef, typerDataValue, typerState, settings
             </> : 
             null }
         </div>
-      </div>
-      <div>
         <button className="action" onClick={() => startFrom(index)}>
           Memorize From Here
         </button>

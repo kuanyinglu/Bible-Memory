@@ -1,16 +1,6 @@
-.search input {
-    margin-left: 1em;
-    padding-left: 8px;
-}
-
-.saved-verses {
+.chooser-savedVerses {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     grid-gap: 8px;
     margin-bottom: 8px;
-}
-
-.verse-chooser {
-    width: 100%;
-    margin-right: 8px;
 }

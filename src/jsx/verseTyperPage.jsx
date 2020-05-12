@@ -38,7 +38,7 @@ const VerseTyperPage = ({ versesText, settings, appState, typerData, startFrom})
   }
 
   return (
-    <div className="practice wrapper">
+    <div className="practice pl-4">
       <h2>{appState.currentVerses}</h2>
       {
         (versesText.length > 0 && typerData.values.length > 0) ?
@@ -63,7 +63,7 @@ const VerseTyperPage = ({ versesText, settings, appState, typerData, startFrom})
           } 
           <div>
             <button className="action" onClick={() => startFrom(0)}>
-              Memorize Again!
+              Memorize From Beginning!
             </button>
           </div>
         </div> :

@@ -1,54 +1,40 @@
 html {
-    background-color: #fee2b8;
-}
-
-body {
-    margin: 0;
+    background-color: theme('colors.bg');
+    @apply font-serif;
 }
 
 hr {
-    flex-basis: 100%;
-    border: 0;
-    margin: 4px 0;
+    @apply w-full border-0 my-2;
 }
 
 button {
-    border-style: solid;
-    background-color: #f9b031;
-    border-radius: 10px;
-    border-color: #f49b00;
-    cursor: pointer;
+    @apply border-solid rounded-lg cursor-pointer px-1;
+    background-color: theme('colors.btn-primary');
 }
 
 button.action {
-    background-color: #f16464;
-    border-color: #f40000;
+    background-color: theme('colors.btn-strong');
+}
+
+button:focus {
+    @apply outline-none;
 }
 
 input[type="text"] {
-    border-radius: 10px;
-    border-width: 1px;
-    border-color: #74726f;
-    border-style: solid;
+    @apply border-solid rounded-lg border-2 border-gray-500;
 }
 
 input[type="checkbox"] {
-    opacity: 0;
-    margin: 0;
-    width: 0;
+    @apply opacity-0 m-0 w-0;
 }
 
 input[type="checkbox"] + label::before {
+    @apply inline-block leading-none border-2 border-solid font-bold w-4;
     content:  "\00a0";
-    font-size: 1rem;
-    line-height: 1.0;
-    display: inline-block;
-    padding-left: .125em;
-    padding-right: .125em;
-    border: 2px solid #f49b00;
-    color: #f49b00;
-    font-weight: bold;
-    width: calc(1rem - .25em);
+    padding-left: .125rem;
+    padding-right: .875em;
+    border-color: theme('colors.chbox');
+    color: theme('colors.chbox');
 }
 
 input[type="checkbox"]:checked + label::before {
@@ -56,7 +42,7 @@ input[type="checkbox"]:checked + label::before {
 }
 
 input[type="checkbox"]:focus + label::before {
-    box-shadow: 0 0 0 2pt #aaeb56;
+    box-shadow: 0 0 0 2pt theme('colors.ctrl-focus');
 }
 
 .checkbox label, .checkbox input[type="checkbox"] {
@@ -64,19 +50,22 @@ input[type="checkbox"]:focus + label::before {
 }
 
 :focus {
-    box-shadow: 0 0 0 2pt #aaeb56;
+    box-shadow: 0 0 0 2pt theme('colors.ctrl-focus');
     outline: unset;
 }
 
 textarea {
-    resize: none;
+    @apply resize-none;
 }
 
-.wrapper {
-    padding-left: 8px;
+h1 {
+    @apply text-3xl font-bold;
 }
 
 h2 {
-    margin-block-start: .5em;
-    margin-block-end: .5em;
+    @apply text-2xl font-bold;
 }
+
+@import "tailwindcss/components";
+
+@import "tailwindcss/utilities";

@@ -1,0 +1,31 @@
+.mistake {
+    @apply text-red-600;
+}
+
+.verse textarea {
+    @apply w-full;
+}
+
+.hint {
+    @apply relative p-1 rounded-lg text-center;
+    background-color: theme('colors.primary');
+    color: theme('colors.help-text');
+    top: -30px;
+    left: 10px;
+    min-width: 30px;
+}
+
+.hint:after {
+    @apply absolute;
+    content: '';
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border: 10px solid transparent;
+    border-top-color: theme('colors.primary');
+    border-bottom: 0;
+    border-left: 0;
+    margin-left: -10px;
+    margin-bottom: -10px;
+}
