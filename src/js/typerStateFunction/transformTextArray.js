@@ -3,8 +3,8 @@ import { equalAfterTransform, splitWordList } from './typerUtils';
 const removeMultipleSpace = args => {//remove double spaces that user types for some reason
   let mode = args.mode;
   let inputValue = args.inputValue;
-  let newValue = args.value ?? inputValue;
-  if ((mode === "TYPED" || mode === "OTHER") && inputValue.length > 0 && inputValue.substring(inputValue.length - 1) === " " && inputValue.length - inputValue.trim().length > 1) {
+  let newValue = args.value ?? args.inputValue;
+  if ((mode === "TYPED" || mode === "OTHER") && newValue.length > 0 && newValue.substring(newValue.length - 1) === " " && newValue.length - newValue.trim().length > 1) {
     newValue = inputValue.trim() + " ";
   }
   return newValue;
@@ -14,7 +14,7 @@ const removeSingleSpace = args => {//remove single space that user types
   let mode = args.mode;
   let inputValue = args.inputValue;
   let newValue = args.value ?? inputValue;
-  if ((mode === "TYPED" || mode === "OTHER") && inputValue.length === 1 && inputValue === " ") {
+  if ((mode === "TYPED" || mode === "OTHER") && newValue.length === 1 && newValue === " ") {
     newValue = "";
   }
   return newValue;
@@ -25,9 +25,9 @@ const fixCompletedText = args => {
   let inputValue = args.inputValue;
   let verseText = args.verseText;
   let newValue = args.value ?? inputValue;
-  if ((mode === "TYPED" || mode === "OTHER") && inputValue.length > 0) {
+  if ((mode === "TYPED" || mode === "OTHER") && newValue.length > 0) {
     let verseWords = splitWordList(args, verseText);
-    let inputWords = splitWordList(args, inputValue);
+    let inputWords = splitWordList(args, newValue);
     let restWrong = false;
     let incorrectWords = [];
     let correctWords = [];
