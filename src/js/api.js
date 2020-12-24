@@ -6,10 +6,10 @@ let splitVerses = data => {
 let pushToVerseData = (idStr, content) => {
   let verse = Number(idStr.slice(6, 9));
   let chapter = Number(idStr.slice(3, 6));
-  return {verse: verse, chapter: chapter, content: content.trim()};
+  return { verse: verse, chapter: chapter, content: content.trim() };
 };
 
-let removeEmpty = function(str) {
+let removeEmpty = function (str) {
   return str.replace(/\r|\n|&nbsp;/g, "").trim();
 };
 
@@ -32,9 +32,23 @@ let getVerseData = (_, element) => {
   }
 };
 
+let groupVerses = (acc, cur, i) => {
+  let found = false;
+  acc.forEach(verse => {
+    if (verse.chapter === cur.chapter && verse.verse === cur.verse) {
+      verse.content = verse.content + " " + cur.content;
+      found = true;
+    }
+  });
+  if (!found) {
+    acc.push(cur);
+  }
+  return acc;
+};
+
 export const getVerses = reference => {
   let encodedVerse = encodeURI(reference.toLowerCase());
-  let promise = new Promise((resolve, reject) => { 
+  let promise = new Promise((resolve, reject) => {
     $.ajax({
       url: "https://api.esv.org/v3/passage/html/?q=" + encodedVerse + "&include-passage-references=false&include-chapter-numbers=false&include-first-verse-numbers=false&include-verse-numbers=true&include-footnotes=false&include-footnote-body=false&include-headings=false&include-subheadings=false&include-surrounding-chapters-below=false&include-audio-link=false&include-short-copyright=false",
       headers: {
@@ -46,7 +60,14 @@ export const getVerses = reference => {
       success: data => {
         if (data.passages && data.passages.length > 0) {
           let rawVerses = splitVerses(data);
-          let verseData = rawVerses.map(getVerseData).map((i, el) => ({id: i, verse: el.verse, chapter: el.chapter, content: el.content})).toArray();
+          let verseData = rawVerses.map(getVerseData)
+            .map((i, el) => ({ verse: el.verse, chapter: el.chapter, content: el.content }))
+            .toArray()
+            .reduce(groupVerses, [])
+            .map((el, i) => {
+              el.id = i;
+              return el;
+            });
           resolve(verseData);
         } else {
           alert("No verses are found");
@@ -63,7 +84,7 @@ export const getVerses = reference => {
 };
 
 export const getUserData = (path, desc) => {
-  let promise = new Promise((resolve, reject) => { 
+  let promise = new Promise((resolve, reject) => {
     $.ajax({
       url: path,
       headers: {
@@ -91,7 +112,7 @@ export const getUserData = (path, desc) => {
 
 
 export const userDataAction = (data, path, desc) => {
-  let promise = new Promise((resolve, reject) => { 
+  let promise = new Promise((resolve, reject) => {
     $.ajax({
       url: path,
       headers: {

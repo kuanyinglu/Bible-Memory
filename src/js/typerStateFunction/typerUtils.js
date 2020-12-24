@@ -5,7 +5,7 @@ export const splitWordList = (args, str) => {
   if (settings.ignorePunctuation) {
     str = str.replace(/[\u2013|\u2014]/g, " ");
   }
-  return str.split(" ");
+  return str !== " " ? str.split(" ") : [];
 }
 
 export const getTransformedWord = (args, word) => {
@@ -18,7 +18,7 @@ export const getTargetText = args => {//hint, would be weird if things cap/punct
   let verseWords = splitWordList(args, verseText);
   let inputWords = splitWordList(args, inputValue);
   let targetWord = "";
-  
+
   inputWords.forEach((_, i) => {
     if (targetWord.length === 0) {
       if (!equalAfterTransform(args, verseWords[i], inputWords[i]) || i === inputWords.length - 1) {
