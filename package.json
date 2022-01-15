@@ -35,7 +35,7 @@
     "jest": "^25.5.2",
     "postcss-loader": "^3.0.0",
     "precss": "^4.0.0",
-    "shelljs": "^0.8.4",
+    "shelljs": "^0.8.5",
     "style-loader": "^0.23.1",
     "sugarss": "^2.0.0",
     "webpack": "^4.43.0",
